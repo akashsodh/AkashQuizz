@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSMSSB लाइब्रेरियन ग्रेड-III 2024 मॉक टेस्ट</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /*
-        यह CSS कोड पेज को बेहतर दिखाने के लिए है।
-        आप इसे अपनी पसंद के अनुसार बदल सकते हैं या हटा सकते हैं।
-        */
+        /* सामान्य स्टाइलिंग */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif; /* Poppins फ़ॉन्ट का उपयोग करें */
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* हल्का नीला ग्रेडिएंट बैकग्राउंड */
             color: #333;
             display: flex;
             flex-direction: column;
@@ -21,113 +19,221 @@
         }
 
         header {
-            background-color: #4CAF50;
+            background-color: #00796b; /* गहरा टील रंग */
             color: white;
-            padding: 20px 0;
+            padding: 30px 0;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* गहरा शैडो */
+            position: relative; /* Wave इफ़ेक्ट के लिए */
+            overflow: hidden; /* Wave को कंटेन करने के लिए */
         }
 
         header h1 {
             margin: 0;
-            font-size: 2em;
+            font-size: 2.8em; /* बड़ा फ़ॉन्ट साइज़ */
+            font-weight: 700; /* बोल्ड फ़ॉन्ट */
+            letter-spacing: 1px; /* अक्षरों के बीच थोड़ी दूरी */
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        /* Wave इफ़ेक्ट के लिए CSS */
+        .header-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Wave की ऊंचाई */
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
+            background-size: cover;
+            transform: translateY(1px); /* छोटे से गैप को ठीक करने के लिए */
+            z-index: 1; /* कंटेंट के ऊपर रहें */
         }
 
         .container {
             flex-grow: 1;
-            padding: 20px;
+            padding: 30px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px; /* कार्ड के बीच की दूरी */
-            margin: 20px auto;
-            max-width: 1200px; /* कंटेंट की अधिकतम चौड़ाई */
+            gap: 30px; /* कार्ड के बीच की दूरी बढ़ाएँ */
+            margin: 30px auto;
+            max-width: 1300px; /* अधिकतम चौड़ाई बढ़ाएँ */
         }
 
         .unit-card {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            border-radius: 12px; /* अधिक गोल किनारे */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* गहरा और फैला हुआ शैडो */
+            padding: 35px;
             text-align: center;
-            width: 280px; /* कार्ड की निश्चित चौड़ाई */
-            transition: transform 0.3s ease-in-out;
+            width: 300px; /* कार्ड की निश्चित चौड़ाई बढ़ाएँ */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            border: 1px solid #e0e0e0; /* हल्का बॉर्डर */
         }
 
         .unit-card:hover {
-            transform: translateY(-5px); /* होवर पर थोड़ा ऊपर उठना */
+            transform: translateY(-8px) scale(1.02); /* होवर पर थोड़ा ऊपर उठना और बड़ा होना */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* होवर पर गहरा शैडो */
         }
 
         .unit-card h2 {
-            color: #333;
+            color: #00796b; /* हेडर के समान रंग */
             margin-top: 0;
-            font-size: 1.5em;
-            margin-bottom: 20px;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 600; /* थोड़ा बोल्ड */
+        }
+
+        .unit-card p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #555;
+            flex-grow: 1; /* कंटेंट को भरने दें */
+            margin-bottom: 25px; /* बटन से पहले अधिक स्पेस */
         }
 
         .start-test-btn {
-            background-color: #007bff;
+            background-color: #00BCD4; /* स्काई ब्लू रंग */
             color: white;
-            padding: 12px 25px;
+            padding: 14px 30px; /* पैडिंग बढ़ाएँ */
             border: none;
-            border-radius: 5px;
+            border-radius: 8px; /* अधिक गोल किनारे */
             cursor: pointer;
-            font-size: 1.1em;
-            text-decoration: none; /* लिंक के नीचे की लाइन हटाएँ */
-            display: inline-block; /* बटन जैसा व्यवहार */
-            transition: background-color 0.3s ease;
+            font-size: 1.15em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .start-test-btn:hover {
-            background-color: #0056b3;
+            background-color: #00ACC1; /* होवर पर थोड़ा गहरा */
+            transform: translateY(-2px); /* होवर पर थोड़ा ऊपर उठना */
         }
 
         footer {
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 15px 0;
-            margin-top: auto; /* फुटर को सबसे नीचे धकेलें */
+            padding: 20px 0;
+            margin-top: auto;
+            font-size: 0.9em;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /*
+        मोबाइल रेस्पॉन्सिवनेस के लिए मीडिया क्वेरीज़
+        जब स्क्रीन की चौड़ाई 768px या उससे कम हो
+        */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em; /* छोटी स्क्रीन पर शीर्षक छोटा करें */
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            .container {
+                flex-direction: column; /* कार्ड्स को कॉलम में स्टैक करें */
+                align-items: center; /* केंद्र में संरेखित करें */
+                padding: 15px;
+            }
+
+            .unit-card {
+                width: 90%; /* मोबाइल पर कार्ड की चौड़ाई बढ़ाएँ */
+                max-width: 400px; /* अधिकतम चौड़ाई सीमित करें */
+                padding: 25px;
+            }
+
+            .unit-card h2 {
+                font-size: 1.6em;
+            }
+
+            .unit-card p {
+                font-size: 0.95em;
+            }
+
+            .start-test-btn {
+                padding: 12px 20px;
+                font-size: 1.05em;
+            }
+        }
+
+        /*
+        अल्ट्रा-स्मॉल स्क्रीन के लिए मीडिया क्वेरीज़
+        जब स्क्रीन की चौड़ाई 480px या उससे कम हो
+        */
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 0;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            header p {
+                font-size: 0.9em;
+            }
+
+            .unit-card {
+                padding: 20px;
+            }
+
+            .unit-card h2 {
+                font-size: 1.4em;
+            }
+
+            .start-test-btn {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>RSMSSB लाइब्रेरियन ग्रेड-III 2024 मॉक टेस्ट</h1>
-        <p>पेपर 2: यूनिट-वाइज अभ्यास करें</p>
-    </header>
+        <p>पेपर 2: यूनिट-वाइज अभ्यास करें और अपनी तैयारी को मज़बूत करें।</p>
+        <div class="header-wave"></div> </header>
 
     <div class="container">
         <div class="unit-card">
             <h2>यूनिट 1</h2>
-            <p>लाइब्रेरी और सूचना विज्ञान का ज्ञान, पुस्तकालयों के प्रकार, राष्ट्रीय और अंतर्राष्ट्रीय पुस्तकालय संगठन, आदि।</p>
+            <p>लाइब्रेरी और सूचना विज्ञान का ज्ञान, पुस्तकालयों के प्रकार, राष्ट्रीय और अंतर्राष्ट्रीय पुस्तकालय संगठन, आदि विषयों पर आधारित प्रश्न।</p>
             <a href="unit1_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
         </div>
 
         <div class="unit-card">
             <h2>यूनिट 2</h2>
-            <p>पुस्तकालय वर्गीकरण, कैटलॉगिंग, विषय शीर्षकों के सिद्धांत और पद्धतियाँ, आदि।</p>
+            <p>पुस्तकालय वर्गीकरण, कैटलॉगिंग, विषय शीर्षकों के सिद्धांत और पद्धतियाँ, और संबंधित सिद्धांतों पर आधारित प्रश्न।</p>
             <a href="unit2_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
         </div>
 
         <div class="unit-card">
             <h2>यूनिट 3</h2>
-            <p>पुस्तकालय प्रबंधन, पुस्तकालय स्वचालन और डिजिटल पुस्तकालय, पुस्तकालय सॉफ्टवेयर, आदि।</p>
+            <p>पुस्तकालय प्रबंधन, पुस्तकालय स्वचालन और डिजिटल पुस्तकालय, विभिन्न पुस्तकालय सॉफ्टवेयर, और संबंधित अवधारणाएँ।</p>
             <a href="unit3_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
         </div>
 
         <div class="unit-card">
-            <h2>यूनिट 4</h2>
-            <p>सूचना स्रोतों और सेवाओं के प्रकार, संदर्भ सेवाएँ, सूचना साक्षरता, आदि।</p>
+            <h2>यूनित 4</h2>
+            <p>सूचना स्रोतों और सेवाओं के प्रकार, संदर्भ सेवाएँ, सूचना साक्षरता, और सूचना पुनर्प्राप्ति के विभिन्न पहलुओं पर आधारित प्रश्न।</p>
             <a href="unit4_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 मॉक टेस्ट. सभी अधिकार सुरक्षित.</p>
+        <p>&copy; 2024 RSMSSB लाइब्रेरियन मॉक टेस्ट | सभी अधिकार सुरक्षित.</p>
     </footer>
 </body>
 </html>
