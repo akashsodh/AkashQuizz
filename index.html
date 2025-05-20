@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSMSSB लाइब्रेरियन ग्रेड-III 2024 मॉक टेस्ट</title>
+    <title>RSMSSB Librarian Grade-III 2024 Mock Test</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* सामान्य स्टाइलिंग */
+        /* General Styling */
         body {
-            font-family: 'Poppins', sans-serif; /* Poppins फ़ॉन्ट का उपयोग करें */
+            font-family: 'Poppins', sans-serif; /* Use Poppins font */
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* हल्का नीला ग्रेडिएंट बैकग्राउंड */
+            background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* Light blue gradient background */
             color: #333;
             display: flex;
             flex-direction: column;
@@ -19,20 +19,20 @@
         }
 
         header {
-            background-color: #00796b; /* गहरा टील रंग */
+            background-color: #00796b; /* Dark Teal color */
             color: white;
             padding: 30px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* गहरा शैडो */
-            position: relative; /* Wave इफ़ेक्ट के लिए */
-            overflow: hidden; /* Wave को कंटेन करने के लिए */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deep shadow */
+            position: relative; /* For wave effect */
+            overflow: hidden; /* To contain the wave */
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.8em; /* बड़ा फ़ॉन्ट साइज़ */
-            font-weight: 700; /* बोल्ड फ़ॉन्ट */
-            letter-spacing: 1px; /* अक्षरों के बीच थोड़ी दूरी */
+            font-size: 2.8em; /* Larger font size */
+            font-weight: 700; /* Bold font */
+            letter-spacing: 1px; /* Slight letter spacing */
         }
 
         header p {
@@ -41,17 +41,17 @@
             opacity: 0.9;
         }
 
-        /* Wave इफ़ेक्ट के लिए CSS */
+        /* CSS for the Wave effect */
         .header-wave {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50px; /* Wave की ऊंचाई */
+            height: 50px; /* Height of the wave */
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
             background-size: cover;
-            transform: translateY(1px); /* छोटे से गैप को ठीक करने के लिए */
-            z-index: 1; /* कंटेंट के ऊपर रहें */
+            transform: translateY(1px); /* Fix small gap */
+            z-index: 1; /* Stay above content */
         }
 
         .container {
@@ -60,52 +60,52 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px; /* कार्ड के बीच की दूरी बढ़ाएँ */
+            gap: 30px; /* Increased space between cards */
             margin: 30px auto;
-            max-width: 1300px; /* अधिकतम चौड़ाई बढ़ाएँ */
+            max-width: 1300px; /* Increased max width */
         }
 
         .unit-card {
             background-color: white;
-            border-radius: 12px; /* अधिक गोल किनारे */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* गहरा और फैला हुआ शैडो */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Deeper and wider shadow */
             padding: 35px;
             text-align: center;
-            width: 300px; /* कार्ड की निश्चित चौड़ाई बढ़ाएँ */
+            width: 300px; /* Increased fixed width of card */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #e0e0e0; /* हल्का बॉर्डर */
+            border: 1px solid #e0e0e0; /* Light border */
         }
 
         .unit-card:hover {
-            transform: translateY(-8px) scale(1.02); /* होवर पर थोड़ा ऊपर उठना और बड़ा होना */
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* होवर पर गहरा शैडो */
+            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
         }
 
         .unit-card h2 {
-            color: #00796b; /* हेडर के समान रंग */
+            color: #00796b; /* Same color as header */
             margin-top: 0;
             font-size: 1.8em;
             margin-bottom: 15px;
-            font-weight: 600; /* थोड़ा बोल्ड */
+            font-weight: 600; /* Slightly bolder */
         }
 
         .unit-card p {
             font-size: 1em;
             line-height: 1.6;
             color: #555;
-            flex-grow: 1; /* कंटेंट को भरने दें */
-            margin-bottom: 25px; /* बटन से पहले अधिक स्पेस */
+            flex-grow: 1; /* Allow content to fill space */
+            margin-bottom: 25px; /* More space before button */
         }
 
         .start-test-btn {
-            background-color: #00BCD4; /* स्काई ब्लू रंग */
+            background-color: #00BCD4; /* Sky blue color */
             color: white;
-            padding: 14px 30px; /* पैडिंग बढ़ाएँ */
+            padding: 14px 30px; /* Increased padding */
             border: none;
-            border-radius: 8px; /* अधिक गोल किनारे */
+            border-radius: 8px; /* More rounded corners */
             cursor: pointer;
             font-size: 1.15em;
             text-decoration: none;
@@ -116,8 +116,8 @@
         }
 
         .start-test-btn:hover {
-            background-color: #00ACC1; /* होवर पर थोड़ा गहरा */
-            transform: translateY(-2px); /* होवर पर थोड़ा ऊपर उठना */
+            background-color: #00ACC1; /* Slightly darker on hover */
+            transform: translateY(-2px); /* Lift slightly on hover */
         }
 
         footer {
@@ -131,12 +131,12 @@
         }
 
         /*
-        मोबाइल रेस्पॉन्सिवनेस के लिए मीडिया क्वेरीज़
-        जब स्क्रीन की चौड़ाई 768px या उससे कम हो
+        Media Queries for Mobile Responsiveness
+        When screen width is 768px or less
         */
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2em; /* छोटी स्क्रीन पर शीर्षक छोटा करें */
+                font-size: 2em; /* Shrink title on smaller screens */
             }
 
             header p {
@@ -144,14 +144,14 @@
             }
 
             .container {
-                flex-direction: column; /* कार्ड्स को कॉलम में स्टैक करें */
-                align-items: center; /* केंद्र में संरेखित करें */
+                flex-direction: column; /* Stack cards in a column */
+                align-items: center; /* Center align items */
                 padding: 15px;
             }
 
             .unit-card {
-                width: 90%; /* मोबाइल पर कार्ड की चौड़ाई बढ़ाएँ */
-                max-width: 400px; /* अधिकतम चौड़ाई सीमित करें */
+                width: 90%; /* Increase card width on mobile */
+                max-width: 400px; /* Limit max width */
                 padding: 25px;
             }
 
@@ -170,8 +170,8 @@
         }
 
         /*
-        अल्ट्रा-स्मॉल स्क्रीन के लिए मीडिया क्वेरीज़
-        जब स्क्रीन की चौड़ाई 480px या उससे कम हो
+        Media Queries for Ultra-small screens
+        When screen width is 480px or less
         */
         @media (max-width: 480px) {
             header {
@@ -202,38 +202,38 @@
 </head>
 <body>
     <header>
-        <h1>RSMSSB लाइब्रेरियन ग्रेड-III 2024 मॉक टेस्ट</h1>
-        <p>पेपर 2: यूनिट-वाइज अभ्यास करें और अपनी तैयारी को मज़बूत करें।</p>
+        <h1>RSMSSB Librarian Grade-III 2024 Mock Test</h1>
+        <p>Paper 2: Practice unit-wise and strengthen your preparation.</p>
         <div class="header-wave"></div> </header>
 
     <div class="container">
         <div class="unit-card">
-            <h2>यूनिट 1</h2>
-            <p>लाइब्रेरी और सूचना विज्ञान का ज्ञान, पुस्तकालयों के प्रकार, राष्ट्रीय और अंतर्राष्ट्रीय पुस्तकालय संगठन, आदि विषयों पर आधारित प्रश्न।</p>
-            <a href="unit1_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
+            <h2>Unit 1</h2>
+            <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
+            <a href="unit1_test.html" class="start-test-btn">Start Test</a>
         </div>
 
         <div class="unit-card">
-            <h2>यूनिट 2</h2>
-            <p>पुस्तकालय वर्गीकरण, कैटलॉगिंग, विषय शीर्षकों के सिद्धांत और पद्धतियाँ, और संबंधित सिद्धांतों पर आधारित प्रश्न।</p>
-            <a href="unit2_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
+            <h2>Unit 2</h2>
+            <p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>
+            <a href="unit2_test.html" class="start-test-btn">Start Test</a>
         </div>
 
         <div class="unit-card">
-            <h2>यूनिट 3</h2>
-            <p>पुस्तकालय प्रबंधन, पुस्तकालय स्वचालन और डिजिटल पुस्तकालय, विभिन्न पुस्तकालय सॉफ्टवेयर, और संबंधित अवधारणाएँ।</p>
-            <a href="unit3_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
+            <h2>Unit 3</h2>
+            <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
+            <a href="unit3_test.html" class="start-test-btn">Start Test</a>
         </div>
 
         <div class="unit-card">
-            <h2>यूनित 4</h2>
-            <p>सूचना स्रोतों और सेवाओं के प्रकार, संदर्भ सेवाएँ, सूचना साक्षरता, और सूचना पुनर्प्राप्ति के विभिन्न पहलुओं पर आधारित प्रश्न।</p>
-            <a href="unit4_test.html" class="start-test-btn">टेस्ट शुरू करें</a>
+            <h2>Unit 4</h2>
+            <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
+            <a href="unit4_test.html" class="start-test-btn">Start Test</a>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 RSMSSB लाइब्रेरियन मॉक टेस्ट | सभी अधिकार सुरक्षित.</p>
+        <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | All rights reserved.</p>
     </footer>
 </body>
 </html>
