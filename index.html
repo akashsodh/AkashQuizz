@@ -56,66 +56,127 @@
 
         .container-wrapper {
             flex-grow: 1;
-            padding: 20px; /* Added padding */
+            padding: 20px;
             display: flex;
-            flex-direction: column; /* To stack login and content */
-            align-items: center; /* Center items */
+            flex-direction: column;
+            align-items: center;
             width: 100%;
         }
 
-        #authSection {
-            margin-bottom: 20px;
+        #authContainer {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: calc(100% - 40px); /* Take padding into account for mobile */
+            margin: 40px auto;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #authContainer h2 {
+            color: #00796b;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        #authContainer p {
+            color: #555;
+            font-size: 0.95em;
+            margin-bottom: 25px;
+        }
+
+        .g_id_signin {
+            display: inline-block;
+            margin-bottom: 15px;
         }
 
         #userProfile {
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-top: 20px;
+            padding: 25px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             text-align: center;
+            max-width: 400px;
+            width: calc(100% - 40px); /* Take padding into account for mobile */
+            margin: 20px auto;
         }
 
         #userProfile img {
             border-radius: 50%;
-            margin-bottom: 10px;
-            border: 2px solid #00796b;
+            margin-bottom: 15px;
+            border: 3px solid #00796b;
+            width: 100px;
+            height: 100px;
         }
 
         #userProfile p {
-            margin: 5px 0;
-            font-size: 1em;
+            margin: 8px 0;
+            font-size: 1.05em;
+            color: #333;
+            word-wrap: break-word; /* For long emails */
+        }
+        #userProfile p:first-of-type {
+            font-weight: 600;
+            color: #00796b;
+            font-size: 1.2em;
         }
 
         #signOutButton {
-            background-color: #d9534f; /* Red color for sign out */
+            background-color: #e53935;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1em;
+            font-weight: 500;
             text-decoration: none;
             display: inline-block;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
         #signOutButton:hover {
-            background-color: #c9302c;
+            background-color: #c62828;
+            transform: translateY(-1px);
+        }
+        
+        #purchaseSection {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px; /* Slightly wider for more text */
+            width: calc(100% - 40px); /* Take padding into account for mobile */
+            margin: 30px auto;
+        }
+
+        #purchaseSection h2 {
+            color: #00796b;
+            margin-bottom: 15px;
+        }
+
+        #purchaseSection p {
+            color: #555;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
 
 
         .container {
-            /* flex-grow is removed as wrapper will handle it */
             padding: 30px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 30px;
-            /* margin: 30px auto; Removed to be controlled by wrapper */
             max-width: 1300px;
+            width: 100%; /* Ensure it takes full width within its parent */
         }
 
         .unit-card {
@@ -153,7 +214,7 @@
             margin-bottom: 25px;
         }
 
-        .start-test-btn {
+        .start-test-btn { /* Also used for fake purchase button */
             background-color: #00BCD4;
             color: white;
             padding: 14px 30px;
@@ -178,12 +239,12 @@
             color: white;
             text-align: center;
             padding: 20px 0;
-            margin-top: auto; /* This might be overridden by flex-grow on container-wrapper */
+            /* margin-top: auto; Will be pushed down by flex-grow of container-wrapper */
             font-size: 0.9em;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Ensure footer spans full width */
         }
 
-        /* Hidden class */
         .hidden {
             display: none !important;
         }
@@ -196,6 +257,7 @@
             .unit-card h2 { font-size: 1.6em; }
             .unit-card p { font-size: 0.95em; }
             .start-test-btn { padding: 12px 20px; font-size: 1.05em; }
+            #authContainer, #userProfile, #purchaseSection { max-width: 90%; padding: 20px; }
         }
 
         @media (max-width: 480px) {
@@ -205,7 +267,8 @@
             .unit-card { padding: 20px; }
             .unit-card h2 { font-size: 1.4em; }
             .start-test-btn { font-size: 1em; }
-            #userProfile { width: 90%; }
+            #authContainer, #userProfile, #purchaseSection { padding: 15px; }
+            #userProfile img { width: 80px; height: 80px;}
         }
     </style>
 </head>
@@ -217,26 +280,35 @@
     </header>
 
     <div class="container-wrapper">
-        <div id="authSection">
+
+        <div id="authContainer">
+            <h2>Welcome!</h2>
+            <p>Please sign in with your Google account to view mock tests.</p>
             <div id="g_id_onload"
-                 data-client_id="983699609878-4am5a2vj8862c0im5qpbvmop452qib76.apps.googleusercontent.com" data-callback="handleCredentialResponse"
+                 data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" data-callback="handleCredentialResponse"
                  data-auto_prompt="false">
             </div>
             <div class="g_id_signin"
                  data-type="standard"
                  data-size="large"
-                 data-theme="outline"
-                 data-text="sign_in_with"
+                 data-theme="filled_blue"
+                 data-text="signin_with"
                  data-shape="rectangular"
                  data-logo_alignment="left">
             </div>
         </div>
 
         <div id="userProfile" class="hidden">
-            <img id="userProfilePic" src="" alt="User Profile Picture" width="80" height="80">
+            <img id="userProfilePic" src="" alt="User Profile Picture">
             <p id="userProfileName"></p>
             <p id="userProfileEmail"></p>
             <button id="signOutButton">Sign Out</button>
+        </div>
+
+        <div id="purchaseSection" class="hidden">
+            <h2>Unlock All Units</h2>
+            <p>To access all mock tests and their content, please click the button below to simulate unlocking. For a real application, this would involve a payment.</p>
+            <button id="fakePurchaseButton" class="start-test-btn">Unlock Tests (Demo)</button>
         </div>
 
         <div id="mainContent" class="container hidden">
@@ -268,103 +340,90 @@
     </footer>
 
     <script>
-        // Function to decode JWT (ID Token)
-        // यह फंक्शन Google से प्राप्त ID टोकन को डीकोड करने में मदद करता है ताकि यूजर की जानकारी निकाली जा सके।
-        // ID टोकन एक एन्कोडेड स्ट्रिंग होती है जिसमें यूजर डेटा होता है।
         function jwt_decode(token) {
             try {
-                const base64Url = token.split('.')[1]; // टोकन का पेलोड हिस्सा
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Base64url को Base64 में बदलें
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
                 const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join('')); // डीकोड करें और JSON स्ट्रिंग प्राप्त करें
-                return JSON.parse(jsonPayload); // JSON ऑब्जेक्ट में पार्स करें
+                }).join(''));
+                return JSON.parse(jsonPayload);
             } catch (e) {
                 console.error("Invalid token:", e);
                 return null;
             }
         }
 
-        // Callback function to handle the credential response from Google
-        // जब यूजर सफलतापूर्वक Google से साइन इन करता है, तो यह फंक्शन कॉल होता है।
-        // 'response' ऑब्जेक्ट में 'credential' नामक एक फ़ील्ड होता है, जो ID टोकन होता है।
         function handleCredentialResponse(response) {
-            const idToken = response.credential; // Google से प्राप्त ID टोकन
+            const idToken = response.credential;
             if (idToken) {
-                const decodedToken = jwt_decode(idToken); // टोकन को डीकोड करें
-
+                const decodedToken = jwt_decode(idToken);
                 if (decodedToken) {
-                    // Store login state and user info
-                    // यूजर की जानकारी और लॉगिन स्थिति को localStorage में सहेजें ताकि पेज रिफ्रेश होने पर भी याद रहे।
                     localStorage.setItem('isUserLoggedIn', 'true');
                     localStorage.setItem('userName', decodedToken.name);
                     localStorage.setItem('userEmail', decodedToken.email);
                     localStorage.setItem('userProfilePic', decodedToken.picture);
-
                     updateUIForLoggedInUser(decodedToken.name, decodedToken.email, decodedToken.picture);
                 } else {
                     console.error("Failed to decode token or token is invalid.");
-                    // Handle error: show message to user, etc.
                 }
             } else {
                 console.error("ID Token not found in response:", response);
-                // Handle error: sign-in failed
             }
         }
 
-        // Function to update UI for logged-in user
-        // यह फंक्शन UI को अपडेट करता है जब यूजर लॉग इन होता है।
         function updateUIForLoggedInUser(name, email, profilePic) {
-            document.getElementById('userProfileName').textContent = `Name: ${name}`;
-            document.getElementById('userProfileEmail').textContent = `Email: ${email}`;
+            document.getElementById('userProfileName').textContent = name; // Only name, email and pic here
+            document.getElementById('userProfileEmail').textContent = email;
             document.getElementById('userProfilePic').src = profilePic;
 
-            document.getElementById('authSection').classList.add('hidden'); // साइन-इन बटन छिपाएं
-            document.getElementById('userProfile').classList.remove('hidden'); // प्रोफाइल सेक्शन दिखाएं
-            document.getElementById('mainContent').classList.remove('hidden'); // मुख्य सामग्री दिखाएं
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('userProfile').classList.remove('hidden');
+            
+            showContentBasedOnPurchase();
+        }
+        
+        function checkPurchaseStatus() {
+            return localStorage.getItem('hasPurchased') === 'true';
         }
 
-        // Function to handle sign out
-        // यह फंक्शन यूजर को साइन आउट करता है।
+        function showContentBasedOnPurchase() {
+            if (checkPurchaseStatus()) {
+                document.getElementById('mainContent').classList.remove('hidden');
+                document.getElementById('purchaseSection').classList.add('hidden');
+            } else {
+                document.getElementById('mainContent').classList.add('hidden');
+                // Only show purchase section if user is logged in but hasn't purchased
+                if (localStorage.getItem('isUserLoggedIn') === 'true') {
+                    document.getElementById('purchaseSection').classList.remove('hidden');
+                } else {
+                    document.getElementById('purchaseSection').classList.add('hidden');
+                }
+            }
+        }
+
         function handleSignOut() {
-            // Clear Google session (optional, might sign them out of Google apps too if not careful)
-            // google.accounts.id.disableAutoSelect(); // अगली बार ऑटो-साइन-इन को अक्षम करें
-            // google.accounts.id.revoke(localStorage.getItem('userEmail'), done => {
-            //    console.log('Consent revoked');
-            // });
-
-
-            // Clear local storage
+            google.accounts.id.disableAutoSelect(); // Optional: to prevent auto sign-in on next visit
+            
             localStorage.removeItem('isUserLoggedIn');
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userProfilePic');
+            localStorage.removeItem('hasPurchased'); // Clear purchase status on sign out
 
-            // Update UI
-            document.getElementById('authSection').classList.remove('hidden'); // साइन-इन बटन दिखाएं
-            document.getElementById('userProfile').classList.add('hidden'); // प्रोफाइल सेक्शन छिपाएं
-            document.getElementById('mainContent').classList.add('hidden'); // मुख्य सामग्री छिपाएं
+            document.getElementById('authContainer').classList.remove('hidden');
+            document.getElementById('userProfile').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('purchaseSection').classList.add('hidden');
 
-            // Reset profile fields
             document.getElementById('userProfileName').textContent = '';
             document.getElementById('userProfileEmail').textContent = '';
             document.getElementById('userProfilePic').src = '';
-
-            // Re-initialize Google Sign-In button if needed or simply show it
-            // This ensures the button is ready for the next sign-in attempt.
-            // If you've hidden the button div, make sure it's visible.
         }
 
-        // Attach event listener to sign out button
-        // साइन-आउट बटन पर क्लिक इवेंट लिस्नर जोड़ें।
         document.getElementById('signOutButton').addEventListener('click', handleSignOut);
 
-        // Check login state on page load
-        // पेज लोड होने पर, यह जांचता है कि क्या यूजर पहले से लॉग इन है (localStorage के आधार पर)।
         window.onload = function() {
-            // Initialize Google Sign-In (this is typically handled by the async defer script and HTML attributes)
-            // The g_id_onload div and g_id_signin div handle initialization.
-
             const isLoggedIn = localStorage.getItem('isUserLoggedIn');
             if (isLoggedIn === 'true') {
                 const userName = localStorage.getItem('userName');
@@ -373,14 +432,25 @@
                 if (userName && userEmail && userProfilePic) {
                      updateUIForLoggedInUser(userName, userEmail, userProfilePic);
                 } else {
-                    // If some data is missing, treat as logged out
-                    handleSignOut();
+                    // If data is corrupted or missing, sign out
+                    handleSignOut(); 
                 }
             } else {
-                // Ensure content is hidden if not logged in
-                document.getElementById('mainContent').classList.add('hidden');
+                // Ensure all conditional content is hidden if not logged in
+                document.getElementById('authContainer').classList.remove('hidden');
                 document.getElementById('userProfile').classList.add('hidden');
-                document.getElementById('authSection').classList.remove('hidden');
+                document.getElementById('purchaseSection').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+            }
+
+            const fakePurchaseBtn = document.getElementById('fakePurchaseButton');
+            if(fakePurchaseBtn) {
+                fakePurchaseBtn.addEventListener('click', function() {
+                    // You might want to add a small confirmation or message here
+                    // alert('Tests unlocked (Demo)!'); 
+                    localStorage.setItem('hasPurchased', 'true');
+                    showContentBasedOnPurchase();
+                });
             }
         };
     </script>
