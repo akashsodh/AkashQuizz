@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSMSSB Librarian Grade-III 2024 Mock Test</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        /* General Styling (पहले जैसा) */
+        /* General Styling */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Use Poppins font */
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+            background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* Light blue gradient background */
             color: #333;
             display: flex;
             flex-direction: column;
@@ -20,20 +19,20 @@
         }
 
         header {
-            background-color: #00796b;
+            background-color: #00796b; /* Dark Teal color */
             color: white;
             padding: 30px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deep shadow */
+            position: relative; /* For wave effect */
+            overflow: hidden; /* To contain the wave */
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.8em;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 2.8em; /* Larger font size */
+            font-weight: 700; /* Bold font */
+            letter-spacing: 1px; /* Slight letter spacing */
         }
 
         header p {
@@ -42,230 +41,71 @@
             opacity: 0.9;
         }
 
+        /* CSS for the Wave effect */
         .header-wave {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50px;
+            height: 50px; /* Height of the wave */
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
             background-size: cover;
-            transform: translateY(1px);
-            z-index: 1;
+            transform: translateY(1px); /* Fix small gap */
+            z-index: 1; /* Stay above content */
         }
 
-        .container-wrapper {
+        .container {
             flex-grow: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        #authContainer { /* पहले जैसा */
-            background-color: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: calc(100% - 40px);
-            margin: 40px auto;
-            transition: all 0.3s ease-in-out;
-        }
-
-        #authContainer h2 { /* पहले जैसा */
-            color: #00796b;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        #authContainer p { /* पहले जैसा */
-            color: #555;
-            font-size: 0.95em;
-            margin-bottom: 25px;
-        }
-
-        .g_id_signin { /* पहले जैसा */
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-        #userProfile { /* पहले जैसा */
-            margin-top: 20px;
-            padding: 25px;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
-            width: calc(100% - 40px);
-            margin: 20px auto;
-        }
-
-        #userProfile img { /* पहले जैसा */
-            border-radius: 50%;
-            margin-bottom: 15px;
-            border: 3px solid #00796b;
-            width: 100px;
-            height: 100px;
-        }
-
-        #userProfile p { /* पहले जैसा */
-            margin: 8px 0;
-            font-size: 1.05em;
-            color: #333;
-            word-wrap: break-word;
-        }
-        #userProfile p:first-of-type { /* पहले जैसा */
-            font-weight: 600;
-            color: #00796b;
-            font-size: 1.2em;
-        }
-
-        #signOutButton { /* पहले जैसा */
-            background-color: #e53935;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 500;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-        }
-
-        #signOutButton:hover { /* पहले जैसा */
-            background-color: #c62828;
-            transform: translateY(-1px);
-        }
-        
-        /* Unlock Section Styling */
-        #unlockSection {
-            background-color: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 450px;
-            width: calc(100% - 40px);
-            margin: 30px auto;
-        }
-
-        #unlockSection h2 {
-            color: #00796b;
-            margin-bottom: 15px;
-        }
-
-        #unlockSection p {
-            color: #555;
-            font-size: 1em;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        #referralCodeInput {
-            width: calc(100% - 22px); /* Padding and border consideration */
-            padding: 12px 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 1em;
-            box-sizing: border-box; /* Important for width calculation */
-        }
-         #referralCodeInput:focus {
-            border-color: #00796b;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 121, 107, 0.5);
-        }
-
-
-        #submitReferralCodeButton {
-            background-color: #00BCD4; /* Same as start-test-btn */
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        #submitReferralCodeButton:hover {
-            background-color: #00ACC1;
-            transform: translateY(-2px);
-        }
-        
-        #unlockMessage {
-            margin-top: 15px;
-            font-size: 0.95em;
-            font-weight: 500;
-        }
-        .success-message {
-            color: #2e7d32; /* Green */
-        }
-        .error-message {
-            color: #c62828; /* Red */
-        }
-
-
-        .container { /* पहले जैसा */
             padding: 30px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            max-width: 1300px;
-            width: 100%;
+            gap: 30px; /* Increased space between cards */
+            margin: 30px auto;
+            max-width: 1300px; /* Increased max width */
         }
 
-        .unit-card { /* पहले जैसा */
+        .unit-card {
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Deeper and wider shadow */
             padding: 35px;
             text-align: center;
-            width: 300px;
+            width: 300px; /* Increased fixed width of card */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e0e0e0; /* Light border */
         }
 
-        .unit-card:hover { /* पहले जैसा */
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        .unit-card:hover {
+            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
         }
 
-        .unit-card h2 { /* पहले जैसा */
-            color: #00796b;
+        .unit-card h2 {
+            color: #00796b; /* Same color as header */
             margin-top: 0;
             font-size: 1.8em;
             margin-bottom: 15px;
-            font-weight: 600;
+            font-weight: 600; /* Slightly bolder */
         }
 
-        .unit-card p { /* पहले जैसा */
+        .unit-card p {
             font-size: 1em;
             line-height: 1.6;
             color: #555;
-            flex-grow: 1;
-            margin-bottom: 25px;
+            flex-grow: 1; /* Allow content to fill space */
+            margin-bottom: 25px; /* More space before button */
         }
 
-        .start-test-btn { /* पहले जैसा */
-            background-color: #00BCD4;
+        .start-test-btn {
+            background-color: #00BCD4; /* Sky blue color */
             color: white;
-            padding: 14px 30px;
+            padding: 14px 30px; /* Increased padding */
             border: none;
-            border-radius: 8px;
+            border-radius: 8px; /* More rounded corners */
             cursor: pointer;
             font-size: 1.15em;
             text-decoration: none;
@@ -275,48 +115,88 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .start-test-btn:hover { /* पहले जैसा */
-            background-color: #00ACC1;
-            transform: translateY(-2px);
+        .start-test-btn:hover {
+            background-color: #00ACC1; /* Slightly darker on hover */
+            transform: translateY(-2px); /* Lift slightly on hover */
         }
 
-        footer { /* पहले जैसा */
+        footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 20px 0;
+            margin-top: auto;
             font-size: 0.9em;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            width: 100%;
         }
 
-        .hidden { /* पहले जैसा */
-            display: none !important;
-        }
-
-        /* Media Queries (पहले जैसे, #unlockSection को भी रेस्पॉन्सिव बनाया गया) */
+        /*
+        Media Queries for Mobile Responsiveness
+        When screen width is 768px or less
+        */
         @media (max-width: 768px) {
-            header h1 { font-size: 2em; }
-            header p { font-size: 1em; }
-            .container { flex-direction: column; align-items: center; padding: 15px; }
-            .unit-card { width: 90%; max-width: 400px; padding: 25px; }
-            .unit-card h2 { font-size: 1.6em; }
-            .unit-card p { font-size: 0.95em; }
-            .start-test-btn { padding: 12px 20px; font-size: 1.05em; }
-            #authContainer, #userProfile, #unlockSection { max-width: 90%; padding: 20px; }
+            header h1 {
+                font-size: 2em; /* Shrink title on smaller screens */
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            .container {
+                flex-direction: column; /* Stack cards in a column */
+                align-items: center; /* Center align items */
+                padding: 15px;
+            }
+
+            .unit-card {
+                width: 90%; /* Increase card width on mobile */
+                max-width: 400px; /* Limit max width */
+                padding: 25px;
+            }
+
+            .unit-card h2 {
+                font-size: 1.6em;
+            }
+
+            .unit-card p {
+                font-size: 0.95em;
+            }
+
+            .start-test-btn {
+                padding: 12px 20px;
+                font-size: 1.05em;
+            }
         }
 
+        /*
+        Media Queries for Ultra-small screens
+        When screen width is 480px or less
+        */
         @media (max-width: 480px) {
-            header { padding: 20px 0; }
-            header h1 { font-size: 1.8em; }
-            header p { font-size: 0.9em; }
-            .unit-card { padding: 20px; }
-            .unit-card h2 { font-size: 1.4em; }
-            .start-test-btn { font-size: 1em; }
-            #authContainer, #userProfile, #unlockSection { padding: 15px; }
-            #userProfile img { width: 80px; height: 80px;}
-            #referralCodeInput { font-size: 0.9em; padding: 10px 8px; }
-            #submitReferralCodeButton { font-size: 1em; padding: 10px 20px; }
+            header {
+                padding: 20px 0;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            header p {
+                font-size: 0.9em;
+            }
+
+            .unit-card {
+                padding: 20px;
+            }
+
+            .unit-card h2 {
+                font-size: 1.4em;
+            }
+
+            .start-test-btn {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -324,217 +204,36 @@
     <header>
         <h1>RSMSSB Librarian Grade-III 2024 Mock Test</h1>
         <p>Paper 2: Practice unit-wise and strengthen your preparation.</p>
-        <div class="header-wave"></div>
-    </header>
+        <div class="header-wave"></div> </header>
 
-    <div class="container-wrapper">
-
-        <div id="authContainer">
-            <h2>Welcome!</h2>
-            <p>Please sign in with your Google account to view mock tests.</p>
-            <div id="g_id_onload"
-                 data-client_id="983699609878-4am5a2vj8862c0im5qpbvmop452qib76.apps.googleusercontent.com" data-callback="handleCredentialResponse"
-                 data-auto_prompt="false">
-            </div>
-            <div class="g_id_signin"
-                 data-type="standard"
-                 data-size="large"
-                 data-theme="filled_blue"
-                 data-text="signin_with"
-                 data-shape="rectangular"
-                 data-logo_alignment="left">
-            </div>
+    <div class="container">
+        <div class="unit-card">
+            <h2>Unit 1</h2>
+            <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
+            <a href="https://akashsodh.github.io/AkashQuizz/unit1/" class="start-test-btn">Start Test</a>
         </div>
 
-        <div id="userProfile" class="hidden">
-            <img id="userProfilePic" src="" alt="User Profile Picture">
-            <p id="userProfileName"></p>
-            <p id="userProfileEmail"></p>
-            <button id="signOutButton">Sign Out</button>
+        <div class="unit-card">
+            <h2>Unit 2</h2>
+            <p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>
+            <a href="https://akashsodh.github.io/AkashQuizz/unit2/" class="start-test-btn">Start Test</a>
         </div>
 
-        <div id="unlockSection" class="hidden">
-            <h2>Unlock Mock Tests</h2>
-            <p>To access all mock tests, please enter the referral code below.</p>
-            <input type="text" id="referralCodeInput" placeholder="Enter Referral Code">
-            <button id="submitReferralCodeButton">Unlock Tests</button>
-            <div id="unlockMessage"></div>
+        <div class="unit-card">
+            <h2>Unit 3</h2>
+            <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
+            <a href="https://akashsodh.github.io/AkashQuizz/unit3/" class="start-test-btn">Start Test</a>
         </div>
 
-        <div id="mainContent" class="container hidden">
-            <div class="unit-card">
-                <h2>Unit 1</h2>
-                <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
-                <a href="https://akashsodh.github.io/AkashQuizz/unit1/" class="start-test-btn">Start Test</a>
-            </div>
-            <div class="unit-card">
-                <h2>Unit 2</h2>
-                <p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>
-                <a href="https://akashsodh.github.io/AkashQuizz/unit2/" class="start-test-btn">Start Test</a>
-            </div>
-            <div class="unit-card">
-                <h2>Unit 3</h2>
-                <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
-                <a href="https://akashsodh.github.io/AkashQuizz/unit3/" class="start-test-btn">Start Test</a>
-            </div>
-            <div class="unit-card">
-                <h2>Unit 4</h2>
-                <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
-                <a href="https://akashsodh.github.io/AkashQuizz/unit4/" class="start-test-btn">Start Test</a>
-            </div>
+        <div class="unit-card">
+            <h2>Unit 4</h2>
+            <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
+            <a href="https://akashsodh.github.io/AkashQuizz/unit4/" class="start-test-btn">Start Test</a>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | All rights reserved.</p>
     </footer>
-
-    <script>
-        const VALID_REFERRAL_CODE = "AKASH0060"; // रेफरल कोड यहाँ स्टोर करें
-
-        function jwt_decode(token) { /* पहले जैसा */
-            try {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                return JSON.parse(jsonPayload);
-            } catch (e) {
-                console.error("Invalid token:", e);
-                return null;
-            }
-        }
-
-        function handleCredentialResponse(response) { /* पहले जैसा */
-            const idToken = response.credential;
-            if (idToken) {
-                const decodedToken = jwt_decode(idToken);
-                if (decodedToken) {
-                    localStorage.setItem('isUserLoggedIn', 'true');
-                    localStorage.setItem('userName', decodedToken.name);
-                    localStorage.setItem('userEmail', decodedToken.email);
-                    localStorage.setItem('userProfilePic', decodedToken.picture);
-                    updateUIForLoggedInUser(decodedToken.name, decodedToken.email, decodedToken.picture);
-                } else {
-                    console.error("Failed to decode token or token is invalid.");
-                }
-            } else {
-                console.error("ID Token not found in response:", response);
-            }
-        }
-
-        function updateUIForLoggedInUser(name, email, profilePic) { /* पहले जैसा */
-            document.getElementById('userProfileName').textContent = name;
-            document.getElementById('userProfileEmail').textContent = email;
-            document.getElementById('userProfilePic').src = profilePic;
-
-            document.getElementById('authContainer').classList.add('hidden');
-            document.getElementById('userProfile').classList.remove('hidden');
-            
-            showContentBasedOnUnlockStatus(); // इसे 'purchase' की जगह 'unlock' करें
-        }
-        
-        function hasUserUnlockedContent() { // इसे 'purchase' की जगह 'unlock' करें
-            return localStorage.getItem('hasUnlockedContent') === 'true';
-        }
-
-        function showContentBasedOnUnlockStatus() { // इसे 'purchase' की जगह 'unlock' करें
-            const unlockMessageDiv = document.getElementById('unlockMessage');
-            unlockMessageDiv.textContent = ''; // पुराने मैसेज हटाएं
-            unlockMessageDiv.className = 'unlock-message'; // डिफ़ॉल्ट क्लास
-
-            if (hasUserUnlockedContent()) {
-                document.getElementById('mainContent').classList.remove('hidden');
-                document.getElementById('unlockSection').classList.add('hidden');
-            } else {
-                document.getElementById('mainContent').classList.add('hidden');
-                if (localStorage.getItem('isUserLoggedIn') === 'true') {
-                    document.getElementById('unlockSection').classList.remove('hidden');
-                } else {
-                    document.getElementById('unlockSection').classList.add('hidden');
-                }
-            }
-        }
-
-        function handleSignOut() { /* 'hasUnlockedContent' को भी हटाएं */
-            google.accounts.id.disableAutoSelect();
-            
-            localStorage.removeItem('isUserLoggedIn');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userProfilePic');
-            localStorage.removeItem('hasUnlockedContent'); // इसे 'purchase' की जगह 'unlock' करें
-
-            document.getElementById('authContainer').classList.remove('hidden');
-            document.getElementById('userProfile').classList.add('hidden');
-            document.getElementById('mainContent').classList.add('hidden');
-            document.getElementById('unlockSection').classList.add('hidden');
-            document.getElementById('unlockMessage').textContent = ''; // साइन आउट पर मैसेज हटाएं
-
-
-            document.getElementById('userProfileName').textContent = '';
-            document.getElementById('userProfileEmail').textContent = '';
-            document.getElementById('userProfilePic').src = '';
-        }
-
-        document.getElementById('signOutButton').addEventListener('click', handleSignOut);
-
-        // रेफरल कोड सबमिट करने के लिए फंक्शन
-        function handleSubmitReferralCode() {
-            const enteredCode = document.getElementById('referralCodeInput').value.trim();
-            const unlockMessageDiv = document.getElementById('unlockMessage');
-
-            if (enteredCode.toUpperCase() === VALID_REFERRAL_CODE.toUpperCase()) { // Case-insensitive तुलना
-                localStorage.setItem('hasUnlockedContent', 'true'); // इसे 'purchase' की जगह 'unlock' करें
-                unlockMessageDiv.textContent = 'Success! Tests unlocked.';
-                unlockMessageDiv.className = 'unlock-message success-message'; // क्लास बदलें
-                // थोड़ी देर बाद कंटेंट दिखाएं ताकि यूजर मैसेज पढ़ सके
-                setTimeout(function() {
-                    showContentBasedOnUnlockStatus();
-                }, 1500); // 1.5 सेकंड
-            } else {
-                unlockMessageDiv.textContent = 'Invalid referral code. Please try again.';
-                unlockMessageDiv.className = 'unlock-message error-message'; // क्लास बदलें
-                document.getElementById('referralCodeInput').focus();
-            }
-        }
-
-
-        window.onload = function() {
-            const isLoggedIn = localStorage.getItem('isUserLoggedIn');
-            if (isLoggedIn === 'true') {
-                const userName = localStorage.getItem('userName');
-                const userEmail = localStorage.getItem('userEmail');
-                const userProfilePic = localStorage.getItem('userProfilePic');
-                if (userName && userEmail && userProfilePic) {
-                     updateUIForLoggedInUser(userName, userEmail, userProfilePic);
-                } else {
-                    handleSignOut(); 
-                }
-            } else {
-                document.getElementById('authContainer').classList.remove('hidden');
-                document.getElementById('userProfile').classList.add('hidden');
-                document.getElementById('unlockSection').classList.add('hidden');
-                document.getElementById('mainContent').classList.add('hidden');
-            }
-
-            // नए रेफरल कोड सबमिट बटन के लिए इवेंट लिस्नर
-            const submitReferralBtn = document.getElementById('submitReferralCodeButton');
-            if(submitReferralBtn) {
-                submitReferralBtn.addEventListener('click', handleSubmitReferralCode);
-            }
-            // इनपुट फ़ील्ड में Enter दबाने पर भी सबमिट हो
-            const referralInput = document.getElementById('referralCodeInput');
-            if(referralInput) {
-                referralInput.addEventListener('keypress', function(event) {
-                    if (event.key === "Enter") {
-                        event.preventDefault(); // डिफ़ॉल्ट सबमिशन रोकें (अगर यह एक फॉर्म होता)
-                        handleSubmitReferralCode();
-                    }
-                });
-            }
-        };
-    </script>
 </body>
 </html>
