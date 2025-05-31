@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      margin: 0;
+      padding-left: 240px;
+      color: #333;
+      transition: padding-left 0.3s ease;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      background: linear-gradient(to bottom, #667eea, #764ba2);
+      padding: 20px 10px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+    }
+    .sidebar.hidden {
+      transform: translateX(-260px);
+    }
+    .sidebar:not(.hidden) {
+      transform: translateX(0);
+    }
+    .toggle-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      z-index: 1002;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .toggle-btn span {
+      display: block;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+    }
+    body.sidebar-visible {
+      padding-left: 240px;
+    }
+    .sidebar h2 {
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .sidebar table {
+      width: 100%;
+      border-spacing: 5px;
+      margin-bottom: 20px;
+    }
+    .sidebar td {
+      text-align: center;
+    }
+    .sidebar td a {
+      display: block;
+      background: #ccc;
+      color: #333;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .sidebar td a:hover {
+      background: #ffd166;
+      color: #000;
+    }
+    .sidebar td a.correct {
+      background: #a5d6a7 !important;
+      color: #1b5e20 !important;
+    }
+    .sidebar td a.incorrect {
+      background: #ef9a9a !important;
+      color: #b71c1c !important;
+    }
+    .sidebar td a.active {
+      background: #ffd166 !important;
+      color: #000 !important;
+    }
+    .sidebar td a.unanswered::after {
+      content: "?";
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #bbb;
+      color: white;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      border-radius: 50%;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      background: #f1f1f1;
+      padding: 12px 18px;
+      margin: 10px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    label:hover {
+      background: #dceefb;
+    }
+    label.correct {
+      background: #a5d6a7;
+      border-left: 6px solid #1b5e20;
+    }
+    label.incorrect {
+      background: #ef9a9a;
+      border-left: 6px solid #b71c1c;
+    }
+    label.locked {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 18px;
+      border: none;
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      color: #fff;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(to right, #185a9d, #43cea2);
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+      color: #185a9d;
+    }
+    .correct-answer {
+      margin-top: 15px;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+    body.dark {
+      background: #121212;
+      color: #e0e0e0;
+    }
+    body.dark .quiz-container {
+      background: #1e1e1e;
+    }
+    body.dark label {
+      background: #333;
+    }
+    body.dark .sidebar {
+      background: #2c3e50;
+    }
+    .tools-section {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+    .tools-section h2 {
+      margin-bottom: 15px;
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+    }
+    .tools-section .button {
+      display: block;
+      width: 90%;
+      margin: 10px auto;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      transition: background 0.3s ease;
+      color: white;
+    }
+    .tools-section .theme-btn {
+      background: linear-gradient(to right, #43cea2, #185a9d);
+    }
+    .tools-section .theme-btn:hover {
+      background: linear-gradient(to right, #185a9d, #43cea2);
+    }
+    .tools-section .fullscreen-btn {
+      background: linear-gradient(to right, #f39c12, #e67e22);
+    }
+    .tools-section .fullscreen-btn:hover {
+      background: linear-gradient(to right, #e67e22, #f39c12);
+    }
+    .tools-section .clear-data-btn {
+      background: #e74c3c;
+      margin-top: 15px;
+    }
+    .tools-section .clear-data-btn:hover {
+      background: #c0392b;
+    }
+    .font-size-controls {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+      margin-bottom: 15px;
+      color: white;
+      font-weight: bold;
+    }
+    .font-size-controls button {
+      padding: 5px 10px;
+      margin: 0 5px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: normal;
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
+    .font-size-controls button:hover {
+      background: #2980b9;
+    }
+    .time-tracking {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+      text-align: right;
+    }
+    .two-column-list {
+      column-count: 2;
+      column-gap: 20px;
+      margin: 15px 0;
+      padding: 0;
+      list-style-type: disc;
+      font-size: 16px;
+    }
+    .two-column-list li {
+      margin-bottom: 10px;
+      break-inside: avoid;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding-left: 20px;
+      }
+      .sidebar {
+        transform: translateX(-260px);
+        width: 200px;
+        padding-bottom: 20px;
+        justify-content: flex-start;
+      }
+      body.sidebar-visible .sidebar {
+        transform: translateX(0);
+        z-index: 1000;
+      }
+      .sidebar.hidden {
+        transform: translateX(-220px);
+      }
+      .toggle-btn {
+        left: 15px;
+        top: 15px;
+      }
+      body.sidebar-visible {
+        padding-left: 220px;
+      }
+      .quiz-container {
+        margin-top: 80px;
+        padding: 20px;
+      }
+      .sidebar table {
+        margin-bottom: 20px;
+      }
+      .tools-section {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+      }
+      .tools-section .button {
+        width: 95%;
+      }
+      .font-size-controls {
+        margin-bottom: 10px;
+      }
+      .font-size-controls label {
+        display: inline-block;
+        margin-right: 5px;
+        color: white;
+        font-weight: bold;
+      }
+      .two-column-list {
+        column-count: 1;
+      }
+    }
+    @media (min-width: 769px) {
+      body.sidebar-visible {
+        padding-left: 240px;
+      }
+      .sidebar.hidden + .quiz-container {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toggle-btn" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+  <div class="sidebar" id="sidebar">
+    <div class="tools-section">
+      <h2>Tools</h2>
+      <div class="font-size-controls">
+        Font Size:
+        <button onclick="changeFontSize(-2)">A-</button>
+        <button onclick="changeFontSize(0)">A</button>
+        <button onclick="changeFontSize(2)">A+</button>
+      </div>
+      <button class="button" onclick="shuffleQuestions()">Shuffle Questions</button>
+      <button class="button" onclick="resetQuestionOrder()">Reset Question Order</button>
+      <button class="button" onclick="shuffleOptions()">Shuffle Options</button>
+      <button class="button theme-btn" onclick="toggleTheme()" id="theme-btn"><i class="fas fa-sun"></i> Toggle Theme</button>
+      <button class="button fullscreen-btn" onclick="toggleFullscreen()" id="fullscreen-btn"><i class="fas fa-expand"></i> Toggle Fullscreen</button>
+      <button class="button clear-data-btn" onclick="clearSavedData()">Clear Saved Data</button>
+    </div>
+    <h2>Questions</h2>
+    <table id="questionTable"></table>
+  </div>
+  <div id="progress" style="text-align:center; margin: 10px 0; font-weight:bold;"></div>
+  <div class="quiz-container">
+    <div id="quiz-content"></div>
+    <div class="time-tracking" id="time-tracking">समय: 0 सेकंड</div>
+    <div class="navigation">
+      <button onclick="prevQuestion()">Back</button>
+      <button onclick="nextQuestion()">Next</button>
+      <button onclick="submitQuiz()">Submit</button>
+      <button onclick="reviewQuiz()">Review</button>
+    </div>
+    <div id="result"></div>
+    <div id="score-summary" style="text-align:center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #555;">
+      सही उत्तर: 0 | गलत उत्तर: 0
+    </div>
+    <div id="completion-message" style="margin-top: 20px; text-align: center; font-size: 20px; font-weight: bold;"></div>
+  </div>
+  <script>
+    let originalQuestions = [
+  {
+    question: 'इनमें से ज्ञान के संबंध में क्या सही नहीं है ?',
+    options: ['ज्ञान एक बौद्धिक उत्पाद है', 'ज्ञान विचारों का व्यवस्थित स्वरूप है', 'ज्ञान को साझा और संचारित नहीं किया जा सकता है', 'ज्ञान सूचना का संगठित स्वरूप है'],
+    answer: 2
+  },
+  {
+    question: 'इनमें से ज्ञान जगत का कौन सा विचार डॉ एस आर रंगनाथन द्वारा प्रस्तुत नहीं किया गया है ?',
+    options: ['ज्ञान जगत और विषय जगत एक ही है', 'ज्ञान जगत का विकास वट वृक्ष की तरह होता है', 'ज्ञान का विकास कभी खत्म न होने वाली प्रक्रिया है', 'ज्ञान जगत की द्विविभाजन पद्धति संरचना'],
+    answer: 3
+  },
+  {
+    question: 'सर्वप्रथम \'ज्ञान जगत\' की अवधारणा निम्नलिखित में किसके द्वारा प्रदान किया गया था?',
+    options: ['एस आर रंगनाथन', 'फ्रांसिस बेकन', 'मेल्विल डेवी', 'डब्ल्यूबीसी शेयर्स'],
+    answer: 0
+  },
+  {
+    question: 'इनमें से कौन ज्ञान जगत का हिस्सा है?',
+    options: ['सामाजिक विज्ञान', 'प्राकृतिक विज्ञान', 'मानविकी', 'उपरोक्त सभी'],
+    answer: 3
+  },
+  {
+    question: 'इनमें से किस पुस्तक में डॉ एस आर रंगनाथन ने ज्ञान उत्पत्ति से संबंधित सिद्धांत का वर्णन किया है:',
+    options: ['थ्योरी ऑफ लाइब्रेरी कैटलॉग', 'लाइब्रेरी एडमिनिस्ट्रेशन', 'प्रोलेगोमेना टू लाइब्रेरी क्लासिफिकेशन', 'फाइव लॉ ऑफ लाइब्रेरी साइंस'],
+    answer: 2
+  },
+  {
+    question: 'डॉ एस आर रंगनाथन के अनुसार ज्ञान में शामिल है:',
+    options: ['विचारों का ब्रह्मांड', 'अंतहीन शक्ति', 'शारीरिक शक्ति', 'इनमें से कोई नहीं'],
+    answer: 0
+  },
+  {
+    question: 'विज्ञान जगत गतिशील (Dynamic) प्रवृत्ति का होता है:',
+    options: ['कथन सत्य है', 'कथन असत्य है', 'कथन अंशतः सत्य है', 'कथन अंततः असत्य है'],
+    answer: 0
+  },
+  {
+    question: 'डॉक्टर रंगनाथन द्वारा ज्ञान जगत के विकास को माना गया है:',
+    options: ['वट वृक्ष के विकास की तरह', 'मानव शरीर के विकास की तरह', 'कुकुरमुत्ते की विकास की तरह', 'उपरोक्त सभी'],
+    answer: 0
+  },
+  {
+    question: 'ब्रेन चेंबर की अवधारणा निम्नलिखित में से किससे संबंधित है?',
+    options: ['ज्ञान जगत', 'पुस्तकालय वर्गीकरण', 'पुस्तकालय सूचीकरण', 'अनुक्रमणी'],
+    answer: 0
+  },
+  {
+    question: 'ब्रेन चेंबर की अवधारणा निम्नलिखित में किसके द्वारा प्रदान किया गया था?',
+    options: ['मेल्विल डेवी', 'फ्रांसिस बेकन', 'डब्ल्यूबीसी शेयर्स', 'एस आर रंगनाथन'],
+    answer: 3
+  },
+  {
+    question: 'ज्ञान से तात्पर्य है?',
+    options: ['विचारों का संगठित स्वरूप', 'जीवन जीने का तरीका', 'उम्र के साथ का अनुभव', 'विज्ञान आधारित ज्ञान'],
+    answer: 0
+  },
+  {
+    question: 'विषय जगत की संरचना के प्रकार हैं?',
+    options: ['द्विविभाजन (Dychotomy)', 'दसविभाजन (Decachotomy)', 'बहुविभाजन (Polychotomy)', 'उपरोक्त सभी'],
+    answer: 3
+  },
+  {
+    question: 'इनमें से किस विषय जगत की संरचना को बायनरी क्लासिफिकेशन के नाम से भी जाना जाता है?',
+    options: ['द्विविभाजन (Dychotomy)', 'दसविभाजन (Decachotomy)', 'बहुविभाजन (Polychotomy)', 'उपरोक्त सभी'],
+    answer: 0
+  },
+  {
+    question: '\'बायनरी क्लासिफिकेशन\' किस दार्शनिक की विचारधाराओं से प्रेरित है?',
+    options: ['अरस्तू', 'जर्मी बेंथम', 'टी हैरिस', 'फ्रांसिस बेकन'],
+    answer: 0
+  },
+  {
+    question: '\'Tree of Porphyry (पोफिरी का वृक्ष)\' विषय जगत की किस संरचना को निरूपित करता है?',
+    options: ['द्विविभाजन', 'बहुविभाजन', 'दस विभाजन', 'प्रसार'],
+    answer: 0
+  },
+  {
+    question: '\'Tree of Porphyry\' विषय जगत की संरचना को किस दार्शनिक द्वारा निरूपित किया गया है?',
+    options: ['एस आर रंगनाथन', 'सी ए कटर', 'बेंथम', 'पोर्फिरी'],
+    answer: 3
+  },
+  {
+    question: '"Tree of Porphyry" को किस दार्शनिक के द्वारा द्विविभाजन संगरचना के निरूपण का उत्कृष्ट उपकरण माना है?',
+    options: ['बेंथम', 'मेल्विल डेवी', 'बेकन', 'डॉ रंगनाथन'],
+    answer: 0
+  },
+  {
+    question: '"Scale of Being" किस प्रकार के विषय संरचना से संबन्धित है?',
+    options: ['द्विविभाजन', 'बहुविभाजन', 'दसविभाजन', 'उपरोक्त सभी'],
+    answer: 0
+  },
+  {
+    question: 'निम्न में से कौन सी वर्गीकरण पद्धति ज्ञान जगत के 10 विभाजन पद्धति (Decachotomy) का उदाहरण है?',
+    options: ['DDC & LCC', 'UDC, CC & LCC', 'DDC, UDC & BSO', 'LCC & DDC'],
+    answer: 2
+  },
+  {
+    question: 'निम्न में से कौन सी वर्गीकरण पद्धति ज्ञान जगत के बहुविभाजन पद्धति (Polychotomy) का उदाहरण है?',
+    options: ['CC', 'LCC', 'Expansive Classification', 'उपरोक्त सभी'],
+    answer: 3
+  },
+  {
+    question: 'निम्न में से कौन सी ज्ञानजगत की विशेषता है?',
+    options: ['गतिशील', 'बहुआयामी', 'अंतहीन विकास', 'उपरोक्त सभी'],
+    answer: 3
+  },
+  {
+    question: 'विषय जगत बहुआयामी होता है, यह :',
+    options: ['कथन सत्य है', 'कथन असत्य है', 'कथन स्पष्ट नहीं है', 'कथन विषय जगत की विशेषताओं से मेल नहीं खाता है'],
+    answer: 0
+  },
+  {
+    question: 'निम्नलिखित में से कौन सा कथन सत्य है :',
+    options: ['ज्ञान जगत का विकास अब खत्म हो चुका है', 'विषय जगत का निरंतर विकास होता रहता है', 'विषय जगत का सीमित विकास होता है', 'ज्ञान जगत के विकास को नियंत्रित किया जा सकता है'],
+    answer: 1
+  },
+  {
+    question: 'निम्नलिखित में से कौन ज्ञान जगत की विशेषता नहीं है :',
+    options: ['नवीन दृष्टिकोण का विकास', 'विघटन और सम्मिलन', 'अंतहीन विकास', 'सीमित विकास'],
+    answer: 3
+  },
+  {
+    question: 'निम्नलिखित में ज्ञान जगत की विशेषताएं हैं:',
+    options: ['गतिशील प्रवृत्ति', 'संयमित प्रकृति', 'सीमित विकास', 'एक आयामी दृष्टिकोण'],
+    answer: 0
+  },
+  {
+    question: 'डॉ रंगनाथन के अनुसार, विषय के प्रकार होते हैं :',
+    options: ['मौलिक और अमौलिक विषय', 'मौलिक, संयुक्त और जटिल विषय', 'मौलिक एवं जटिल विषय', 'प्राथमिक, द्वितीयक और तृतीयक विषय'],
+    answer: 1
+  },
+  {
+    question: '\'बायोलॉजी\' इनमें से किस प्रकार के विषय का उदाहरण है :',
+    options: ['मौलिक विषय (Basic Subject)', 'संयुक्त विषय (Compound Subject)', 'जटिल विषय (Complex Subject)', 'इनमें से कोई नहीं'],
+    answer: 0
+  },
+  {
+    question: '\'एग्रीकल्चर ऑफ़ व्हीट\' में मौलिक विषय कौन है :',
+    options: ['एग्रीकल्चर और व्हीट दोनों', 'दोनों में से कोई नहीं', 'एग्रीकल्चर', 'व्हीट'],
+    answer: 2
+  },
+  {
+    question: '\'एग्रीकल्चर ऑफ़ व्हीट\' किस तरह के विषय का उदाहरण है :',
+    options: ['बेसिक सब्जेक्ट', 'कंपाउंड सब्जेक्ट', 'कॉम्प्लेक्स सब्जेक्ट', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: '\'इकोनॉमिक्स\' किस प्रकार के विषय का उदाहरण है :',
+    options: ['बेसिक सब्जेक्ट', 'कंपाउंड सब्जेक्ट', 'कॉम्प्लेक्स सब्जेक्ट', 'इनमें से कोई नहीं'],
+    answer: 0
+  },
+  {
+    question: '\'Geopolitics\' किस प्रकार के विषय का उदाहरण है :',
+    options: ['बेसिक सब्जेक्ट', 'कंपाउंड Subject', 'कॉम्प्लेक्स सब्जेक्ट', 'इनमें से कोई नहीं'],
+    answer: 2
+  },
+  {
+    question: '\'Biochemistry\' किस प्रकार के विषय का उदाहरण है:',
+    options: ['बेसिक सब्जेक्ट', 'कंपाउंड सब्जेक्ट', 'कॉम्प्लेक्स सब्जेक्ट', 'इनमें से कोई नहीं'],
+    answer: 2
+  },
+  {
+    question: 'अरस्तू का ज्ञान जगत वर्गीकरण किस पर आधारित है?',
+    options: ['द्विविभाजन', 'दसविभाजन', 'बहुविभाजन', 'उपरोक्त सभी'],
+    answer: 0
+  },
+  {
+    question: '\'Dichotomy\' का अर्थ है?',
+    options: ['द्विविभाजन', 'दसविभाजन', 'बहुविभाजन', 'उपरोक्त सभी'],
+    answer: 0
+  },
+  {
+    question: '\'Decachotomy\' का अर्थ है?',
+    options: ['द्विविभाजन', 'दसविभाजन', 'बहुविभाजन', 'उपरोक्त सभी'],
+    answer: 1
+  },
+  {
+    question: '\'Polychotomy\' का अर्थ है?',
+    options: ['द्विविभाजन', 'दसविभाजन', 'बहुविभाजन', 'उपरोक्त सभी'],
+    answer: 2
+  },
+  {
+    question: '"Polychotomy" विभाजन का प्रयोग सर्वप्रथम किसने अपनी वर्गीकरण पद्धति मे शुरू किया था?',
+    options: ['मेल्विल डेवी', 'रंगनाथन', 'सी ए कटर', 'ब्रेडफोर्ड'],
+    answer: 2
+  },
+  {
+    question: '"Dechachotomy" विभाजन का प्रयोग किसने अपनी वर्गीकरण पद्धति मे शुरू किया था?',
+    options: ['मेल्विल डेवी', 'रंगनाथन', 'सी ए कटर', 'राइडर'],
+    answer: 0
+  },
+  {
+    question: 'CC में ज्ञान जगत के रेखांकन में मुख्य वर्ग M और N के बीच है ?',
+    options: ['Delta', '4', '#', '0'],
+    answer: 0
+  },
+  {
+    question: 'CC में \'Humanities\' को स्थान दिया गया है?',
+    options: ['A to M', 'N to Z', 'N to S', 'A to E'],
+    answer: 2
+  },
+  {
+    question: 'CC के मुख्य वर्गों में \'Science\' को स्थान दिया गया है?',
+    options: ['A to M', 'N to Z', 'N to S', 'A to E'],
+    answer: 0
+  },
+  {
+    question: 'CC के मुख्य वर्गों में Social Science को स्थान दिया गया है?',
+    options: ['A to M', 'T to Z', 'N to S', 'A to E'],
+    answer: 1
+  },
+  {
+    question: 'रंगनाथन द्वारा सर्वप्रथम विषय निर्माण पद्धति की अवधारणा किस वर्ष प्रस्तुत की गई थीः',
+    options: ['1950', '1965', '1975', '1973'],
+    answer: 0
+  },
+  {
+    question: 'विषय निर्माण पद्धति की अवधारणा सर्वप्रथम किसने प्रस्तुत किया था:',
+    options: ['मेल्विल डेवी', 'सी ए कटर', 'एस आर रंगनाथन', 'ई जे कोट्स'],
+    answer: 2
+  },
+  {
+    question: 'विषय निर्माण पद्धति के कितने प्रकार डॉ एस आर रंगनाथन द्वारा 1950 ई. में प्रस्तुत किए गए थेः',
+    options: ['4', '6', '7', '10'],
+    answer: 0
+  },
+  {
+    question: 'एस आर रंगनाथन द्वारा 1950 में चार विषय निर्माण विधियों का वर्णन किया गया था, Loose Assemblage, Lamination, Dissection और :',
+    options: ['Agglomeration', 'Denudation', 'Cluster', 'Fusion'],
+    answer: 1
+  },
+  {
+    question: 'एस आर रंगनाथन द्वारा चार विषय निर्माण विधियों में पुनः दो विषय निर्माण विधियों को 1960 ई. में जोड़ा गया था, वह विधि है:',
+    options: ['Distillation & Agglomeration', 'Distillation & Fusion', 'Distillation & Cluster', 'Cluster & Fusion'],
+    answer: 1
+  },
+  {
+    question: 'इनमें से किस विषय निर्माण विधियों का वर्णन एस आर रंगनाथन द्वारा नहीं किया गया है?',
+    options: ['Loose Assemblage', 'Denudation', 'Cluster', 'Fusion'],
+    answer: 2
+  },
+  {
+    question: 'विषय निर्माण विधि \'Cluster\' का दूसरा नाम है?',
+    options: ['Loose Assemblage', 'Denudation', 'Partial comprehension', 'Subject Bundles'],
+    answer: 3
+  },
+  {
+    question: 'विषय निर्माण विधि \'Agglomeration\' का दूसरा नाम है?',
+    options: ['Loose Assemblage', 'Denudation', 'Partial comprehension', 'Subject Bundles'],
+    answer: 2
+  },
+  {
+    question: 'ज्ञान जगत के वर्गीकरण और विषय निर्माण विधि के ज्ञान के अभाव में इनमें से क्या संभव नहीं है:',
+    options: ['सटीक पुस्तकालय वर्गीकरण', 'पुस्तकालय सूचीकरण', 'सारांशीकरण', 'अनुक्रमणिका निर्माण'],
+    answer: 0
+  },
+  {
+    question: 'ज्ञान जगत के वर्गीकरण का प्रयास सर्वप्रथम किसके द्वारा किया गया थाः',
+    options: ['वर्गाचार्यों के द्वारा', 'प्रकाशकों के द्वारा', 'पाठकों के द्वारा', 'दर्शनिकों के द्वारा'],
+    answer: 3
+  },
+  {
+    question: 'विषय निर्माण में विषयों के बीच कितने तरह के दशा संबंध होते हैं:',
+    options: ['5 तरह के दशा संबंध', '6 तरह के दशा संबंध', '7 तरह के दशा संबंध', '4 तरह के दशा संबंध'],
+    answer: 1
+  },
+  {
+    question: 'CC के छठे संस्करण में कितने प्रकार के दशा संबंधों का प्रावधान है:',
+    options: ['5 प्रकार के दशा संबंध', '3 प्रकार के दशा संबंध', '2 प्रकार के दशा संबंध', '8 प्रकार के दशा संबंध'],
+    answer: 0
+  },
+  {
+    question: 'CC के किस संस्करण से उपकरण सूचक (Tool) दशा संबंधों का प्रावधान शुरू किया गया :',
+    options: ['पांचवें', 'चौथे', 'सातवें', 'तीसरे'],
+    answer: 2
+  },
+  {
+    question: '\'लेमिनेशन\' शब्द की उत्पत्ति किस भाषा से हुई है :',
+    options: ['ग्रीक', 'लैटिन', 'फ्रेंच', 'संस्कृत'],
+    answer: 1
+  },
+  {
+    question: '\'लेमिनेशन\' शब्द की उत्पत्ति किस शब्द से हुई है :',
+    options: ['Lemin', 'Lamin', 'Laminee', 'Laminate'],
+    answer: 2
+  },
+  {
+    question: 'विषय निर्माण पद्धति \'леमिनेशन\' के कितने प्रकार के होते हैं:',
+    options: ['दो', 'चार', 'तीन', 'पाँच'],
+    answer: 0
+  },
+  {
+    question: 'विषय निर्माण पद्धति में पद्धति में विखंडन (Fission) के दो प्रकार होते हैं, Dissection और',
+    options: ['Lamination', 'Fusion', 'Denudation', 'Distillation'],
+    answer: 2
+  },
+  {
+    question: 'विषय निर्माण पद्धति जिसमें किसी विषय के अलग अलग भागों में बांटने से नए विषयों का निर्माण होता है, कहलाता है :',
+    options: ['विखंडन (फ़िशन)', 'फ्यूजन', 'डिस्टलेशन', 'лемиनेशन'],
+    answer: 0
+  },
+  {
+    question: 'दो विषय आपस में मिलकर एक नए विषय का निर्माण करते हैं, इस प्रकार की विषय निर्माण पद्धति कहलाती है :',
+    options: ['विखंडन (Fission)', 'फ्यूजन (Fusion)', 'डिस्टलेशन (Distillation)', 'лемиनेशन (Lamination)'],
+    answer: 1
+  },
+  {
+    question: 'निम्नलिखित में से किस विषय निर्माण विधि द्वारा \'मैनेजमेंट\' विषय का निर्माण होता है :',
+    options: ['विखंडन (Fission)', 'फ्यूजन (Fusion)', 'डिस्टलेशन (Distillation)', 'лемиनेशन (Lamination)'],
+    answer: 2
+  },
+  {
+    question: 'निम्नलिखित में से किस विषय निर्माण विधि द्वारा \'रिसर्च मेथाडोलॉजी (Research Methology)\' विषय का निर्माण होता है :',
+    options: ['Fission विषय निर्माण विधि द्वारा', 'Fusion विषय निर्माण विधि द्वारा', 'Distillation विषय निर्माण विधि द्वारा', 'Lamination विषय निर्माण विधि द्वारा'],
+    answer: 2
+  },
+  {
+    question: 'ऐसी विषय निर्माण पद्धति जिसमें कई विषय आपस में जुड़े होते हैं और सब की प्रकृति स्वतंत्र होती है वह कभी भी आपस में अलग हो सकते हैं, इस प्रकार की विषय निर्माण पद्धति कहलाती है:',
+    options: ['Clustering', 'Fusion', 'Distillation', 'Lamination'],
+    answer: 0
+  },
+  {
+    question: '\'इंडोलॉजी (Indology)\' किस प्रकार के विषय निर्माण पद्धति की उदाहरण है:',
+    options: ['Clustering', 'Fusion', 'Distillation', 'Lamination'],
+    answer: 0
+  },
+  {
+    question: '\'Oceanography\' किस प्रकार के विषय निर्माण पद्धति की उदाहरण है:',
+    options: ['समूहन (Clustering)', 'फ्यूजन (Fusion)', 'डिस्टलेशन (Distillation)', 'लेमिनेशन (Lamination)'],
+    answer: 0
+  },
+  {
+    question: 'जब कई मुख्य विषय आपस में मिलकर एक बृहद स्वरूप वाले विषय का निर्माण करते हैं, इस प्रकार की विषय निर्माण पद्धति कहलाती है :',
+    options: ['समूहन (Clustering)', 'फ्यूजन (Fusion)', 'डिस्टलेशन (Distillation)', 'संचयन (Agglomeration)'],
+    answer: 3
+  },
+  {
+    question: '\'Social Science\' किस प्रकार के विषय निर्माण पद्धति की उदाहरण है:',
+    options: ['समूहन (Clustering)', 'फ्यूजन (Fusion)', 'संचयन (Agglomeration)', 'लेमिनेशन (Lamination)'],
+    answer: 2
+  },
+  {
+    question: '\'Natural Science\' किस प्रकार के विषय निर्माण पद्धति की उदाहरण है:',
+    options: ['समूहन (Clustering)', 'फ्यूजन (Fusion)', 'संचयन (Agglomeration)', 'लेमिनेशन (Lamination)'],
+    answer: 2
+  },
+  {
+    question: '\'Humanity\' किस प्रकार के विषय निर्माण पद्धति की उदाहरण है :',
+    options: ['समूहन (Clustering)', 'फ्यूजन (Fusion)', 'संचयन (Agglomeration)', 'लेमिनेशन (Lamination)'],
+    answer: 2
+  },
+  {
+    question: '\'मानचित्रण (Mapping)\' निम्नलिखित में दर्शाती है:',
+    options: ['स्थानों के मध्य सापेक्ष स्थिति', 'सिर्फ स्थानों के नाम', 'सिर्फ स्थानों की दूरी', 'स्थानों के साथ-साथ वहाँ पहुंचने के लिए यात्रा सुविधा की जानकारी'],
+    answer: 0
+  },
+  {
+    question: 'ज्ञान जगत का वर्गीकरण पद्धतियों में \'मानचित्रण (Mapping)\' निम्नलिखित में दर्शाती है :',
+    options: ['विषयों के मध्य सापेक्ष स्थिति', 'विषयों के प्रकार', 'विषयों के उपविषयों की जानकारी', 'वर्गीकरण के सिद्धान्त'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी (DDC) में ज्ञान जगत का रेखांकन किस प्रकार किया गया है:',
+    options: ['द्विविभाजन पद्धति को आधार बनाकर', 'दस विभाजन पद्धति को आधार बनाकर', 'बहुविभाजन पद्धति को आधार बनाकर', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में ज्ञान वर्गीकरण की योजना निम्नलिखित में किसके दर्शन पर आधारित है :',
+    options: ['फ्रांसिस बेकन एवं टी हैरिस', 'हर्बर्ट स्पेंसर', 'इमानुएल कॉट', 'अरस्तु'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में संपूर्ण विज्ञान जगत को कितने मुख्य वर्गों (Main Class) में विभाजित किया गया है?',
+    options: ['10', '21', '15', '20'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में मुख्य वर्गों (Main Class) को पुनः कितने डिवीजन (Division/Subdivision) में बांटा गया है',
+    options: ['100', '210', '1500', '200'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में डिवीजन को पुनः कितने \'सेक्शन (Section)\' में बांटा गया है:',
+    options: ['100', '210', '1500', '1000'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में ज्ञान जगत का पहला विभाजन (First Summary) कहलाता है:',
+    options: ['Main Class', 'Main Division', 'Division', 'Section'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में ज्ञान जगत का दूसरा विभाजन (Second Summary) कहलाता है :',
+    options: ['Main Class', 'Subject', 'Division', 'Section'],
+    answer: 2
+  },
+  {
+    question: 'डीडीसी में ज्ञान जगत का तीसरा विभाजन (Third Summary) कहलाता है :',
+    options: ['Main Class', 'Class', 'Division', 'Section'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में ज्ञान जगत की किस संरचना को लोकप्रिय अपनाया गया है:',
+    options: ['द्विविभाजन पद्धति (Dichotomy)', 'दस विभाजन पद्धति (Decachotomy)', 'बहुविभाजन पद्धति (Polychotomy)', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'000\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है :',
+    options: ['Generaila', 'Social Science', 'Language', 'Art'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'100\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['Philosophy', 'Social Science', 'Language', 'Art'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'200\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['Philosophy', 'Social Science', 'Language', 'Religion'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'300\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['Philosophy', 'Social Science', 'Language', 'Religion'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'400\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['Philosophy', 'Social Science', 'Language', 'Religion'],
+    answer: 2
+  },
+  {
+    question: 'डीडीसी में \'500\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है :',
+    options: ['Philosophy', 'Pure Science', 'Language', 'Religion'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'600\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['Philosophy', 'Social Science', 'Language', 'Technology'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'800\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['Philosophy', 'Social Science', 'Language', 'Literature'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'900\' अंकन किस मुख्य वर्ग के लिए निर्धारित किया गया है:',
+    options: ['History and Geography', 'Social Science', 'Language', 'Religion'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'बायोग्राफी (Biography)\' को किस मुख्य वर्ग के अंतर्गत रखा गया है :',
+    options: ['Philosophy (100)', 'Social Science (300)', 'Language (400)', 'History and Geography (900)'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'सामान्य बिबलियोग्राफी और इनसाइक्लोपीडिया\' को किस मुख्य वर्ग के अंतर्गत रखा गया है :',
+    options: ['Generalia (000)', 'Social Science (300)', 'Language (400)', 'History and Geography (900)'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'लाइब्रेरी साइंस\' को किस मुख्य वर्ग के अंतर्गत रखा गया है:',
+    options: ['Generalia (000)', 'Social Science (300)', 'Language (400)', 'History and Geography (900)'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'सामान्य बिबलियोग्राफी\' के लिए अंकन है :',
+    options: ['010', '030', '110', '222'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'लाइब्रेरी साइंस विषय\' के लिए अंकन है:',
+    options: ['010', '030', '020', '222'],
+    answer: 2
+  },
+  {
+    question: 'डीडीसी में \'इनसाइक्लोपीडिया\' के लिए अंकन है :',
+    options: ['010', '030', '020', '222'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'लॉजिक\' के लिए अंकन है:',
+    options: ['170', '160', '260', '222'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'Psychology\' के लिए अंकन है:',
+    options: ['150', '180', '260', '222'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'बाइबल\' के लिए अंकन है :',
+    options: ['220', '190', '760', '222'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'एकोनोमिक्स (Economics)\' के लिए अंकन है:',
+    options: ['330', '390', '760', '222'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'एजुकेशन (Education)\' के लिए अंकन है :',
+    options: ['340', '370', '760', '222'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'लॉ (Law)\' के लिए अंकन है :',
+    options: ['720', '190', '760', '340'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'राजनीति विज्ञान\' के लिए अंकन है :',
+    options: ['320', '190', '760', '340'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'स्टैटिसटिक्स\' के लिए अंकन है :',
+    options: ['320', '310', '760', '340'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'लिंग्विस्टिक्स\' के लिए अंकन है :',
+    options: ['320', '310', '410', '340'],
+    answer: 2
+  },
+  {
+    question: 'डीडीसी में \'एस्ट्रोनॉमी\' के लिए अंकन है:',
+    options: ['520', '310', '410', '340'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में \'मैथमेटिक्स\' के लिए अंकन है :',
+    options: ['520', '510', '410', '340'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'इंग्लिश लैंग्वेज\' के लिए अंकन है:',
+    options: ['520', '510', '420', '340'],
+    answer: 2
+  },
+  {
+    question: 'डीडीसी में \'जूलॉजी\' के लिए अंकन है :',
+    options: ['520', '510', '720', '590'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'एग्रीकल्चर\' के लिए अंकन है :',
+    options: ['520', '510', '720', '630'],
+    answer: 3
+  },
+  {
+    question: 'डीडीसी में \'इंजीनियरिंग\' के लिए अंकन है :',
+    options: ['620', '510', '720', '630'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में साहित्य मुख्य वर्ग में \'हिन्दी\' के लिए अंकन है :',
+    options: ['891.43', '891.2', '420.44', '630'],
+    answer: 0
+  },
+  {
+    question: 'डीडीसी में साहित्य मुख्य वर्ग में \'इंग्लिश\' के लिए अंकन है :',
+    options: ['891.43', '891.2', '420.44', '630'],
+    answer: 2
+  },
+  {
+    question: 'डीडीसी में साहित्य मुख्य वर्ग में \'संस्कृत\' के लिए अंकन है :',
+    options: ['420', '800.2', '820', '630'],
+    answer: 1
+  },
+  {
+    question: 'डीडीसी में \'एनिसिएंट हिस्ट्री\' के लिए अंकन है:',
+    options: ['999', '930', '970', '990'],
+    answer: 1
+  },
+  {
+    question: 'कोलन क्लासिफिकेशन में ज्ञान जगत को किस आधार पर विभाजित किया गया है:',
+    options: ['बहु विभाजन पद्धति के आधार पर', 'द्विविभाजन पद्धति के आधार पर', 'दस विभाजन पद्धति के आधार पर', 'अन्य विभाजन पद्धति के आधार पर'],
+    answer: 0
+  },
+  {
+    question: '\'डाईकोटोमी\' विषय संरचना के प्रणेता/विकासकर्ता कौन थे :',
+    options: ['इमानुएल काँट', 'सी ए कटर', 'मेल्विल डेवी', 'एस आर रंगनाथन'],
+    answer: 0
+  },
+  {
+    question: '\'डेकाकोटोमी\' विषय संरचना के प्रणेता कौन थे :',
+    options: ['इमानुएल काँट', 'सी ए कटर', 'मेल्विल डेवी', 'एस आर रंगनाथन'],
+    answer: 2
+  },
+  {
+    question: '\'पॉलीकोटोमी\' विषय संरचना के प्रणेता कौन थे :',
+    options: ['इमानुएल काँट', 'सी ए कटर', 'मेल्विल डेवी', 'एस आर रंगनाथन'],
+    answer: 1
+  },
+  {
+    question: 'कांट ने अपनी ज्ञान वर्गीकरण का वर्णन किस पुस्तक में किया है :',
+    options: ['क्रिटिक ऑफ प्योर रीजन', 'लेवियथान', 'एडवांस ऑफ लर्निंग', 'दी फिलोसोफी पॉज़िटिव'],
+    answer: 0
+  },
+  {
+    question: '\'Critique of Pure Reason\' पुस्तक के लेखक कौन है :',
+    options: ['Hoobbes', 'Kant', 'C Bacon', 'D Comte'],
+    answer: 1
+  },
+  {
+    question: '\'Critique of Pure Reason\' किस वर्ष लिखी गई है:',
+    options: ['1556', '1781', '1876', '1933'],
+    answer: 1
+  },
+  {
+    question: 'फ्रांसिस बेकन ने अपनी ज्ञान वर्गीकरण का वर्णन किस पुस्तक में किया है:',
+    options: ['क्रिटिक ऑफ प्योर रीजन', 'लेवियथान', 'एडवांसमेंट ऑफ लर्निंग', 'दी फिलोसोफी पॉज़िटिव'],
+    answer: 2
+  },
+  {
+    question: '\'एडवांसमेंट ऑफ लर्निंग\' पुस्तक के लेखक कौन है:',
+    options: ['Hobbes', 'Fransis Becon', 'Ampeire', 'Comte'],
+    answer: 1
+  },
+  {
+    question: 'फ्रांसिस बेकन ने ज्ञान वर्गीकरण की योजना को तीन क्रमिक समूहों में विभाजित किया था, इतिहास, कविता और',
+    options: ['दर्शन', 'हस्तरेखा', 'युद्ध कला', 'संगीत'],
+    answer: 0
+  },
+  {
+    question: 'फ्रांसिस बेकन की ज्ञान वर्गीकरण योजना पर कौन सी वर्गीकरण प्रणाली आधारित है :',
+    options: ['DDC और CC', 'DDC और LCC', 'DDC और UDC', 'LCC और CC'],
+    answer: 2
+  },
+  {
+    question: '\'लेवियाथन\' पुस्तक के लेखक कौन है :',
+    options: ['Hobbes', 'Fransis Becon', 'Bacon', 'Comte'],
+    answer: 0
+  },
+  {
+    question: 'लेवियाथन पुस्तक की रचना/प्रकाशन किस वर्ष की गई थी?',
+    options: ['1651', '1777', '1876', '1928'],
+    answer: 0
+  },
+  {
+    question: 'फ्रेडरिक हेगेल की ज्ञान वर्गीकरण योजना थी :',
+    options: ['ग्रीक ट्रायड', 'पंचतत्व दर्शन', 'वैदिक आधारों', 'अरस्तू दर्शन'],
+    answer: 0
+  },
+  {
+    question: 'फ्रेडरिक हीगल ने अपनी ज्ञान वर्गीकरण योजना किस वर्ष प्रस्तुत किया था?',
+    options: ['1812', '1633', '1800', '1776'],
+    answer: 0
+  },
+  {
+    question: 'अगस्त काम्टे की ज्ञान वर्गीकरण योजना, उन्होंने किस पुस्तक में वर्णित की है?',
+    options: ['The Positive Knowledge', 'The Positive Philosophy', 'Leviathan', 'Philosophy of Knoweledge'],
+    answer: 1
+  },
+  {
+    question: '"The Positive Philosophy" पुस्तक की रचना किस वर्ष की गई थी?',
+    options: ['1850', '1830', '1876', '1928'],
+    answer: 1
+  },
+  {
+    question: 'निम्नलिखित में कौन सी ज्ञान वर्गीकरण योजना धारावाहिक प्रणाली पर आधारित है?',
+    options: ['अगस्त काम्टे का वर्गीकरण', 'एंपियर का वर्गीकरण', 'स्पेंसर का वर्गीकरण', 'उपरोक्त सभी'],
+    answer: 3
+  },
+  {
+    question: 'हरबर्ट स्पेंसर ने ज्ञान वर्गीकरण योजना अपनी किस पुस्तक में वर्णित की है?',
+    options: ['The Positive Knowledge', 'Classification of the Science', 'The Knowledge World', 'Philosophy of Knoweledge'],
+    answer: 1
+  },
+  {
+    question: '\'क्लासिफिकेशन ऑफ साइंस\' पुस्तक के लेखक कौन है:',
+    options: ['Herbert Spencer', 'Fransis Becon', 'Bacon', 'August Comte'],
+    answer: 0
+  },
+  {
+    question: '\'क्लासिफिकेशन ऑफ द साइंस\' पुस्तक किस वर्ष लिखी गई थीः',
+    options: ['1869', '1766', '1800', '1613'],
+    answer: 0
+  },
+  {
+    question: 'निम्नलिखित दार्शनिक को उनके कालक्रम में व्यवस्थित करें:',
+    options: ['1, 2, 3, 6, 4, 5', '1, 2, 3, 4, 5, 6', '6, 5, 4, 3, 2, 1', '1, 2, 3, 6, 5, 4'],
+    answer: 0
+  },
+  {
+    question: 'इनमें से ज्ञान किसका समग्र रूप होता है?',
+    options: ['आंकड़ों (Datas) का', 'विचारों (Ideas) का', 'विषय (Subject) का', 'तर्को (Logic) का'],
+    answer: 1
+  },
+  {
+    question: 'विषय जगत की द्विविभाजन संरचना से कौन जुड़े हुए है?',
+    options: ['अरस्तू, पोर्फरी एवं इमेनुयल कैंट', 'मेल्विल डेवी एवं सी. ए. कटर', 'सी. ए. कटर एवं रंगनाथन', 'एस आर रंगनाथन'],
+    answer: 0
+  },
+  {
+    question: '"Tree of Porphyry" विषय जगत की किस संरचना का प्रतिनिधित्व करता है ?',
+    options: ['दसविभाजन', 'द्विविभाजन', 'बहुविभाजन', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: 'निम्न में से किस वर्गीकरण पद्धति में दसविभाजन संरचना को अपनाया गया है ?',
+    options: ['दशमलव वर्गीकरण पद्धति (DDC)', 'द्विबिन्दु वर्गीकरण पद्धति (CC)', 'ग्रंथसूची वर्गीकरण पद्धति (BC)', 'लाइब्रेरी ऑफ कॉंग्रेस वर्गीकरण पद्धति (LCC)'],
+    answer: 0
+  },
+  {
+    question: 'निम्न में से किस वर्गीकरण पद्धति में बहुविभाजन संरचना को अपनाया गया है?',
+    options: ['दशमलव वर्गीकरण पद्धतिं (DDC)', 'द्विबिन्दु वर्गीकरण पद्धति (CC)', 'बीएसओ वर्गीकरण पद्धति (BSO)', 'सार्वभौम वर्गीकरण पद्धति (UDC)'],
+    answer: 1
+  },
+  {
+    question: 'डॉ. रंगनाथन ने ज्ञान जगत के विषयों को कितनी श्रेणियों में बांटा है ?',
+    options: ['4', '3', '2', '6'],
+    answer: 1
+  },
+  {
+    question: '"Agriculture of Corn" विषय जगत की किस प्रकार की श्रेणी का उदाहरण है ?',
+    options: ['मौलिक विषय (Basic Subject)', 'मिश्रित/संयुक्त विषय (Compound Subject)', 'जटिल विषय (Complex Subject)', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: '"Urban Youth" विषय, विषय निर्माण की किस विधि द्वारा निर्मित हुआ है?',
+    options: ['आसवन (Distillation)', 'पटलीकरण (Lamination)', 'संचयन (Agglomeration)', 'समूहन'],
+    answer: 1
+  },
+  {
+    question: '"पटलीकरण" विषय निर्माण की विधि में किस प्रकार के विषय का निर्माण होता है ?',
+    options: ['मौलिक विषय (Basic Subject)', 'मिश्रित/संयुक्त विषय (Compound Subject)', 'जटिल विषय (Complex Subject)', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: '"शिथिल समुच्चय" विषय निर्माण की विधि में किस प्रकार के विषय का निर्माण होता है ?',
+    options: ['मौलिक विषय (Basic Subject)', 'मिश्रित/संयुक्त विषय (Compound Subject)', 'जटिल विषय (Complex Subject)', 'इनमें से कोई नहीं'],
+    answer: 2
+  },
+  {
+    question: 'विषय निर्माण की किस विधि में दशा संबंध बनता है ?',
+    options: ['आसवन', 'पटलीकरण', 'संचयन', 'शिथिल समुच्चय'],
+    answer: 3
+  },
+  {
+    question: 'दशा संबंध के द्वारा निर्मित विषय किस प्रकार के होते है ?',
+    options: ['मौलिक विषय', 'मिश्रित/संयुक्त विषय', 'जटिल विषय', 'इनमें से कोई नहीं'],
+    answer: 2
+  },
+  {
+    question: 'दशमलव वर्गीकरण पद्धति (DDC) में ज्ञान जगत का प्रथम स्तर पर विभाजन किस आधार किया गया है ?',
+    options: ['विषय (Subject)', 'पारंपरिक वर्ग', 'अनुशासन (Discipline)', 'ज्ञान का विकास'],
+    answer: 2
+  },
+  {
+    question: 'इनमें से कौन सी वर्गीकरण पद्धति है जिसमें ज्ञान जगत का प्रथम स्तर पर विभाजन Discipline के आधार पर किया गया है ?',
+    options: ['दशमलव वर्गीकरण पद्धति', 'विषय वर्गीकरण पद्धति', 'ग्रंथसूची वर्गीकरण पद्धति', 'रइडेर्स इंटरनेशनल वर्गीकरण पद्धति'],
+    answer: 0
+  },
+  {
+    question: 'कौन सी वर्गीकरण पद्धति है जिसमें ज्ञान जगत का विभाजन क्रमिक विकास के आधार पर किया गया है ?',
+    options: ['दशमलव वर्गीकरण पद्धति (DDC)', 'द्विबिन्दु वर्गीकरण पद्धति (CC)', 'विस्तृत वर्गीकरण पद्धति (EC)', 'सार्वभौम वर्गीकरण पद्धति (UDC)'],
+    answer: 2
+  },
+  {
+    question: 'कौन सी वर्गीकरण पद्धति है जिसमें ज्ञान जगत का विभाजन "Scientific Progression" के आधार पर किया गया है ?',
+    options: ['दशमलव वर्गीकरण पद्धति (DDC)', 'द्विबिन्दु वर्गीकरण पद्धति (CC)', 'विषय वर्गीकरण पद्धति (SC)', 'सार्वभौम वर्गीकरण पद्धति (UDC)'],
+    answer: 2
+  },
+  {
+    question: '"One Place Theory" किस वर्गीकरण पद्धति से संबन्धित है ?',
+    options: ['दशमलव वर्गीकरण पद्धति (DDC)', 'द्विबिन्दु वर्गीकरण पद्धति (CC)', 'विषय वर्गीकरण पद्धति (SC)', 'सार्वभौम वर्गीकरण पद्धति (UDC)'],
+    answer: 2
+  },
+  {
+    question: '"दशमलव वर्गीकरण पद्धति (DDC)" वर्गीकरण पद्धति में ज्ञान जगत का मुख्य वर्गों का विभाजन है ?',
+    options: ['विषय (Subject)', 'पारंपरिक वर्ग', 'अनुशासन (Discipline)', 'ज्ञान का विकास'],
+    answer: 2
+  },
+  {
+    question: '"द्विबिन्दु वर्गीकरण पद्धति (CC) में ज्ञान जगत का मुख्य वर्गों का विभाजन है?..',
+    options: ['विषय (Subject)', 'पारंपरिक वर्ग', 'अनुशासन (Discipline)', 'ज्ञान का विकास'],
+    answer: 0
+  },
+  {
+    question: 'कौन सी वर्गीकरण पद्धति है जिसमें ज्ञान जगत का विभाजन "Scientific and Educational Consensus" के आधार पर किया गया है ?',
+    options: ['दशमलव वर्गीकरण पद्धति (DDC)', 'द्विबिन्दु वर्गीकरण पद्धति (CC)', 'विषय वर्गीकरण पद्धति (Subject Classification)', 'ग्रंथसूची वर्गीकरण पद्धति (Bibliographic Classification)'],
+    answer: 3
+  },
+  {
+    question: 'दशमलव वर्गीकरण पद्धति के \'First Summary-Main Class\' में शामिल है ?',
+    options: ['10 मुख्य वर्ग', '100 विभाजन', '1000 सेक्सन', 'इनमें से कोई नहीं'],
+    answer: 0
+  },
+  {
+    question: 'दशमलव वर्गीकरण पद्धति के \'Second Summary-Division\' में शामिल है ?',
+    options: ['10 मुख्य वर्ग', '100 विभाजन', '1000 सेक्सन', 'इनमें से कोई नहीं'],
+    answer: 1
+  },
+  {
+    question: 'दशमलव वर्गीकरण पद्धति के \'Third Summary-Sections\' में शामिल है?',
+    options: ['10 मुख्य वर्ग', '100 विभाजन', '1000 सेक्सन', 'इनमें से कोई नहीं'],
+    answer: 2
+  },
+  {
+    question: '"लाइब्रेरी ऑफ कॉंग्रेस" वर्गीकरण पद्धति में ज्ञान जगत का 21 मुख्य वर्गों में विभाजन किया गया है और इसके लिए किस अंकन का प्रयोग किया गया है?',
+    options: ['000-999', 'A-Z', '1-100', '0-9'],
+    answer: 1
+  },
+  {
+    question: 'किस वर्गीकरण पद्धति में विषय जगत की संरचना में सामान्य से विशिष्ट की ओर अग्रसर होने के सिद्धान्त है?',
+    options: ['सीधे विषयों का वर्गीकरण', 'पहले सूक्ष्म विषय फिर उसके वृहत विषय का वर्गीकरण', 'पहले वृहत श्रेणियों द्वारा व्यवस्थित किया जाता है, फिर उत्तरोत्तर छोटे, अधिक केंद्रित उपश्रेणियों में विभाजित किया जाता है', 'ग्रंथसूची वर्गीकरण पद्धति'],
+    answer: 2
+  },
+  {
+    question: 'निम्न में से किस वर्गीकरण पद्धति में ज्ञान जगत के व्यवस्थापन में "APUPA" पैटर्न को अपनाया गया है?',
+    options: ['दशमलव वर्गीकरण पद्धति', 'द्विबिन्दु वर्गीकरण पद्धति', 'सार्वभौम वर्गीकरण पद्धति', 'ग्रंथसूची वर्गीकरण पद्धति'],
+    answer: 1
+  },
+  {
+    question: 'वर्गीकरण का जनक किसे माना जाता है?',
+    options: ['अरस्तू', 'रंगनाथन', 'स्पेन्सर', 'बेकन'],
+    answer: 0
+  },
+  {
+    question: 'ज्ञान जगत के विषय को तीन प्रकार Basic, Compound और Complex में किसने विभाजित किया है?',
+    options: ['मेल्विल डेवे द्वारा', 'जे डी ब्राउन द्वारा', 'सी ए कटर द्वारा', 'एस आर रंगनाथन द्वारा'],
+    answer: 3
+  },
+  {
+    question: 'निम्नलिखित में से शुद्ध विषय निर्माण किस विधि द्वारा होता है?',
+    options: ['पटलीकरण', 'शिथिल समुच्चय', 'आसवन', 'समूहन'],
+    answer: 2
+  },
+  {
+    question: 'जटिल विषय इनमें से किस विषय निर्माण विधि द्वारा प्राप्त किये जाते हैं?',
+    options: ['विखण्डन (Fission)', 'शिथिल समुच्चय (Loose Assemblage)', 'पटलीकरण (Lamination)', 'आसवन (Distillation)'],
+    answer: 1
+  },
+  {
+    question: 'श्रृंखला (Chain) का निर्माण निम्नलिखित में से किसका परिणाम है ?',
+    options: ['अनाच्छादन (Denudation)', 'विच्छेदन (Dissection)', 'आसवन (Distillation)', 'विलयन (Fusion)'],
+    answer: 0
+  },
+  {
+    question: 'K (जूलोजी) एवं L (मेडिसन) मुख्य वर्ग के बीच में कौन सा मुख्य वर्ग है :',
+    options: ['गणित', 'इतिहास', 'एनीमल हजबेन्डरी', 'एग्रिकल्चर'],
+    answer: 2
+  },
+  {
+    question: 'विषय निर्माण पद्धति में \'एक ही विषय के एक ही पक्ष के दो एकल के मध्य संबंध\' कहलाते हैं:',
+    options: ['Inter Subject Phase Relation', 'Intra Facet Phase Relation', 'Intra Array Phase Relation', 'Intra Isolate Phase Relation'],
+    answer: 1
+  },
+  {
+    question: 'विषय निर्माण पद्धति में \'एक ही विषय के एक ही पक्ष के एक ही पंक्ति के दो एकल के मध्य संबंध\' कहलाते हैं :',
+    options: ['Inter Subject Phase Relation', 'Intra Facet Phase Relation', 'Intra Array Phase Relation', 'Intra Isolate Phase Relation'],
+    answer: 2
+  },
+  {
+    question: 'Geopolitics किस तरह के विषय का उदाहरण है:',
+    options: ['बेसिक सब्जेक्ट', 'कम्पाउण्ड सब्जेक्ट', 'कॉम्प्लेक्स सब्जेक्ट', 'प्राइमरी सब्जेक्ट'],
+    answer: 2
+  },
+  {
+    question: 'डी डबल्यू लंग्रीज़ (DW Langridge) इनमें से किससे संबन्धित है :',
+    options: ['ज्ञान जगत की संरचना', 'ज्ञान जगत का मानचित्रण', 'विषय निर्माण पद्धति', 'पुस्तकालय वर्गीकरण'],
+    answer: 1
+  },
+  {
+    question: 'डी डबल्यू लंग्रीज़ (D W Langridge) इनमें से किस राष्ट्र से संबन्धित है:',
+    options: ['जापान', 'ब्रिटेन', 'फ्रांस', 'जर्मनी'],
+    answer: 1
+  },
+  {
+    question: 'डी डबल्यू लंग्रीज (DW Langridge) ने ज्ञान जगत का मानचित्रण के लिए कितने सिद्धान्त दिये है :',
+    options: ['दो', 'चार', 'पाँच', 'सात'],
+    answer: 1
+  },
+  {
+    question: 'डी डबल्यू लंग्रीज़ (D. W. Langridge) ने ज्ञान जगत का मानचित्रण के लिए सिद्धान्त है- Ideological Principles, Scientific Order, Social Purpose &',
+    options: ['Arrangement by Discipline', 'Arrengement by Subject', 'One Place Theory', 'इनमें से कोई नहीं'],
+    answer: 0
+  },
+  {
+    question: '................एक प्रणाली या वर्गीकरण योजना है जिसका उपयोग सूचना या संस्थाओं को उनकी विशेषताओं, संबंधों या विशेषताओं के आधार पर व्यवस्थित और वर्गीकृत करने के लिए किया जाता है। यह श्रेणियों और उपश्रेणियों के विभिन्न स्तरों के साथ एक पदानुक्रमित संरचना प्रदान करता है, जो व्यवस्थित संगठन और सूचना की पुनर्प्राप्ति की अनुमति देता है।',
+    options: ['Blog', 'Subject', 'Gmail', 'Taxonomy'],
+    answer: 3
+  },
+  {
+    question: '"Knowledge is the organised set of statement of fact or ideas" यह परिभाषा किसके द्वारा प्रदान किया गया है',
+    options: ['Deniel Bell', 'Fransis Becon', 'SR Ranganathan', 'J. Martin'],
+    answer: 0
+  },
+  {
+    question: '\'फ्यूचर शॉक, थर्ड वेव और पावर शिफ्ट\' जैसे पुस्तक के लेखक कौन है?',
+    options: ['Alvin Toffler', 'Cris Martin', 'SR Ranganathan', 'J. Martin'],
+    answer: 0
+  },
+  {
+    question: 'डॉ रंगनाथन ने अपनी किस पुस्तक में ज्ञान के विकास से संबन्धित \'चक्रीय सिद्धान्त\' दिया है?',
+    options: ['Five Laws of Library Science (2nd Ed.)', 'Prolegomena to Library Classification', 'Reference Service', 'Colon Classification'],
+    answer: 0
+  },
+  {
+    question: 'डॉ रंगनाथन ने अपनी पुस्तक में ज्ञान के विकास से संबन्धित \'चक्रीय सिद्धान्त\' दिया है जिसमें उन्होने ज्ञान के विकास को किस प्रकार दर्शाया है?',
+    options: ['ज्ञान का विकास एक चक्र की तरह है', 'ज्ञान का विकास कभी खत्म नहीं होने वाली प्रक्रिया है', 'ज्ञान का विकास सीमित है', 'ज्ञान एकायमी होता है'],
+    answer: 1
+  },
+  {
+    question: 'पुस्तकालय विज्ञान में ज्ञान के ब्रह्मांड का प्राथमिक उद्देश्य क्या है?',
+    options: ['पुस्तकालय कर्मचारियों को व्यवस्थित करना', 'आसान पहुँच के लिए ज्ञान को वर्गीकृत करना', 'डिजिटल पुस्तकालय बनाना', 'पुस्तकालय वित्त का प्रबंधन करना'],
+    answer: 1
+  },
+  {
+    question: 'निम्नलिखित में से कौन सा ज्ञान जगत के संगठन और पुनः प्राप्ति से संबन्धित है?',
+    options: ['टैक्सोनॉमी', 'ऑन्टोलॉजी', 'वर्गीकरण पद्धति', 'बिबलिओग्राफी'],
+    answer: 2
+  },
+  {
+    question: 'मेटाडेटा क्या है?',
+    options: ['डेटा के बारे में डेटा', 'लाइब्रेरी संसाधन का एक प्रकार', 'पुस्तक उधार देने की एक प्रणाली', 'एक वर्गीकरण प्रणाली'],
+    answer: 0
+  },
+  {
+    question: 'पुस्तकालय विज्ञान में विषय संगठन का प्राथमिक फोकस क्या है?',
+    options: ['पुस्तकालय कर्मचारियों को संगठित करना', 'बेहतर पुनर्प्राप्ति के लिए ज्ञान को वर्गीकृत करना', 'पुस्तकालय वित्त का प्रबंधन करना', 'डिजिटल अभिलेखागार बनाना'],
+    answer: 1
+  },
+  {
+    question: '"विषय मानचित्रण" क्या है?',
+    options: ['विषयों के एक दूसरे से संबंधित होने का एक दृश्य प्रतिनिधित्व', 'नए विषय बनाने की प्रक्रिया', 'पुस्तकालय कर्मचारियों को व्यवस्थित करने की एक विधि', 'संसाधनों को डिजिटल बनाने की एक तकनीक'],
+    answer: 0
+  },
+  {
+    question: 'ज्ञान संगठन में वर्गीकरण की क्या भूमिका है?',
+    options: ['ज्ञान को संरचित प्रारूप में वर्गीकृत करना', 'पुस्तकालय बजट का प्रबंधन करना', 'पुस्तकालय के प्रदर्शन का आकलन करना', 'सामुदायिक कार्यक्रम आयोजित करना'],
+    answer: 0
+  },
+  {
+    question: 'विषय निर्माण के संदर्भ में "अंतःविषय (Interdisciplinary)" का क्या अर्थ है?',
+    options: ['ऐसे विषय जो असंबंधित हैं', 'ऐसे विषय जो अध्ययन के कई क्षेत्रों से संबन्धित होता है', 'ऐसे विषय जो विशेष रूप से अकादमिक हैं', 'रैखिक तरीके से व्यवस्थित विषय'],
+    answer: 1
+  },
+  {
+    question: 'पुस्तकालय विज्ञान में "कोलोकेशन (Collocation)" क्या है?',
+    options: ['रंग के अनुसार पुस्तकों की व्यवस्था', 'आसान पहुँच के लिए संबंधित विषयों का समूहन', 'संसाधनों को डिजिटल बनाने की प्रक्रिया', 'पुस्तकालय संसाधनों का वित्तीय मूल्यांकन'],
+    answer: 1
+  },
+  {
+    question: 'वर्गीकरण में "पदानुक्रमित संरचना (Hierarchical Structure)" का क्या अर्थ है?',
+    options: ['विषयों को यादृच्छिक रूप से व्यवस्थित किया जाता है।', 'विषयों को सामान्य से विशिष्ट तक व्यवस्थित किया जाता है।', 'विषयों को केवल वर्णानुक्रम में व्यवस्थित किया जाता है।', 'विषयों को लेखक द्वारा समूहीकृत किया जाता है।'],
+    answer: 1
+  },
+  {
+    question: 'विषय निर्माण में "वैचारिक मानचित्रण (Conceptual Mapping)" क्या है?',
+    options: ['संबंधित विषयों का एक दृश्य प्रतिनिधित्व', 'पुस्तकालय संसाधनों के लिए एक वित्तीय प्रक्षेपण', 'पुस्तकों को सूचीबद्ध करने की एक विधि', 'पुस्तकालय सॉफ्टवेयर का एक प्रकार'],
+    answer: 0
+  },
+  {
+    question: '"ज्ञान संगठन" क्या है?',
+    options: ['पुस्तकालय कर्मचारियों का प्रबंधन', 'कुशल पुनर्प्राप्ति के लिए सूचना का वर्गीकरण और व्यवस्था', 'पुस्तकालय बजट का आकलन', 'संसाधनों को डिजिटल बनाने की प्रक्रिया'],
+    answer: 1
+  },
+  {
+    question: 'निम्नलिखित में से कौन सा ऑन्टोलॉजी का सबसे अच्छा वर्णन करता है?',
+    options: ['ज्ञान की संरचना कैसे की जाती है इसका अध्ययन', 'अस्तित्व और होने की प्रकृति का अध्ययन', 'जीवित जीवों का वर्गीकरण', 'ज्ञान प्राप्ति के तरीकों का विश्लेषण'],
+    answer: 1
+  },
+  {
+    question: 'एपिस्टेमोलॉजी दर्शन की वह शाखा है जो निम्न से संबंधित है:',
+    options: ['विषयों का वर्गीकरण', 'ज्ञान की प्रकृति और दायरा', 'सूचना का संगठन', 'तर्क का अध्ययन'],
+    answer: 1
+  },
+  {
+    question: 'टैक्सोनॉमी में, "श्रेणी" क्या है?',
+    options: ['ज्ञान प्राप्ति की एक विधि', 'पदानुक्रम के भीतर एक वर्गीकरण समूह', 'एक दार्शनिक तर्क', 'ज्ञान का एक प्रकार'],
+    answer: 1
+  },
+  {
+    question: 'ऑन्टोलॉजी को निम्नलिखित के अध्ययन के रूप में परिभाषित किया जा सकता है:',
+    options: ['ज्ञान कैसे उत्पन्न होता है', 'वर्गीकरण के सिद्धांत', 'ज्ञान की वास्तविकता की प्रकृति और क्या मौजूद है', 'तर्क के तरीके'],
+    answer: 2
+  },
+  {
+    question: 'निम्नलिखित में से कौन से प्रश्न का उत्तर ज्ञानमीमांसा (Epistemology) देना चाहती है?',
+    options: ['सबसे अच्छी वर्गीकरण प्रणाली क्या है ?', 'दुनिया में क्या मौजूद है ?', 'ज्ञान जो हम जो जानते हैं उसे हम कैसे जानते हैं ?', 'संस्थाओं के बीच क्या संबंध हैं?'],
+    answer: 2
+  },
+  {
+    question: 'कंप्यूटर विज्ञान या इंटरनेट में ऑन्टोलॉजी क्या है?',
+    options: ['ज्ञान के लिए वर्गीकरण प्रणाली', 'मानव ज्ञान का अध्ययन', 'किसी डोमेन के भीतर अवधारणाओं के एक समूह का औपचारिक प्रतिनिधित्व', 'सूचना को व्यवस्थित करने की एक विधि'],
+    answer: 2
+  },
+  {
+    question: 'निम्नलिखित में से कौन सा टैक्सोनॉमी और ऑन्टोलॉजी के बीच के संबंध का सबसे अच्छा वर्णन करता है?',
+    options: ['टैक्सोनॉमी ऑन्टोलॉजी का एक उपसमूह है।', 'ऑन्टोलॉजी टैक्सोनॉमी का एक प्रकार है।', 'वे पूरी तरह से असंबंधित क्षेत्र हैं।', 'टैक्सोनॉमी और ऑन्टोलॉजी एक ही हैं।'],
+    answer: 0
+  },
+  {
+    question: 'एक टैक्सोनोमिस्ट का प्राथमिक लक्ष्य क्या है?',
+    options: ['ज्ञान की प्रकृति को समझना', 'सूचना, प्रलेखों और संस्थाओं को श्रेणियों में वर्गीकृत और व्यवस्थित करना', 'विश्वासों और औचित्य का विश्लेषण करना', 'अस्तित्व के सिद्धांतों का अध्ययन करना'],
+    answer: 1
+  },
+  {
+    question: 'ज्ञानमीमांसा में, "औचित्य" क्या है?',
+    options: ['ज्ञान को वर्गीकृत करने की प्रक्रिया', 'वह तर्क जो किसी विश्वास का समर्थन करता है', 'संस्थाओं का वर्गीकरण', 'अस्तित्व का अध्ययन'],
+    answer: 1
+  },
+  {
+    question: 'निम्नलिखित में से कौन सा कथन टैक्सोनॉमिक पदानुक्रम का सबसे अच्छा वर्णन करता है?',
+    options: ['यह औचित्य के आधार पर ज्ञान को व्यवस्थित करता है।', 'यह विभिन्न श्रेणियों के बीच संबंधों का प्रतिनिधित्व करता है।', 'यह वास्तविकता की प्रकृति को परिभाषित करता है।', 'यह विश्वासों की वैधता का मूल्यांकन करता है।'],
+    answer: 1
+  },
+  {
+    question: 'वर्गीकरण और ऑन्टोलॉजी दोनों में एक प्रमुख चुनौती क्या है?',
+    options: ['ज्ञान की सीमाओं को परिभाषित करना', 'वर्गीकरण पर आम सहमति प्राप्त करना', 'मानवीय विश्वासों को समझना', 'वैज्ञानिक सिद्धांतों का विश्लेषण करना'],
+    answer: 1
+  },
+  {
+    question: 'कौन सी वर्गीकरण प्रणाली विषय मानचित्रण का व्यापक रूप से उपयोग करती है?',
+    options: ['डेवी दशमलव वर्गीकरण', 'लाइब्रेरी ऑफ़ कांग्रेस वर्गीकरण', 'सार्वभौमिक दशमलव वर्गीकरण', 'उपरोक्त सभी'],
+    answer: 3
+  },
+  {
+    question: 'ज्ञान संगठन में "मैपिंग आरेख" आमतौर पर क्या दिखाता है?',
+    options: ['लाइब्रेरी की वित्तीय संरचना', 'विभिन्न विषयों और श्रेणियों के बीच संबंध', 'लाइब्रेरी कर्मचारियों का संगठनात्मक चार्ट', 'लाइब्रेरी कार्यक्रमों की अनुसूची'],
+    answer: 1
+  }
+];
+    let questions = [];
+    let current = 0;
+    let score = 0;
+    let answers = JSON.parse(localStorage.getItem("quizAnswers")) || {};
+    let currentFontSize = parseFloat(localStorage.getItem("quizFontSize")) || 20;
+    let shuffledQuestionsOrder = JSON.parse(localStorage.getItem("shuffledQuestionsOrder")) || null;
+    let shuffledOptionsOrder = JSON.parse(localStorage.getItem("shuffledOptionsOrder")) || {};
+    let questionTimes = JSON.parse(localStorage.getItem("questionTimes")) || {};
+    let currentQuestionStartTime = null;
+    let timerInterval = null;
+    if (shuffledQuestionsOrder) {
+      questions = shuffledQuestionsOrder.map(index => originalQuestions[index]);
+    } else {
+      questions = [...originalQuestions];
+    }
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const body = document.body;
+      sidebar.classList.toggle("hidden");
+      body.classList.toggle("sidebar-visible");
+      if (sidebar.classList.contains("hidden")) {
+        body.style.paddingLeft = "20px";
+      } else {
+        body.style.paddingLeft = body.clientWidth > 768 ? "240px" : "220px";
+      }
+    }
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      currentQuestionStartTime = Date.now();
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - currentQuestionStartTime) / 1000);
+        document.getElementById("time-tracking").innerText = `समय: ${elapsed} सेकंड`;
+      }, 1000);
+    }
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      const elapsed = Math.floor((Date.now() - currentQuestionStartTime) / 1000);
+      questionTimes[current] = (questionTimes[current] || 0) + elapsed;
+      localStorage.setItem("questionTimes", JSON.stringify(questionTimes));
+      document.getElementById("time-tracking").innerText = `समय: ${elapsed} सेकंड`;
+    }
+    function loadQuestion(index) {
+  if (index >= 0 && index < questions.length) {
+    if (currentQuestionStartTime !== null) {
+      stopTimer();
+    }
+    current = index;
+    localStorage.setItem("currentQuestion", current);
+    const currentQuestionInOriginalOrder = originalQuestions.find(q => q.question === questions[current].question);
+    const q = questions[current];
+    let html = `<div class='question' id='current-question-text'>Q${current + 1}. ${q.question}</div>`;
+    // Define lists for specific questions
+    const questionLists = {
+      136: `
+        <ul class="two-column-list">
+          <li>1.Hobbes</li>
+          <li>2.Kant</li>
+          <li>3.Hegel</li>
+          <li>4.Ampere</li>
+	    <li>5.Spencer</li>
+	    <li>6.August Compte</li>
+        </ul>
+      `
+    };
+    // Add list if defined for the current question
+    if (questionLists[index]) {
+      html += questionLists[index];
+    }
+    let optionsToDisplay = [...q.options];
+    let currentOptionsOrder = shuffledOptionsOrder[current];
+    if (!currentOptionsOrder) {
+      currentOptionsOrder = Array.from({length: optionsToDisplay.length}, (_, i) => i);
+    } else {
+      let reorderedOptions = [];
+      currentOptionsOrder.forEach(optionIndex => {
+        reorderedOptions.push(q.options[optionIndex]);
+      });
+      optionsToDisplay = reorderedOptions;
+    }
+    optionsToDisplay.forEach((opt, i) => {
+      const originalOptionIndex = q.options.indexOf(opt);
+      const selected = answers[current] == originalOptionIndex ? "checked" : "";
+      const disabled = answers[current] !== undefined ? "disabled" : "";
+      const lockedClass = answers[current] !== undefined && answers[current] == originalOptionIndex ? "locked" : "";
+      html += `<label id='opt${i}' class='${lockedClass}'><input type='radio' name='q${current}' value='${originalOptionIndex}' ${selected} ${disabled} onclick='selectAnswer(${current}, ${originalOptionIndex})'> ${opt}</label>`;
+    });
+    html += `<div class='correct-answer' id='correct'></div>`;
+    document.getElementById("quiz-content").innerHTML = html;
+    document.getElementById("completion-message").innerText = "";
+    document.getElementById("result").innerText = "";
+    if (answers[current] !== undefined) {
+      const selectedOriginalIndex = answers[current];
+      const correctOriginalIndex = currentQuestionInOriginalOrder.answer;
+      const selectedDisplayedIndex = optionsToDisplay.indexOf(q.options[selectedOriginalIndex]);
+      const correctDisplayedIndex = optionsToDisplay.indexOf(q.options[correctOriginalIndex]);
+      if (selectedOriginalIndex === correctOriginalIndex) {
+        if (selectedDisplayedIndex !== -1) {
+          document.getElementById(`opt${selectedDisplayedIndex}`).classList.add("correct");
+        }
+      } else {
+        if (selectedDisplayedIndex !== -1) {
+          document.getElementById(`opt${selectedDisplayedIndex}`).classList.add("incorrect");
+        }
+        if (correctDisplayedIndex !== -1) {
+          document.getElementById(`opt${correctDisplayedIndex}`).classList.add("correct");
+        }
+      }
+      document.getElementById("correct").innerHTML = `<strong>सही उत्तर:</strong> ${currentQuestionInOriginalOrder.options[correctOriginalIndex]}`;
+      document.querySelectorAll(`#quiz-content label`).forEach(label => label.classList.add("locked"));
+    }
+    applyFontSize();
+    updateSidebarHighlight();
+    updateScoreSummary();
+    updateProgress();
+    startTimer();
+    document.getElementById("time-tracking").innerText = `समय: ${questionTimes[current] || 0} सेकंड`;
+  }
+}
+    function selectAnswer(qIdx, aIdx) {
+      if (answers[qIdx] === undefined) {
+        stopTimer();
+        const q = questions[qIdx];
+        const originalQuestion = originalQuestions.find(oq => oq.question === q.question);
+        answers[qIdx] = aIdx;
+        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+        document.querySelectorAll(`#quiz-content label`).forEach(label => label.classList.remove("correct", "incorrect", "locked"));
+        document.querySelectorAll(`input[name='q${qIdx}']`).forEach(radio => radio.disabled = true);
+        const optionsToDisplay = shuffledOptionsOrder[qIdx] ? shuffledOptionsOrder[qIdx].map(index => q.options[index]) : q.options;
+        const selectedDisplayedIndex = optionsToDisplay.indexOf(q.options[aIdx]);
+        const correctDisplayedIndex = optionsToDisplay.indexOf(q.options[originalQuestion.answer]);
+        if (aIdx === originalQuestion.answer) {
+          if (selectedDisplayedIndex !== -1) {
+            document.getElementById(`opt${selectedDisplayedIndex}`).classList.add("correct");
+          }
+        } else {
+          if (selectedDisplayedIndex !== -1) {
+            document.getElementById(`opt${selectedDisplayedIndex}`).classList.add("incorrect");
+          }
+          if (correctDisplayedIndex !== -1) {
+            document.getElementById(`opt${correctDisplayedIndex}`).classList.add("correct");
+          }
+        }
+        document.getElementById("correct").innerHTML = `<strong>सही उत्तर:</strong> ${originalQuestion.options[originalQuestion.answer]}`;
+        document.querySelectorAll(`#quiz-content label`).forEach(label => label.classList.add("locked"));
+        updateProgress();
+        updateSidebarHighlight();
+        updateScoreSummary();
+      }
+    }
+    function nextQuestion() {
+      if (current < questions.length - 1) {
+        loadQuestion(current + 1);
+      }
+    }
+    function prevQuestion() {
+      if (current > 0) {
+        loadQuestion(current - 1);
+      }
+    }
+    function submitQuiz() {
+      score = 0;
+      questions.forEach((q, i) => {
+        const originalQuestion = originalQuestions.find(oq => oq.question === q.question);
+        if (answers[i] !== undefined && answers[i] == originalQuestion.answer) {
+          score++;
+        }
+      });
+      const percentage = ((score / questions.length) * 100).toFixed(2);
+      document.getElementById("result").innerHTML = `आपका स्कोर: ${score}/${questions.length} (${percentage}%)`;
+      const completionMessageElement = document.getElementById("completion-message");
+      if (percentage == 100) {
+        completionMessageElement.innerText = "बधाई हो! आपने पूरे अंक प्राप्त किए!";
+        completionMessageElement.style.color = "green";
+      } else if (percentage >= 75) {
+        completionMessageElement.innerText = "बहुत बढ़िया! आपने अच्छा प्रदर्शन किया।";
+        completionMessageElement.style.color = "#185a9d";
+      } else if (percentage >= 50) {
+        completionMessageElement.innerText = "अच्छा प्रयास! आपको और अभ्यास की आवश्यकता है";
+        completionMessageElement.style.color = "orange";
+      } else {
+        completionMessageElement.innerText = "कृपया पुनः प्रयास करें और बेहतर तैयारी करें।";
+        completionMessageElement.style.color = "red";
+      }
+    }
+    function reviewQuiz() {
+      let reviewHTML = `<html><head><meta charset='UTF-8'><title>Quiz Review</title>
+        <style>body{font-family:'Poppins',sans-serif;padding:20px;line-height:1.6;}
+        h2{color:#185a9d;} .correct{color:green;} .incorrect{color:red;}
+        .question-review { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px; }
+        .question-review strong { display: block; margin-bottom: 5px; }
+        .correct-answer-review { color: green; font-weight: bold; }
+        .user-answer-review { font-weight: bold; }
+        .time-spent { color: #555; margin-top: 5px; }
+        body.dark { background: #121212; color: #e0e0e0; }
+        body.dark h2 { color: #fff; }
+        body.dark .question-review { border-color: #555; background: #333; }
+        body.dark .correct-answer-review { color: #90ee90; }
+        body.dark .user-answer-review { color: #ff6347; }
+        </style>
+        </head><body><h2>Quiz Review</h2>`;
+      questions.forEach((q, i) => {
+        const userAns = answers[i];
+        const originalQuestion = originalQuestions.find(oq => oq.question === q.question);
+        reviewHTML += `<div class="question-review">`;
+        reviewHTML += `<strong>Q${i + 1}:</strong> ${q.question}<br>`;
+        q.options.forEach((opt, idx) => {
+          let className = '';
+          if (idx === originalQuestion.answer) {
+            className = 'correct-answer-review';
+            reviewHTML += `<span class='${className}'>${String.fromCharCode(97 + idx)}) ${opt} (सही उत्तर)</span><br>`;
+          } else if (idx === userAns) {
+            className = 'user-answer-review incorrect';
+            reviewHTML += `<span class='${className}'>${String.fromCharCode(97 + idx)}) ${opt} (आपका उत्तर)</span><br>`;
+          } else {
+            reviewHTML += `<span>${String.fromCharCode(97 + idx)}) ${opt}</span><br>`;
+          }
+        });
+        if (userAns !== undefined && userAns !== originalQuestion.answer) {
+          reviewHTML += `<div class="correct-answer" style="margin-top: 5px;">सही उत्तर: ${originalQuestion.options[originalQuestion.answer]}</div>`;
+        } else if (userAns === undefined) {
+          reviewHTML += `<div style="color: orange; margin-top: 5px;">आपने इस प्रश्न का उत्तर नहीं दिया था।</div>`;
+          reviewHTML += `<div class="correct-answer" style="margin-top: 5px;">सही उत्तर: ${originalQuestion.options[originalQuestion.answer]}</div>`;
+        }
+        reviewHTML += `<div class="time-spent">इस प्रश्न पर लिया गया समय: ${questionTimes[i] || 0} सेकंड</div>`;
+        reviewHTML += '</div>';
+      });
+      const incorrectQuestions = originalQuestions.filter((q, i) => {
+        const currentQuestionIndex = questions.findIndex(cq => cq.question === q.question);
+        return answers[currentQuestionIndex] !== undefined && answers[currentQuestionIndex] !== q.answer;
+      });
+      const unansweredQuestions = originalQuestions.filter((q, i) => {
+        const currentQuestionIndex = questions.findIndex(cq => cq.question === q.question);
+        return answers[currentQuestionIndex] === undefined;
+      });
+      if (incorrectQuestions.length > 0 || unansweredQuestions.length > 0) {
+        reviewHTML += `<button onclick='alert("गलत/अनुत्तरित प्रश्नों को पुनः प्रयास करने की सुविधा अभी विकास में है।")' style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px;">गलत/अनुत्तरित प्रश्नों का पुनः प्रयास करें</button>`;
+      }
+      reviewHTML += `</body></html>`;
+      const newWin = window.open();
+      newWin.document.write(reviewHTML);
+      newWin.document.close();
+    }
+    function updateProgress() {
+      const total = questions.length;
+      const answered = Object.keys(answers).length;
+      document.getElementById("progress").innerText = `प्रगति: ${answered}/${total} प्रश्न हल किए गए`;
+    }
+    function updateSidebarHighlight() {
+      const allLinks = document.querySelectorAll("#questionTable a");
+      allLinks.forEach((a, i) => {
+        a.classList.remove("correct", "incorrect", "active", "unanswered");
+        if (i === current) a.classList.add("active");
+        else {
+          const originalQuestion = originalQuestions.find(oq => oq.question === questions[i].question);
+          if (answers[i] !== undefined) {
+            a.classList.add(answers[i] == originalQuestion.answer ? "correct" : "incorrect");
+          } else {
+            a.classList.add("unanswered");
+          }
+        }
+      });
+    }
+    function buildSidebarLinks() {
+      const table = document.getElementById("questionTable");
+      table.innerHTML = "";
+      for (let i = 0; i < questions.length; i += 5) {
+        const row = document.createElement("tr");
+        for (let j = i; j < i + 5 && j < questions.length; j++) {
+          const cell = document.createElement("td");
+          const a = document.createElement("a");
+          a.href = "#";
+          a.setAttribute('data-tooltip', questions[j].question.slice(0, 30) + '...');
+          a.textContent = `${j + 1}`;
+          a.onclick = (function(questionIndex) {
+            return function() {
+              loadQuestion(questionIndex);
+              return false;
+            };
+          })(j);
+          cell.appendChild(a);
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+    }
+    function clearSavedData() {
+      const confirmation = confirm("क्या आप वाकई सहेजे गए डेटा को क्लियर करना चाहते हैं? यह आपके सभी प्रगति को हटा देगा।");
+      if (confirmation) {
+        localStorage.removeItem("quizAnswers");
+        localStorage.removeItem("currentQuestion");
+        localStorage.removeItem("shuffledQuestionsOrder");
+        localStorage.removeItem("shuffledOptionsOrder");
+        localStorage.removeItem("questionTimes");
+        localStorage.removeItem("quizFontSize");
+        localStorage.removeItem("theme");
+        answers = {};
+        current = 0;
+        shuffledQuestionsOrder = null;
+        shuffledOptionsOrder = {};
+        questionTimes = {};
+        currentFontSize = 20;
+        questions = [...originalQuestions];
+        alert("सहेजा गया डेटा क्लियर कर दिया गया है।");
+        window.location.reload();
+      }
+    }
+    function toggleFullscreen() {
+      const doc = document.documentElement;
+      const fullscreenBtn = document.getElementById("fullscreen-btn");
+      const icon = fullscreenBtn.querySelector("i");
+      if (!document.fullscreenElement) {
+        if (doc.requestFullscreen) {
+          doc.requestFullscreen();
+        } else if (doc.mozRequestFullScreen) {
+          doc.mozRequestFullScreen();
+        } else if (doc.webkitRequestFullscreen) {
+          doc.webkitRequestFullscreen();
+        } else if (doc.msRequestFullscreen) {
+          doc.msRequestFullscreen();
+        }
+        icon.classList.remove("fa-expand");
+        icon.classList.add("fa-compress");
+        fullscreenBtn.innerHTML = `<i class="fas fa-compress"></i> Exit Fullscreen`;
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+        icon.classList.remove("fa-compress");
+        icon.classList.add("fa-expand");
+        fullscreenBtn.innerHTML = `<i class="fas fa-expand"></i> Toggle Fullscreen`;
+      }
+    }
+    function toggleTheme() {
+      const body = document.body;
+      const themeBtn = document.getElementById("theme-btn");
+      const icon = themeBtn.querySelector("i");
+      body.classList.toggle("dark");
+      localStorage.setItem("theme", body.classList.contains("dark") ? "dark" : "light");
+      if (body.classList.contains("dark")) {
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+        themeBtn.innerHTML = `<i class="fas fa-moon"></i> Light Theme`;
+      } else {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+        themeBtn.innerHTML = `<i class="fas fa-sun"></i> Dark Theme`;
+      }
+    }
+    function changeFontSize(change) {
+      if (change === 0) {
+        currentFontSize = 20;
+      } else {
+        currentFontSize += change;
+        if (currentFontSize < 14) currentFontSize = 14;
+        if (currentFontSize > 30) currentFontSize = 30;
+      }
+      localStorage.setItem("quizFontSize", currentFontSize);
+      applyFontSize();
+    }
+    function applyFontSize() {
+      const questionElement = document.getElementById("current-question-text");
+      if (questionElement) {
+        questionElement.style.fontSize = currentFontSize + "px";
+      }
+      document.querySelectorAll("#quiz-content label").forEach(label => {
+        label.style.fontSize = (currentFontSize * 0.9) + "px";
+      });
+    }
+    function setInitialIcons() {
+      const themeBtn = document.getElementById("theme-btn");
+      const fullscreenBtn = document.getElementById("fullscreen-btn");
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        themeBtn.innerHTML = `<i class="fas fa-moon"></i> Light Theme`;
+      } else {
+        themeBtn.innerHTML = `<i class="fas fa-sun"></i> Dark Theme`;
+      }
+      if (document.fullscreenElement) {
+        fullscreenBtn.innerHTML = `<i class="fas fa-compress"></i> Exit Fullscreen`;
+      } else {
+        fullscreenBtn.innerHTML = `<i class="fas fa-expand"></i> Toggle Fullscreen`;
+      }
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.addEventListener('msfullscreenchange', handleFullscreenChange);
+    }
+    function handleFullscreenChange() {
+      const fullscreenBtn = document.getElementById("fullscreen-btn");
+      if (document.fullscreenElement) {
+        fullscreenBtn.innerHTML = `<i class="fas fa-compress"></i> Exit Fullscreen`;
+      } else {
+        fullscreenBtn.innerHTML = `<i class="fas fa-expand"></i> Toggle Fullscreen`;
+      }
+    }
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+    function shuffleQuestions() {
+      shuffledQuestionsOrder = shuffleArray(Array.from({length: originalQuestions.length}, (_, i) => i));
+      localStorage.setItem("shuffledQuestionsOrder", JSON.stringify(shuffledQuestionsOrder));
+      questions = shuffledQuestionsOrder.map(index => originalQuestions[index]);
+      shuffledOptionsOrder = {};
+      localStorage.removeItem("shuffledOptionsOrder");
+      buildSidebarLinks();
+      loadQuestion(0);
+    }
+    function resetQuestionOrder() {
+      questions = [...originalQuestions];
+      shuffledQuestionsOrder = null;
+      localStorage.removeItem("shuffledQuestionsOrder");
+      shuffledOptionsOrder = {};
+      localStorage.removeItem("shuffledOptionsOrder");
+      buildSidebarLinks();
+      loadQuestion(0);
+    }
+    function shuffleOptions() {
+      shuffledOptionsOrder = {};
+      questions.forEach((q, i) => {
+        const originalOptionIndices = Array.from({length: q.options.length}, (_, j) => j);
+        shuffledOptionsOrder[i] = shuffleArray(originalOptionIndices);
+      });
+      localStorage.setItem("shuffledOptionsOrder", JSON.stringify(shuffledOptionsOrder));
+      loadQuestion(current);
+    }
+    function updateScoreSummary() {
+      let correct = 0;
+      let wrong = 0;
+      questions.forEach((q, i) => {
+        const originalQuestion = originalQuestions.find(oq => oq.question === q.question);
+        const userAnswer = answers[i];
+        if (userAnswer !== undefined) {
+          if (userAnswer === originalQuestion.answer) correct++;
+          else wrong++;
+        }
+      });
+      const scoreSummary = document.getElementById("score-summary");
+      if (scoreSummary) {
+        scoreSummary.innerText = `सही उत्तर: ${correct} | गलत उत्तर: ${wrong}`;
+      }
+    }
+    window.onload = () => {
+      const body = document.body;
+      const sidebar = document.getElementById("sidebar");
+      if (body.clientWidth > 768) {
+        sidebar.classList.remove("hidden");
+        body.classList.add("sidebar-visible");
+        body.style.paddingLeft = "240px";
+      } else {
+        sidebar.classList.add("hidden");
+        body.classList.remove("sidebar-visible");
+        body.style.paddingLeft = "20px";
+      }
+      const savedQuestionIndex = localStorage.getItem("currentQuestion");
+      if (savedQuestionIndex !== null && parseInt(savedQuestionIndex) < questions.length) {
+        current = parseInt(savedQuestionIndex);
+      } else {
+        current = 0;
+      }
+      applyFontSize();
+      buildSidebarLinks();
+      loadQuestion(current);
+      setInitialIcons();
+    };
+    window.onresize = () => {
+      const body = document.body;
+      const sidebar = document.getElementById("sidebar");
+      if (body.clientWidth > 768) {
+        body.style.paddingLeft = sidebar.classList.contains("hidden") ? "20px" : "240px";
+        body.classList.remove("sidebar-visible");
+      } else {
+        body.style.paddingLeft = sidebar.classList.contains("hidden") ? "20px" : "220px";
+        if (!sidebar.classList.contains("hidden")) {
+          body.classList.add("sidebar-visible");
+        } else {
+          body.classList.remove("sidebar-visible");
+        }
+      }
+    };
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93d8fe0e28364546',t:'MTc0Njg3NTQ1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
