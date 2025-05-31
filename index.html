@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSMSSB Librarian Grade-III 2024 Mock Test</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         /* General Styling */
         body {
-            font-family: 'Poppins', sans-serif; /* Use Poppins font */
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* Light blue gradient background */
+            background: linear-gradient(to right, #e0f7fa, #b2ebf2);
             color: #333;
             display: flex;
             flex-direction: column;
@@ -19,20 +20,20 @@
         }
 
         header {
-            background-color: #00796b; /* Dark Teal color */
+            background-color: #00796b;
             color: white;
             padding: 30px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deep shadow */
-            position: relative; /* For wave effect */
-            overflow: hidden; /* To contain the wave */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.8em; /* Larger font size */
-            font-weight: 700; /* Bold font */
-            letter-spacing: 1px; /* Slight letter spacing */
+            font-size: 2.8em;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         header p {
@@ -41,71 +42,123 @@
             opacity: 0.9;
         }
 
-        /* CSS for the Wave effect */
         .header-wave {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50px; /* Height of the wave */
+            height: 50px;
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
             background-size: cover;
-            transform: translateY(1px); /* Fix small gap */
-            z-index: 1; /* Stay above content */
+            transform: translateY(1px);
+            z-index: 1;
         }
 
-        .container {
+        .container-wrapper {
             flex-grow: 1;
+            padding: 20px; /* Added padding */
+            display: flex;
+            flex-direction: column; /* To stack login and content */
+            align-items: center; /* Center items */
+            width: 100%;
+        }
+
+        #authSection {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #userProfile {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        #userProfile img {
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 2px solid #00796b;
+        }
+
+        #userProfile p {
+            margin: 5px 0;
+            font-size: 1em;
+        }
+
+        #signOutButton {
+            background-color: #d9534f; /* Red color for sign out */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        #signOutButton:hover {
+            background-color: #c9302c;
+        }
+
+
+        .container {
+            /* flex-grow is removed as wrapper will handle it */
             padding: 30px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px; /* Increased space between cards */
-            margin: 30px auto;
-            max-width: 1300px; /* Increased max width */
+            gap: 30px;
+            /* margin: 30px auto; Removed to be controlled by wrapper */
+            max-width: 1300px;
         }
 
         .unit-card {
             background-color: white;
-            border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Deeper and wider shadow */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             padding: 35px;
             text-align: center;
-            width: 300px; /* Increased fixed width of card */
+            width: 300px;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #e0e0e0; /* Light border */
+            border: 1px solid #e0e0e0;
         }
 
         .unit-card:hover {
-            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
         .unit-card h2 {
-            color: #00796b; /* Same color as header */
+            color: #00796b;
             margin-top: 0;
             font-size: 1.8em;
             margin-bottom: 15px;
-            font-weight: 600; /* Slightly bolder */
+            font-weight: 600;
         }
 
         .unit-card p {
             font-size: 1em;
             line-height: 1.6;
             color: #555;
-            flex-grow: 1; /* Allow content to fill space */
-            margin-bottom: 25px; /* More space before button */
+            flex-grow: 1;
+            margin-bottom: 25px;
         }
 
         .start-test-btn {
-            background-color: #00BCD4; /* Sky blue color */
+            background-color: #00BCD4;
             color: white;
-            padding: 14px 30px; /* Increased padding */
+            padding: 14px 30px;
             border: none;
-            border-radius: 8px; /* More rounded corners */
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1.15em;
             text-decoration: none;
@@ -116,8 +169,8 @@
         }
 
         .start-test-btn:hover {
-            background-color: #00ACC1; /* Slightly darker on hover */
-            transform: translateY(-2px); /* Lift slightly on hover */
+            background-color: #00ACC1;
+            transform: translateY(-2px);
         }
 
         footer {
@@ -125,78 +178,34 @@
             color: white;
             text-align: center;
             padding: 20px 0;
-            margin-top: auto;
+            margin-top: auto; /* This might be overridden by flex-grow on container-wrapper */
             font-size: 0.9em;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /*
-        Media Queries for Mobile Responsiveness
-        When screen width is 768px or less
-        */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em; /* Shrink title on smaller screens */
-            }
-
-            header p {
-                font-size: 1em;
-            }
-
-            .container {
-                flex-direction: column; /* Stack cards in a column */
-                align-items: center; /* Center align items */
-                padding: 15px;
-            }
-
-            .unit-card {
-                width: 90%; /* Increase card width on mobile */
-                max-width: 400px; /* Limit max width */
-                padding: 25px;
-            }
-
-            .unit-card h2 {
-                font-size: 1.6em;
-            }
-
-            .unit-card p {
-                font-size: 0.95em;
-            }
-
-            .start-test-btn {
-                padding: 12px 20px;
-                font-size: 1.05em;
-            }
+        /* Hidden class */
+        .hidden {
+            display: none !important;
         }
 
-        /*
-        Media Queries for Ultra-small screens
-        When screen width is 480px or less
-        */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2em; }
+            header p { font-size: 1em; }
+            .container { flex-direction: column; align-items: center; padding: 15px; }
+            .unit-card { width: 90%; max-width: 400px; padding: 25px; }
+            .unit-card h2 { font-size: 1.6em; }
+            .unit-card p { font-size: 0.95em; }
+            .start-test-btn { padding: 12px 20px; font-size: 1.05em; }
+        }
+
         @media (max-width: 480px) {
-            header {
-                padding: 20px 0;
-            }
-
-            header h1 {
-                font-size: 1.8em;
-            }
-
-            header p {
-                font-size: 0.9em;
-            }
-
-            .unit-card {
-                padding: 20px;
-            }
-
-            .unit-card h2 {
-                font-size: 1.4em;
-            }
-
-            .start-test-btn {
-                font-size: 1em;
-            }
+            header { padding: 20px 0; }
+            header h1 { font-size: 1.8em; }
+            header p { font-size: 0.9em; }
+            .unit-card { padding: 20px; }
+            .unit-card h2 { font-size: 1.4em; }
+            .start-test-btn { font-size: 1em; }
+            #userProfile { width: 90%; }
         }
     </style>
 </head>
@@ -204,36 +213,176 @@
     <header>
         <h1>RSMSSB Librarian Grade-III 2024 Mock Test</h1>
         <p>Paper 2: Practice unit-wise and strengthen your preparation.</p>
-        <div class="header-wave"></div> </header>
+        <div class="header-wave"></div>
+    </header>
 
-    <div class="container">
-        <div class="unit-card">
-            <h2>Unit 1</h2>
-            <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
-            <a href="https://akashsodh.github.io/AkashQuizz/unit1/" class="start-test-btn">Start Test</a>
+    <div class="container-wrapper">
+        <div id="authSection">
+            <div id="g_id_onload"
+                 data-client_id="983699609878-4am5a2vj8862c0im5qpbvmop452qib76.apps.googleusercontent.com" data-callback="handleCredentialResponse"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="sign_in_with"
+                 data-shape="rectangular"
+                 data-logo_alignment="left">
+            </div>
         </div>
 
-        <div class="unit-card">
-            <h2>Unit 2</h2>
-            <p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>
-            <a href="https://akashsodh.github.io/AkashQuizz/unit2/" class="start-test-btn">Start Test</a>
+        <div id="userProfile" class="hidden">
+            <img id="userProfilePic" src="" alt="User Profile Picture" width="80" height="80">
+            <p id="userProfileName"></p>
+            <p id="userProfileEmail"></p>
+            <button id="signOutButton">Sign Out</button>
         </div>
 
-        <div class="unit-card">
-            <h2>Unit 3</h2>
-            <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
-            <a href="https://akashsodh.github.io/AkashQuizz/unit3/" class="start-test-btn">Start Test</a>
-        </div>
-
-        <div class="unit-card">
-            <h2>Unit 4</h2>
-            <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
-            <a href="https://akashsodh.github.io/AkashQuizz/unit4/" class="start-test-btn">Start Test</a>
+        <div id="mainContent" class="container hidden">
+            <div class="unit-card">
+                <h2>Unit 1</h2>
+                <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
+                <a href="https://akashsodh.github.io/AkashQuizz/unit1/" class="start-test-btn">Start Test</a>
+            </div>
+            <div class="unit-card">
+                <h2>Unit 2</h2>
+                <p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>
+                <a href="https://akashsodh.github.io/AkashQuizz/unit2/" class="start-test-btn">Start Test</a>
+            </div>
+            <div class="unit-card">
+                <h2>Unit 3</h2>
+                <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
+                <a href="https://akashsodh.github.io/AkashQuizz/unit3/" class="start-test-btn">Start Test</a>
+            </div>
+            <div class="unit-card">
+                <h2>Unit 4</h2>
+                <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
+                <a href="https://akashsodh.github.io/AkashQuizz/unit4/" class="start-test-btn">Start Test</a>
+            </div>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | All rights reserved.</p>
     </footer>
+
+    <script>
+        // Function to decode JWT (ID Token)
+        // यह फंक्शन Google से प्राप्त ID टोकन को डीकोड करने में मदद करता है ताकि यूजर की जानकारी निकाली जा सके।
+        // ID टोकन एक एन्कोडेड स्ट्रिंग होती है जिसमें यूजर डेटा होता है।
+        function jwt_decode(token) {
+            try {
+                const base64Url = token.split('.')[1]; // टोकन का पेलोड हिस्सा
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Base64url को Base64 में बदलें
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join('')); // डीकोड करें और JSON स्ट्रिंग प्राप्त करें
+                return JSON.parse(jsonPayload); // JSON ऑब्जेक्ट में पार्स करें
+            } catch (e) {
+                console.error("Invalid token:", e);
+                return null;
+            }
+        }
+
+        // Callback function to handle the credential response from Google
+        // जब यूजर सफलतापूर्वक Google से साइन इन करता है, तो यह फंक्शन कॉल होता है।
+        // 'response' ऑब्जेक्ट में 'credential' नामक एक फ़ील्ड होता है, जो ID टोकन होता है।
+        function handleCredentialResponse(response) {
+            const idToken = response.credential; // Google से प्राप्त ID टोकन
+            if (idToken) {
+                const decodedToken = jwt_decode(idToken); // टोकन को डीकोड करें
+
+                if (decodedToken) {
+                    // Store login state and user info
+                    // यूजर की जानकारी और लॉगिन स्थिति को localStorage में सहेजें ताकि पेज रिफ्रेश होने पर भी याद रहे।
+                    localStorage.setItem('isUserLoggedIn', 'true');
+                    localStorage.setItem('userName', decodedToken.name);
+                    localStorage.setItem('userEmail', decodedToken.email);
+                    localStorage.setItem('userProfilePic', decodedToken.picture);
+
+                    updateUIForLoggedInUser(decodedToken.name, decodedToken.email, decodedToken.picture);
+                } else {
+                    console.error("Failed to decode token or token is invalid.");
+                    // Handle error: show message to user, etc.
+                }
+            } else {
+                console.error("ID Token not found in response:", response);
+                // Handle error: sign-in failed
+            }
+        }
+
+        // Function to update UI for logged-in user
+        // यह फंक्शन UI को अपडेट करता है जब यूजर लॉग इन होता है।
+        function updateUIForLoggedInUser(name, email, profilePic) {
+            document.getElementById('userProfileName').textContent = `Name: ${name}`;
+            document.getElementById('userProfileEmail').textContent = `Email: ${email}`;
+            document.getElementById('userProfilePic').src = profilePic;
+
+            document.getElementById('authSection').classList.add('hidden'); // साइन-इन बटन छिपाएं
+            document.getElementById('userProfile').classList.remove('hidden'); // प्रोफाइल सेक्शन दिखाएं
+            document.getElementById('mainContent').classList.remove('hidden'); // मुख्य सामग्री दिखाएं
+        }
+
+        // Function to handle sign out
+        // यह फंक्शन यूजर को साइन आउट करता है।
+        function handleSignOut() {
+            // Clear Google session (optional, might sign them out of Google apps too if not careful)
+            // google.accounts.id.disableAutoSelect(); // अगली बार ऑटो-साइन-इन को अक्षम करें
+            // google.accounts.id.revoke(localStorage.getItem('userEmail'), done => {
+            //    console.log('Consent revoked');
+            // });
+
+
+            // Clear local storage
+            localStorage.removeItem('isUserLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userProfilePic');
+
+            // Update UI
+            document.getElementById('authSection').classList.remove('hidden'); // साइन-इन बटन दिखाएं
+            document.getElementById('userProfile').classList.add('hidden'); // प्रोफाइल सेक्शन छिपाएं
+            document.getElementById('mainContent').classList.add('hidden'); // मुख्य सामग्री छिपाएं
+
+            // Reset profile fields
+            document.getElementById('userProfileName').textContent = '';
+            document.getElementById('userProfileEmail').textContent = '';
+            document.getElementById('userProfilePic').src = '';
+
+            // Re-initialize Google Sign-In button if needed or simply show it
+            // This ensures the button is ready for the next sign-in attempt.
+            // If you've hidden the button div, make sure it's visible.
+        }
+
+        // Attach event listener to sign out button
+        // साइन-आउट बटन पर क्लिक इवेंट लिस्नर जोड़ें।
+        document.getElementById('signOutButton').addEventListener('click', handleSignOut);
+
+        // Check login state on page load
+        // पेज लोड होने पर, यह जांचता है कि क्या यूजर पहले से लॉग इन है (localStorage के आधार पर)।
+        window.onload = function() {
+            // Initialize Google Sign-In (this is typically handled by the async defer script and HTML attributes)
+            // The g_id_onload div and g_id_signin div handle initialization.
+
+            const isLoggedIn = localStorage.getItem('isUserLoggedIn');
+            if (isLoggedIn === 'true') {
+                const userName = localStorage.getItem('userName');
+                const userEmail = localStorage.getItem('userEmail');
+                const userProfilePic = localStorage.getItem('userProfilePic');
+                if (userName && userEmail && userProfilePic) {
+                     updateUIForLoggedInUser(userName, userEmail, userProfilePic);
+                } else {
+                    // If some data is missing, treat as logged out
+                    handleSignOut();
+                }
+            } else {
+                // Ensure content is hidden if not logged in
+                document.getElementById('mainContent').classList.add('hidden');
+                document.getElementById('userProfile').classList.add('hidden');
+                document.getElementById('authSection').classList.remove('hidden');
+            }
+        };
+    </script>
 </body>
 </html>
