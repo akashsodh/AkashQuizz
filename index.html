@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        /* General Styling */
+        /* General Styling (पहले जैसा) */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -63,36 +63,36 @@
             width: 100%;
         }
 
-        #authContainer {
+        #authContainer { /* पहले जैसा */
             background-color: #ffffff;
             padding: 30px 40px;
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 400px;
-            width: calc(100% - 40px); /* Take padding into account for mobile */
+            width: calc(100% - 40px);
             margin: 40px auto;
             transition: all 0.3s ease-in-out;
         }
 
-        #authContainer h2 {
+        #authContainer h2 { /* पहले जैसा */
             color: #00796b;
             margin-bottom: 20px;
             font-weight: 600;
         }
 
-        #authContainer p {
+        #authContainer p { /* पहले जैसा */
             color: #555;
             font-size: 0.95em;
             margin-bottom: 25px;
         }
 
-        .g_id_signin {
+        .g_id_signin { /* पहले जैसा */
             display: inline-block;
             margin-bottom: 15px;
         }
 
-        #userProfile {
+        #userProfile { /* पहले जैसा */
             margin-top: 20px;
             padding: 25px;
             background-color: #fff;
@@ -100,11 +100,11 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             text-align: center;
             max-width: 400px;
-            width: calc(100% - 40px); /* Take padding into account for mobile */
+            width: calc(100% - 40px);
             margin: 20px auto;
         }
 
-        #userProfile img {
+        #userProfile img { /* पहले जैसा */
             border-radius: 50%;
             margin-bottom: 15px;
             border: 3px solid #00796b;
@@ -112,19 +112,19 @@
             height: 100px;
         }
 
-        #userProfile p {
+        #userProfile p { /* पहले जैसा */
             margin: 8px 0;
             font-size: 1.05em;
             color: #333;
-            word-wrap: break-word; /* For long emails */
+            word-wrap: break-word;
         }
-        #userProfile p:first-of-type {
+        #userProfile p:first-of-type { /* पहले जैसा */
             font-weight: 600;
             color: #00796b;
             font-size: 1.2em;
         }
 
-        #signOutButton {
+        #signOutButton { /* पहले जैसा */
             background-color: #e53935;
             color: white;
             padding: 12px 25px;
@@ -140,46 +140,92 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
-        #signOutButton:hover {
+        #signOutButton:hover { /* पहले जैसा */
             background-color: #c62828;
             transform: translateY(-1px);
         }
         
-        #purchaseSection {
+        /* Unlock Section Styling */
+        #unlockSection {
             background-color: #ffffff;
             padding: 30px 40px;
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 450px; /* Slightly wider for more text */
-            width: calc(100% - 40px); /* Take padding into account for mobile */
+            max-width: 450px;
+            width: calc(100% - 40px);
             margin: 30px auto;
         }
 
-        #purchaseSection h2 {
+        #unlockSection h2 {
             color: #00796b;
             margin-bottom: 15px;
         }
 
-        #purchaseSection p {
+        #unlockSection p {
             color: #555;
             font-size: 1em;
             line-height: 1.6;
             margin-bottom: 20px;
         }
 
+        #referralCodeInput {
+            width: calc(100% - 22px); /* Padding and border consideration */
+            padding: 12px 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box; /* Important for width calculation */
+        }
+         #referralCodeInput:focus {
+            border-color: #00796b;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 121, 107, 0.5);
+        }
 
-        .container {
+
+        #submitReferralCodeButton {
+            background-color: #00BCD4; /* Same as start-test-btn */
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #submitReferralCodeButton:hover {
+            background-color: #00ACC1;
+            transform: translateY(-2px);
+        }
+        
+        #unlockMessage {
+            margin-top: 15px;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+        .success-message {
+            color: #2e7d32; /* Green */
+        }
+        .error-message {
+            color: #c62828; /* Red */
+        }
+
+
+        .container { /* पहले जैसा */
             padding: 30px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 30px;
             max-width: 1300px;
-            width: 100%; /* Ensure it takes full width within its parent */
+            width: 100%;
         }
 
-        .unit-card {
+        .unit-card { /* पहले जैसा */
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -193,12 +239,12 @@
             border: 1px solid #e0e0e0;
         }
 
-        .unit-card:hover {
+        .unit-card:hover { /* पहले जैसा */
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
-        .unit-card h2 {
+        .unit-card h2 { /* पहले जैसा */
             color: #00796b;
             margin-top: 0;
             font-size: 1.8em;
@@ -206,7 +252,7 @@
             font-weight: 600;
         }
 
-        .unit-card p {
+        .unit-card p { /* पहले जैसा */
             font-size: 1em;
             line-height: 1.6;
             color: #555;
@@ -214,7 +260,7 @@
             margin-bottom: 25px;
         }
 
-        .start-test-btn { /* Also used for fake purchase button */
+        .start-test-btn { /* पहले जैसा */
             background-color: #00BCD4;
             color: white;
             padding: 14px 30px;
@@ -229,26 +275,26 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .start-test-btn:hover {
+        .start-test-btn:hover { /* पहले जैसा */
             background-color: #00ACC1;
             transform: translateY(-2px);
         }
 
-        footer {
+        footer { /* पहले जैसा */
             background-color: #333;
             color: white;
             text-align: center;
             padding: 20px 0;
-            /* margin-top: auto; Will be pushed down by flex-grow of container-wrapper */
             font-size: 0.9em;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            width: 100%; /* Ensure footer spans full width */
+            width: 100%;
         }
 
-        .hidden {
+        .hidden { /* पहले जैसा */
             display: none !important;
         }
 
+        /* Media Queries (पहले जैसे, #unlockSection को भी रेस्पॉन्सिव बनाया गया) */
         @media (max-width: 768px) {
             header h1 { font-size: 2em; }
             header p { font-size: 1em; }
@@ -257,7 +303,7 @@
             .unit-card h2 { font-size: 1.6em; }
             .unit-card p { font-size: 0.95em; }
             .start-test-btn { padding: 12px 20px; font-size: 1.05em; }
-            #authContainer, #userProfile, #purchaseSection { max-width: 90%; padding: 20px; }
+            #authContainer, #userProfile, #unlockSection { max-width: 90%; padding: 20px; }
         }
 
         @media (max-width: 480px) {
@@ -267,8 +313,10 @@
             .unit-card { padding: 20px; }
             .unit-card h2 { font-size: 1.4em; }
             .start-test-btn { font-size: 1em; }
-            #authContainer, #userProfile, #purchaseSection { padding: 15px; }
+            #authContainer, #userProfile, #unlockSection { padding: 15px; }
             #userProfile img { width: 80px; height: 80px;}
+            #referralCodeInput { font-size: 0.9em; padding: 10px 8px; }
+            #submitReferralCodeButton { font-size: 1em; padding: 10px 20px; }
         }
     </style>
 </head>
@@ -305,10 +353,12 @@
             <button id="signOutButton">Sign Out</button>
         </div>
 
-        <div id="purchaseSection" class="hidden">
-            <h2>Unlock All Units</h2>
-            <p>To access all mock tests and their content, please click the button below to simulate unlocking. For a real application, this would involve a payment.</p>
-            <button id="fakePurchaseButton" class="start-test-btn">Unlock Tests (Demo)</button>
+        <div id="unlockSection" class="hidden">
+            <h2>Unlock Mock Tests</h2>
+            <p>To access all mock tests, please enter the referral code below.</p>
+            <input type="text" id="referralCodeInput" placeholder="Enter Referral Code">
+            <button id="submitReferralCodeButton">Unlock Tests</button>
+            <div id="unlockMessage"></div>
         </div>
 
         <div id="mainContent" class="container hidden">
@@ -340,7 +390,9 @@
     </footer>
 
     <script>
-        function jwt_decode(token) {
+        const VALID_REFERRAL_CODE = "AKASH0060"; // रेफरल कोड यहाँ स्टोर करें
+
+        function jwt_decode(token) { /* पहले जैसा */
             try {
                 const base64Url = token.split('.')[1];
                 const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -354,7 +406,7 @@
             }
         }
 
-        function handleCredentialResponse(response) {
+        function handleCredentialResponse(response) { /* पहले जैसा */
             const idToken = response.credential;
             if (idToken) {
                 const decodedToken = jwt_decode(idToken);
@@ -372,49 +424,54 @@
             }
         }
 
-        function updateUIForLoggedInUser(name, email, profilePic) {
-            document.getElementById('userProfileName').textContent = name; // Only name, email and pic here
+        function updateUIForLoggedInUser(name, email, profilePic) { /* पहले जैसा */
+            document.getElementById('userProfileName').textContent = name;
             document.getElementById('userProfileEmail').textContent = email;
             document.getElementById('userProfilePic').src = profilePic;
 
             document.getElementById('authContainer').classList.add('hidden');
             document.getElementById('userProfile').classList.remove('hidden');
             
-            showContentBasedOnPurchase();
+            showContentBasedOnUnlockStatus(); // इसे 'purchase' की जगह 'unlock' करें
         }
         
-        function checkPurchaseStatus() {
-            return localStorage.getItem('hasPurchased') === 'true';
+        function hasUserUnlockedContent() { // इसे 'purchase' की जगह 'unlock' करें
+            return localStorage.getItem('hasUnlockedContent') === 'true';
         }
 
-        function showContentBasedOnPurchase() {
-            if (checkPurchaseStatus()) {
+        function showContentBasedOnUnlockStatus() { // इसे 'purchase' की जगह 'unlock' करें
+            const unlockMessageDiv = document.getElementById('unlockMessage');
+            unlockMessageDiv.textContent = ''; // पुराने मैसेज हटाएं
+            unlockMessageDiv.className = 'unlock-message'; // डिफ़ॉल्ट क्लास
+
+            if (hasUserUnlockedContent()) {
                 document.getElementById('mainContent').classList.remove('hidden');
-                document.getElementById('purchaseSection').classList.add('hidden');
+                document.getElementById('unlockSection').classList.add('hidden');
             } else {
                 document.getElementById('mainContent').classList.add('hidden');
-                // Only show purchase section if user is logged in but hasn't purchased
                 if (localStorage.getItem('isUserLoggedIn') === 'true') {
-                    document.getElementById('purchaseSection').classList.remove('hidden');
+                    document.getElementById('unlockSection').classList.remove('hidden');
                 } else {
-                    document.getElementById('purchaseSection').classList.add('hidden');
+                    document.getElementById('unlockSection').classList.add('hidden');
                 }
             }
         }
 
-        function handleSignOut() {
-            google.accounts.id.disableAutoSelect(); // Optional: to prevent auto sign-in on next visit
+        function handleSignOut() { /* 'hasUnlockedContent' को भी हटाएं */
+            google.accounts.id.disableAutoSelect();
             
             localStorage.removeItem('isUserLoggedIn');
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userProfilePic');
-            localStorage.removeItem('hasPurchased'); // Clear purchase status on sign out
+            localStorage.removeItem('hasUnlockedContent'); // इसे 'purchase' की जगह 'unlock' करें
 
             document.getElementById('authContainer').classList.remove('hidden');
             document.getElementById('userProfile').classList.add('hidden');
             document.getElementById('mainContent').classList.add('hidden');
-            document.getElementById('purchaseSection').classList.add('hidden');
+            document.getElementById('unlockSection').classList.add('hidden');
+            document.getElementById('unlockMessage').textContent = ''; // साइन आउट पर मैसेज हटाएं
+
 
             document.getElementById('userProfileName').textContent = '';
             document.getElementById('userProfileEmail').textContent = '';
@@ -422,6 +479,27 @@
         }
 
         document.getElementById('signOutButton').addEventListener('click', handleSignOut);
+
+        // रेफरल कोड सबमिट करने के लिए फंक्शन
+        function handleSubmitReferralCode() {
+            const enteredCode = document.getElementById('referralCodeInput').value.trim();
+            const unlockMessageDiv = document.getElementById('unlockMessage');
+
+            if (enteredCode.toUpperCase() === VALID_REFERRAL_CODE.toUpperCase()) { // Case-insensitive तुलना
+                localStorage.setItem('hasUnlockedContent', 'true'); // इसे 'purchase' की जगह 'unlock' करें
+                unlockMessageDiv.textContent = 'Success! Tests unlocked.';
+                unlockMessageDiv.className = 'unlock-message success-message'; // क्लास बदलें
+                // थोड़ी देर बाद कंटेंट दिखाएं ताकि यूजर मैसेज पढ़ सके
+                setTimeout(function() {
+                    showContentBasedOnUnlockStatus();
+                }, 1500); // 1.5 सेकंड
+            } else {
+                unlockMessageDiv.textContent = 'Invalid referral code. Please try again.';
+                unlockMessageDiv.className = 'unlock-message error-message'; // क्लास बदलें
+                document.getElementById('referralCodeInput').focus();
+            }
+        }
+
 
         window.onload = function() {
             const isLoggedIn = localStorage.getItem('isUserLoggedIn');
@@ -432,24 +510,28 @@
                 if (userName && userEmail && userProfilePic) {
                      updateUIForLoggedInUser(userName, userEmail, userProfilePic);
                 } else {
-                    // If data is corrupted or missing, sign out
                     handleSignOut(); 
                 }
             } else {
-                // Ensure all conditional content is hidden if not logged in
                 document.getElementById('authContainer').classList.remove('hidden');
                 document.getElementById('userProfile').classList.add('hidden');
-                document.getElementById('purchaseSection').classList.add('hidden');
+                document.getElementById('unlockSection').classList.add('hidden');
                 document.getElementById('mainContent').classList.add('hidden');
             }
 
-            const fakePurchaseBtn = document.getElementById('fakePurchaseButton');
-            if(fakePurchaseBtn) {
-                fakePurchaseBtn.addEventListener('click', function() {
-                    // You might want to add a small confirmation or message here
-                    // alert('Tests unlocked (Demo)!'); 
-                    localStorage.setItem('hasPurchased', 'true');
-                    showContentBasedOnPurchase();
+            // नए रेफरल कोड सबमिट बटन के लिए इवेंट लिस्नर
+            const submitReferralBtn = document.getElementById('submitReferralCodeButton');
+            if(submitReferralBtn) {
+                submitReferralBtn.addEventListener('click', handleSubmitReferralCode);
+            }
+            // इनपुट फ़ील्ड में Enter दबाने पर भी सबमिट हो
+            const referralInput = document.getElementById('referralCodeInput');
+            if(referralInput) {
+                referralInput.addEventListener('keypress', function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault(); // डिफ़ॉल्ट सबमिशन रोकें (अगर यह एक फॉर्म होता)
+                        handleSubmitReferralCode();
+                    }
                 });
             }
         };
