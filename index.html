@@ -8,10 +8,10 @@
     <style>
         /* General Styling */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Use Poppins font */
             margin: 0;
             padding: 0;
-            background: #f4f7f6; /* Softer, single color background */
+            background: linear-gradient(to right, #e0f7fa, #b2ebf2); /* Light blue gradient background */
             color: #333;
             display: flex;
             flex-direction: column;
@@ -23,7 +23,7 @@
             color: white;
             padding: 30px 0;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deep shadow */
             position: relative; /* For wave effect */
             overflow: hidden; /* To contain the wave */
         }
@@ -31,7 +31,7 @@
         header h1 {
             margin: 0;
             font-size: 2.8em; /* Larger font size */
-            font-weight: 700;
+            font-weight: 700; /* Bold font */
             letter-spacing: 1px; /* Slight letter spacing */
         }
 
@@ -48,7 +48,7 @@
             left: 0;
             width: 100%;
             height: 50px; /* Height of the wave */
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23f4f7f6" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
             background-size: cover;
             transform: translateY(1px); /* Fix small gap */
             z-index: 1; /* Stay above content */
@@ -56,13 +56,13 @@
 
         .container, #auth-container-wrapper {
             flex-grow: 1;
-            padding: 20px 15px; /* Adjusted padding for mobile first */
+            padding: 30px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px; /* Adjusted gap */
-            margin: 20px auto; /* Adjusted margin */
-            max-width: 1200px; /* Adjusted max width */
+            gap: 30px; /* Increased space between cards */
+            margin: 30px auto;
+            max-width: 1300px; /* Increased max width */
         }
         #auth-container {
             background-color: white;
@@ -77,56 +77,24 @@
         }
         #auth-container input[type="email"],
         #auth-container input[type="password"] {
-            width: 100%; /* Full width, padding handled by box-sizing */
-            padding: 12px 10px; /* Increased padding */
-            margin-bottom: 15px; /* Increased margin */
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
-            border-radius: 6px; /* Slightly more rounded */
-            box-sizing: border-box; /* Ensure padding doesn't expand width */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 4px;
         }
-        #auth-container input[type="email"]:focus,
-        #auth-container input[type="password"]:focus {
-            border-color: #00796b; /* Teal border on focus */
-            box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2); /* Subtle glow */
-            outline: none;
-        }
-
-        #auth-container button[type="submit"] { /* More specific for submit buttons in auth */
-            background-color: #00796b; /* Main teal color */
+        #auth-container button {
+            background-color: #00BCD4;
             color: white;
-            padding: 12px 20px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 1em;
-            font-weight: 600; /* Bolder text */
             margin-top: 10px;
-            width: 100%; /* Full width */
-            transition: background-color 0.3s ease;
         }
-
-        #auth-container button[type="submit"]:hover {
-            background-color: #004d40; /* Darker teal */
-        }
-
-        .form-divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: #777;
-            font-size: 0.9em;
-            margin: 25px 0 20px 0 !important; 
-        }
-        .form-divider::before, .form-divider::after {
-            content: ''; flex: 1; border-bottom: 1px solid #e0e0e0;
-        }
-        .form-divider::before { margin-right: 1em; }
-        .form-divider::after { margin-left: 1em; }
-
-        #auth-container button { /* General button style if needed, but submit is more specific */
-            /* background-color: #00BCD4; */ /* Original color, now overridden by submit specific */
-            /* ... other general button styles ... */
+        #auth-container button:hover {
+            background-color: #00ACC1;
         }
         #auth-container p {
             margin-top: 15px;
@@ -138,6 +106,14 @@
         }
         #auth-container a:hover {
             text-decoration: underline;
+        }
+
+        .unit-card {
+            background-color: white;
+        }
+
+        #user-status img#user-avatar {
+            width: 60px;
         }
         /* Styles for Google Login Button */
         #google-login-button {
@@ -185,29 +161,19 @@
         }
 
         #user-dropdown-content {
-            /* display: none;  Will be controlled by .active class and visibility/opacity */
+            display: none; 
             position: absolute;
             top: calc(100% + 10px); 
             right: 0;
             background-color: white;
             color: #333; 
             border: 1px solid #ddd;
-            border-radius: 8px; /* Softer radius */
+            border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 1000;
             padding: 15px;
             min-width: 230px; 
             text-align: left; 
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px); /* Start slightly lower for animation */
-            transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out, visibility 0s linear 0.25s;
-        }
-        #user-dropdown-content.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out, visibility 0s linear 0s;
         }
 
         #user-dropdown-content p {
@@ -244,55 +210,40 @@
             background-color: #c62828; /* Darker red on hover */
         }
 
-        .unit-card {
-            background-color: white;
-            border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Softer, more modern shadow */
-            padding: 30px; /* Adjusted padding */
-            text-align: center;
-            width: 300px; /* Fixed width for desktop grid */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #e8e8e8; /* Lighter border */
-        }
-
         .unit-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
         }
 
         .unit-card h2 {
             color: #00796b; /* Same color as header */
             margin-top: 0;
             font-size: 1.8em;
-            margin-bottom: 20px; /* More space */
-            font-weight: 700; /* Bolder */
+            margin-bottom: 15px;
+            font-weight: 600; /* Slightly bolder */
         }
 
         .unit-card p {
             font-size: 1em;
-            line-height: 1.7; /* Increased for readability */
-            color: #444; /* Slightly darker text */
+            line-height: 1.6;
+            color: #555;
             flex-grow: 1; /* Allow content to fill space */
-            margin-bottom: 30px; /* More space before button */
+            margin-bottom: 25px; /* More space before button */
         }
 
         .start-test-btn {
             background-color: #00BCD4; /* Sky blue color */
             color: white;
-            padding: 12px 25px; /* Adjusted padding */
+            padding: 14px 30px; /* Increased padding */
             border: none;
             border-radius: 8px; /* More rounded corners */
             cursor: pointer;
-            font-size: 1.1em; /* Slightly adjusted */
+            font-size: 1.15em;
             text-decoration: none;
             display: inline-block;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            font-weight: 600; /* Bolder */
-            box-shadow: 0 4px 10px rgba(0, 188, 212, 0.3); /* Shadow matching button color */
-            align-self: center; /* Center button in the card */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .start-test-btn:hover {
@@ -310,15 +261,6 @@
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        @media (min-width: 768px) { /* Apply larger padding for desktop */
-            .container, #auth-container-wrapper {
-                padding: 30px;
-                gap: 30px;
-                margin: 30px auto;
-                max-width: 1300px;
-            }
-        }
-
         /*
         Media Queries for Mobile Responsiveness
         When screen width is 768px or less
@@ -332,23 +274,10 @@
                 font-size: 1em;
             }
 
-            #user-status {
-                top: 15px;
-                right: 15px;
-            }
-            #user-avatar-trigger {
-                width: 40px;
-                height: 40px;
-            }
-            #user-dropdown-content {
-                min-width: 200px;
-            }
-
             .container, #auth-container-wrapper {
                 flex-direction: column; /* Stack cards in a column */
                 align-items: center; /* Center align items */
                 padding: 15px;
-                gap: 20px;
             }
              #auth-container {
                 width: 90%;
@@ -382,11 +311,10 @@
         @media (max-width: 480px) {
             header {
                 padding: 20px 0;
-                padding-bottom: 25px; /* Ensure wave doesn't overlap too much */
             }
 
             header h1 {
-                font-size: 1.7em;
+                font-size: 1.8em;
             }
 
             header p {
@@ -395,25 +323,6 @@
 
             .unit-card {
                 padding: 20px;
-                width: 95%;
-            }
-            #user-status {
-                top: 10px;
-                right: 10px;
-            }
-            #user-avatar-trigger {
-                width: 35px;
-                height: 35px;
-            }
-            #user-dropdown-content {
-                padding: 12px;
-                min-width: 180px;
-            }
-            #user-dropdown-content p { font-size: 0.9em; margin-bottom: 8px; }
-            #user-dropdown-content #user-name-paragraph { font-size: 1em; }
-            #user-dropdown-content button#logout-button {
-                padding: 8px;
-                font-size: 0.9em;
             }
              #auth-container {
                 padding: 15px;
@@ -434,7 +343,7 @@
         <h1>RSMSSB Librarian Grade-III 2024 Mock Test</h1>
         <p>Paper 2: Practice unit-wise and strengthen your preparation.</p>
         <div class="header-wave"></div>
-        <!-- User Status / Profile Dropdown -->
+        <!-- User Status / Profile Dropdown - Moved into header -->
         <div id="user-status" style="display: none;">
             <img id="user-avatar-trigger" src="" alt="User menu" style="display: none;">
             <div id="user-dropdown-content" style="display: none;">
@@ -464,7 +373,7 @@
                 <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup-link">यहां क्लिक करें</a></p>
             </form>        
             
-            <p class="form-divider">या</p>
+            <p style="text-align: center; margin: 15px 0 10px;">या</p>
             <button id="google-login-button">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
                 गूगल से लॉग इन करें
@@ -634,7 +543,7 @@
             userAvatarTrigger.addEventListener('click', (event) => {
                 event.stopPropagation(); // Bubbling को रोकें
                 if (userDropdownContent) {
-                    userDropdownContent.classList.toggle('active');
+                    userDropdownContent.style.display = userDropdownContent.style.display === 'block' ? 'none' : 'block';
                 }
             });
         }
@@ -642,10 +551,10 @@
         // वैकल्पिक: यदि ड्रॉपडाउन के बाहर क्लिक किया जाता है तो उसे बंद करें
         document.addEventListener('click', (event) => {
             if (userDropdownContent && userAvatarTrigger) {
-                if (userDropdownContent.classList.contains('active') && 
+                if (userDropdownContent.style.display === 'block' && 
                     !userAvatarTrigger.contains(event.target) && 
                     !userDropdownContent.contains(event.target)) {
-                    userDropdownContent.classList.remove('active');
+                    userDropdownContent.style.display = 'none';
                 }
             }
         });
@@ -685,7 +594,7 @@
             } else {
                 if (userNameParagraph) userNameParagraph.style.display = 'none';
             }
-            if (userDropdownContent) userDropdownContent.classList.remove('active'); // सुनिश्चित करें कि ड्रॉपडाउन शुरू में बंद है
+            if (userDropdownContent) userDropdownContent.style.display = 'none'; // सुनिश्चित करें कि ड्रॉपडाउन शुरू में बंद है
             if (quizUnitsContainer) quizUnitsContainer.style.display = 'flex'; // [cite: 104]
         }
 
@@ -695,7 +604,7 @@
             if (loginForm) loginForm.style.display = 'block'; // [cite: 106]
             if (signupForm) signupForm.style.display = 'none'; // [cite: 106]
             if (userStatusDiv) userStatusDiv.style.display = 'none'; // [cite: 107]
-            if (userDropdownContent) userDropdownContent.classList.remove('active');
+            if (userDropdownContent) userDropdownContent.style.display = 'none';
             if (userAvatarTrigger) userAvatarTrigger.style.display = 'none';
             
             const userNameDisplay = document.getElementById('user-name-display');
