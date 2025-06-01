@@ -281,12 +281,13 @@
                 <input type="password" id="login-password" placeholder="पासवर्ड" required><br>
                 <button type="submit">लॉग इन</button>
                 <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup-link">यहां क्लिक करें</a></p>
-            </form>
-        
-            <div id="user-status" style="display: none;">
-                <p>आप <span id="user-email-display"></span> के रूप में लॉग इन हैं।</p>
-                <button id="logout-button">लॉग आउट</button>
-            </div>
+            </form>        
+        </div> <!-- auth-container div यहां बंद होता है -->
+
+        <!-- user-status div को auth-container के बाहर यहां ले जाया गया है -->
+        <div id="user-status" style="display: none;">
+            <p>आप <span id="user-email-display"></span> के रूप में लॉग इन हैं।</p>
+            <button id="logout-button">लॉग आउट</button>
         </div>
     </div>
 
@@ -375,7 +376,7 @@
                 if (error) { // [cite: 91]
                     alert('साइन अप में त्रुटि: ' + error.message); // [cite: 91]
                 } else {
-                    alert('साइन अप सफल! कृपया अपने ईमेल की पुष्टि करें (यदि Supabase में ईमेल पुष्टि सक्षम है)।'); // [cite: 91]
+                    alert('साइन अप सफल! कृपया अपनी ईमेल खोले और अपने ईमेल की पुष्टि करें तथा वापस आकर लॉग इन करे।'); // [cite: 91]
                     // UI को अपडेट करें या उपयोगकर्ता को लॉग इन करने के लिए कहें [cite: 92]
                     if (loginForm) loginForm.style.display = 'block'; // [cite: 92]
                     if (signupForm) signupForm.style.display = 'none'; // [cite: 93]
