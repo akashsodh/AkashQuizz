@@ -8,10 +8,11 @@
     <style>
         /* General Styling */
         body {
-            font-family: 'Poppins', sans-serif; [span_0](start_span)/* Use Poppins font */[span_0](end_span)
+            font-family: 'Poppins', sans-serif; [span_0](start_span)/* Use Poppins font */ /*[span_0](end_span) */
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #e0f7fa, #b2ebf2); [span_1](start_span)/* Light blue gradient background */[span_1](end_span)
+            /* पहले का बैकग्राउंड: linear-gradient(to right, #e0f7fa, #b2ebf2); *[span_1](start_span)/ /*[span_1](end_span) */
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 70%, #80deea 100%); /* थोड़ा बदला हुआ और गहरा ग्रेडिएंट */
             color: #333;
             display: flex; [span_2](start_span)/*[span_2](end_span) */
             flex-direction: column; [span_3](start_span)/*[span_3](end_span) */
@@ -19,26 +20,27 @@
         }
 
         header {
-            background-color: #00796b; [span_4](start_span)/* Dark Teal color */[span_4](end_span)
+            background-color: #00796b; [span_4](start_span)/* Dark Teal color */ /*[span_4](end_span) */
             color: white;
-            padding: 30px 0; [span_5](start_span)/*[span_5](end_span) */
+            padding: 40px 0; /* थोड़ा ज़्यादा पैडिंग */ /* पहले padding: 30px 0; *[span_5](start_span)/ /*[span_5](end_span) */
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); [span_6](start_span)/* Deep shadow */[span_6](end_span)
-            position: relative; [span_7](start_span)/* For wave effect */[span_7](end_span)
-            overflow: hidden; [span_8](start_span)/* To contain the wave */[span_8](end_span)
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* थोड़ा गहरा शैडो */ /* पहले box-shadow: 0 4px 8px rgba(0,0,0,0.2); *[span_6](start_span)/ /*[span_6](end_span) */
+            position: relative; [span_7](start_span)/* For wave effect */ /*[span_7](end_span) */
+            overflow: hidden; [span_8](start_span)/* To contain the wave */ /*[span_8](end_span) */
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.8em; [span_9](start_span)/* Larger font size */[span_9](end_span)
-            font-weight: 700; [span_10](start_span)/* Bold font */[span_10](end_span)
-            letter-spacing: 1px; [span_11](start_span)/* Slight letter spacing */[span_11](end_span)
+            font-size: 3em; /* थोड़ा बड़ा फॉन्ट साइज़ */ /* पहले font-size: 2.8em; *[span_9](start_span)/ /*[span_9](end_span) */
+            font-weight: 700; [span_10](start_span)/* Bold font */ /*[span_10](end_span) */
+            letter-spacing: 1.5px; /* थोड़ा ज़्यादा स्पेसिंग */ /* पहले letter-spacing: 1px; *[span_11](start_span)/ /*[span_11](end_span) */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* हल्का टेक्स्ट शैडो */
         }
 
         header p {
-            font-size: 1.2em;
-            margin-top: 10px; [span_12](start_span)/*[span_12](end_span) */
-            opacity: 0.9;
+            font-size: 1.3em; /* थोड़ा बड़ा फॉन्ट साइज़ */ /* पहले font-size: 1.2em; */
+            margin-top: 15px; /* थोड़ा ज़्यादा मार्जिन */ /* पहले margin-top: 10px; *[span_12](start_span)/ /*[span_12](end_span) */
+            opacity: 0.95; /* थोड़ी ज़्यादा ओपेसिटी */
         }
 
         /* CSS for the Wave effect */
@@ -47,182 +49,179 @@
             bottom: 0; [span_13](start_span)/*[span_13](end_span) */
             left: 0;
             width: 100%;
-            height: 50px; /* Height of the wave */
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center;
+            height: 60px; /* थोड़ी ज़्यादा ऊँचाई */ /* पहले height: 50px; */
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23e0f7fa" fill-opacity="1" d="M0,64L48,69.3C96,75,192,85,288,74.7C384,64,480,32,576,37.3C672,43,768,85,864,85.3C960,85,1056,43,1152,37.3C1248,32,1344,64,1392,80L1440,96L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom center; /* fill रंग बॉडी ग्रेडिएंट के शुरुआती रंग से मैच करता है */
             background-size: cover; [span_14](start_span)/*[span_14](end_span) */
             transform: translateY(1px); /* Fix small gap */
-            z-index: 1; [span_15](start_span)/* Stay above content */[span_15](end_span)
+            z-index: 1; [span_15](start_span)/* Stay above content */ /*[span_15](end_span) */
         }
 
         .container {
             flex-grow: 1;
-            padding: 30px; [span_16](start_span)/*[span_16](end_span) */
+            padding: 40px 20px; /* ऊपर-नीचे ज़्यादा पैडिंग */ /* पहले padding: 30px; *[span_16](start_span)/ /*[span_16](end_span) */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px; [span_17](start_span)/* Increased space between cards */ /*[span_17](end_span) */
+            gap: 40px; /* कार्ड्स के बीच ज़्यादा गैप */ /* पहले gap: 30px; *[span_17](start_span)/ /*[span_17](end_span) */
             margin: 30px auto;
-            max-width: 1300px; [span_18](start_span)/* Increased max width */ /*[span_18](end_span) */
-        }
-        .past-attempts-container {
-            margin-top: 15px; [span_19](start_span)/*[span_19](end_span) */
-            margin-bottom: 15px; [span_20](start_span)/*[span_20](end_span) */
-            padding: 10px; [span_21](start_span)/*[span_21](end_span) */
-            background-color: #f0f8ff; /* Light AliceBlue background */
-            border-radius: 6px; [span_22](start_span)/*[span_22](end_span) */
-            border: 1px solid #d1e0ff; [span_23](start_span)/*[span_23](end_span) */
-        }
-        .past-attempts-container h4 {
-            margin-top: 0; [span_24](start_span)/*[span_24](end_span) */
-            margin-bottom: 8px; [span_25](start_span)/*[span_25](end_span) */
-            color: #0056b3; /* Darker blue for heading */
-        }
-        .past-attempts-list {
-            list-style-type: none; [span_26](start_span)/*[span_26](end_span) */
-            padding-left: 0; [span_27](start_span)/*[span_27](end_span) */
-            font-size: 0.9em;
-            color: #333;
-        }
-        .past-attempts-list li {
-            padding: 5px 0; [span_28](start_span)/*[span_28](end_span) */
-            border-bottom: 1px dashed #ccc; [span_29](start_span)/*[span_29](end_span) */
-        }
-        .past-attempts-list li:last-child {
-            border-bottom: none; [span_30](start_span)/*[span_30](end_span) */
+            max-width: 1400px; /* थोड़ी ज़्यादा चौड़ाई */ /* पहले max-width: 1300px; *[span_18](start_span)/ /*[span_18](end_span) */
         }
 
         .unit-card {
-            background-color: white; [span_31](start_span)/*[span_31](end_span) */
-            /* padding, border-radius, box-shadow, width, display, flex-direction, transition, text-align are inherited or applied below */
-             width: calc(33.333% - 40px); /* Adjust width for 3 cards per row, considering gap */
-            min-width: 320px; /* Minimum width for smaller screens / when wrapping */
-            padding: 30px; /* Increased padding */
-            border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+            background-color: #ffffff; [span_19](start_span)/* शुद्ध सफ़ेद */ /*[span_19](end_span) */
+            width: calc(33.333% - 50px); /* गैप को ध्यान में रखते हुए चौड़ाई */ /* पहले width: calc(33.333% - 40px); */
+            min-width: 300px; /* थोड़ा कम min-width अगर ज़रूरत हो */
+            padding: 35px; /* ज़्यादा पैडिंग */ /* पहले padding: 30px; */
+            border-radius: 15px; /* ज़्यादा गोल कोने */ /* पहले border-radius: 12px; */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0,0,0,0.08); /* बेहतर शैडो */ /* पहले box-shadow: 0 8px 16px rgba(0,0,0,0.15); */
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: left; /* Align text to the left */
+            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); /* स्मूथ ट्रांज़िशन */
+            text-align: left;
+            border-top: 4px solid #00796b; /* हेडर से मिलता हुआ एक्सेंट बॉर्डर */
         }
 
-
         .unit-card:hover {
-            transform: translateY(-8px) scale(1.02); [span_32](start_span)/* Lift and slightly enlarge on hover */ /*[span_32](end_span) */
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); [span_33](start_span)/* Deeper shadow on hover */ /*[span_33](end_span) */
+            transform: translateY(-10px) scale(1.03); [span_20](start_span)/* थोड़ा ज़्यादा उभार और बड़ा होना */ /*[span_20](end_span) */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18), 0 8px 15px rgba(0,0,0,0.12); [span_21](start_span)/* गहरा शैडो होवर पर */ /*[span_21](end_span) */
         }
 
         .unit-card h2 {
-            color: #00796b; [span_34](start_span)/* Same color as header */ /*[span_34](end_span) */
-            margin-top: 0; [span_35](start_span)/*[span_35](end_span) */
-            font-size: 1.8em; [span_36](start_span)/*[span_36](end_span) */
-            margin-bottom: 15px;
-            font-weight: 600; /* Slightly bolder */
+            color: #005f56; /* थोड़ा गहरा टील */ /* पहले color: #00796b; *[span_22](start_span)/ /*[span_22](end_span) */
+            margin-top: 0; [span_23](start_span)/*[span_23](end_span) */
+            font-size: 2em; /* थोड़ा बड़ा */ /* पहले font-size: 1.8em; *[span_24](start_span)/ /*[span_24](end_span) */
+            margin-bottom: 20px; /* ज़्यादा मार्जिन */ /* पहले margin-bottom: 15px; */
+            font-weight: 600;
         }
 
         .unit-card p {
-            font-size: 1em; [span_37](start_span)/*[span_37](end_span) */
-            line-height: 1.6; [span_38](start_span)/*[span_38](end_span) */
-            color: #555;
-            flex-grow: 1; /* Allow content to fill space */
-            margin-bottom: 25px; [span_39](start_span)/* More space before button */ /*[span_39](end_span) */
+            font-size: 1.05em; /* थोड़ा बड़ा */ /* पहले font-size: 1em; *[span_25](start_span)/ /*[span_25](end_span) */
+            line-height: 1.7; /* बेहतर पठनीयता */ /* पहले line-height: 1.6; *[span_26](start_span)/ /*[span_26](end_span) */
+            color: #444; /* थोड़ा गहरा ग्रे */ /* पहले color: #555; */
+            flex-grow: 1;
+            margin-bottom: 30px; /* ज़्यादा मार्जिन */ /* पहले margin-bottom: 25px; *[span_27](start_span)/ /*[span_27](end_span) */
         }
 
         .start-test-btn {
-            background-color: #00BCD4; [span_40](start_span)/* Sky blue color */ /*[span_40](end_span) */
-            color: white; [span_41](start_span)/*[span_41](end_span) */
-            padding: 14px 30px; [span_42](start_span)/* Increased padding */ /*[span_42](end_span) */
-            border: none; [span_43](start_span)/*[span_43](end_span) */
-            border-radius: 8px; [span_44](start_span)/* More rounded corners */ /*[span_44](end_span) */
-            cursor: pointer; [span_45](start_span)/*[span_45](end_span) */
-            font-size: 1.15em; [span_46](start_span)/*[span_46](end_span) */
+            background: linear-gradient(45deg, #00BCD4, #00ACC1); /* ग्रेडिएंट बैकग्राउंड */ /* पहले background-color: #00BCD4; *[span_28](start_span)/ /*[span_28](end_span) */
+            color: white; [span_29](start_span)/*[span_29](end_span) */
+            padding: 16px 35px; /* थोड़ी ज़्यादा पैडिंग */ /* पहले padding: 14px 30px; *[span_30](start_span)/ /*[span_30](end_span) */
+            border: none; [span_31](start_span)/*[span_31](end_span) */
+            border-radius: 50px; /* पूरी तरह गोल बटन */ /* पहले border-radius: 8px; *[span_32](start_span)/ /*[span_32](end_span) */
+            cursor: pointer; [span_33](start_span)/*[span_33](end_span) */
+            font-size: 1.1em; /* थोड़ा छोटा अगर बटन बहुत बड़ा लगे */ /* पहले font-size: 1.15em; *[span_34](start_span)/ /*[span_34](end_span) */
             text-decoration: none;
             display: inline-block;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-weight: 600; [span_47](start_span)/*[span_47](end_span) */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); [span_48](start_span)/*[span_48](end_span) */
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-weight: 600; [span_35](start_span)/*[span_35](end_span) */
+            box-shadow: 0 5px 15px rgba(0, 188, 212, 0.4); /* बटन के रंग से मिलता हुआ शैडो */ /* पहले box-shadow: 0 4px 8px rgba(0,0,0,0.1); *[span_36](start_span)/ /*[span_36](end_span) */
+            align-self: flex-start; /* कार्ड में बाईं ओर अलाइन */
         }
 
         .start-test-btn:hover {
-            background-color: #00ACC1; [span_49](start_span)/* Slightly darker on hover */ /*[span_49](end_span) */
-            transform: translateY(-2px); [span_50](start_span)/* Lift slightly on hover */ /*[span_50](end_span) */
+            background: linear-gradient(45deg, #00ACC1, #0097A7); /* होवर पर थोड़ा गहरा ग्रेडिएंट */ /* पहले background-color: #00ACC1; *[span_37](start_span)/ /*[span_37](end_span) */
+            transform: translateY(-3px) scale(1.05); [span_38](start_span)/* थोड़ा ज़्यादा उभार */ /*[span_38](end_span) */
+            box-shadow: 0 8px 20px rgba(0, 172, 193, 0.5); /* होवर पर गहरा शैडो */
         }
+
+        .past-attempts-container { /* अगर यह सेक्शन उपयोग में है तो इसके लिए भी स्टाइल */
+            margin-top: 20px; [span_39](start_span)/*[span_39](end_span) */
+            margin-bottom: 15px; [span_40](start_span)/*[span_40](end_span) */
+            padding: 15px; [span_41](start_span)/*[span_41](end_span) */ /* Padding was on border originally, now it is for content */
+            background-color: #f1f8f9; /* हल्का रंग */ /* पहले background-color: #f0f8ff; */
+            border-radius: 8px; [span_42](start_span)/*[span_42](end_span) */
+            border: 1px solid #cce0e3; [span_43](start_span)/*[span_43](end_span) */
+        }
+        .past-attempts-container h4 {
+            margin-top: 0; [span_44](start_span)/*[span_44](end_span) */
+            margin-bottom: 10px; [span_45](start_span)/*[span_45](end_span) */
+            color: #006064; /* गहरा सियान */ /* पहले color: #0056b3; */
+            font-size: 1.1em;
+        }
+        .past-attempts-list {
+            list-style-type: none; [span_46](start_span)/*[span_46](end_span) */
+            padding-left: 0; [span_47](start_span)/*[span_47](end_span) */
+            font-size: 0.95em; /* थोड़ा बड़ा */
+            color: #555;
+        }
+        .past-attempts-list li {
+            padding: 8px 0; [span_48](start_span)/*[span_48](end_span) */
+            border-bottom: 1px solid #ddeaea; [span_49](start_span)/*[span_49](end_span) */
+        }
+        .past-attempts-list li:last-child {
+            border-bottom: none; [span_50](start_span)/*[span_50](end_span) */
+        }
+
 
         footer {
-            background-color: #333; [span_51](start_span)/*[span_51](end_span) */
-            color: white; [span_52](start_span)/*[span_52](end_span) */
+            background-color: #263238; /* गहरा ग्रे-ब्लू */ /* पहले background-color: #333; *[span_51](start_span)/ /*[span_51](end_span) */
+            color: #b0bec5; /* हल्का ग्रे टेक्स्ट */ /* पहले color: white; *[span_52](start_span)/ /*[span_52](end_span) */
             text-align: center;
-            padding: 20px 0;
+            padding: 25px 0; /* थोड़ी ज़्यादा पैडिंग */ /* पहले padding: 20px 0; */
             margin-top: auto;
-            font-size: 0.9em;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); [span_53](start_span)/*[span_53](end_span) */
+            font-size: 0.95em; /* थोड़ा बड़ा */ /* पहले font-size: 0.9em; */
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); [span_53](start_span)/*[span_53](end_span) */
         }
 
-        /*
-        Media Queries for Mobile Responsiveness
-        When screen width is 768px or less
-        */
+        /* Mobile Responsiveness - Adjustments for new styles */
+        @media (max-width: 1200px) { /* 3 कार्ड्स के लिए थोड़ी और जगह */
+            .unit-card {
+                width: calc(50% - 40px); /* 2 कार्ड प्रति पंक्ति */
+            }
+        }
+
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2em; [span_54](start_span)/* Shrink title on smaller screens */ /*[span_54](end_span) */
+                font-size: 2.2em; [span_54](start_span)/*[span_54](end_span) */
             }
-
             header p {
-                font-size: 1em; [span_55](start_span)/*[span_55](end_span) */
+                font-size: 1.1em; [span_55](start_span)/*[span_55](end_span) */
             }
-
             .container {
-                flex-direction: column; [span_56](start_span)/* Stack cards in a column */ /*[span_56](end_span) */
-                align-items: center; [span_57](start_span)/* Center align items */ /*[span_57](end_span) */
-                padding: 15px; [span_58](start_span)/*[span_58](end_span) */
+                flex-direction: column; [span_56](start_span)/*[span_56](end_span) */
+                align-items: center; [span_57](start_span)/*[span_57](end_span) */
+                padding: 20px 15px; [span_58](start_span)/*[span_58](end_span) */
+                gap: 30px; /* मोबाइल पर गैप कम */
             }
-
             .unit-card {
-                width: 90%; [span_59](start_span)/* Increase card width on mobile */ /*[span_59](end_span) */
-                max-width: 400px; [span_60](start_span)/* Limit max width */ /*[span_60](end_span) */
-                padding: 25px; [span_61](start_span)/*[span_61](end_span) */
+                width: 90%; [span_59](start_span)/*[span_59](end_span) */
+                max-width: 450px; /* थोड़ा ज़्यादा max-width */ /* पहले max-width: 400px; *[span_60](start_span)/ /*[span_60](end_span) */
+                padding: 30px; /* मोबाइल पर पैडिंग */ /* पहले padding: 25px; *[span_61](start_span)/ /*[span_61](end_span) */
+                border-top-width: 3px; /* मोबाइल पर एक्सेंट बॉर्डर थोड़ा पतला */
             }
-
             .unit-card h2 {
-                font-size: 1.6em; [span_62](start_span)/*[span_62](end_span) */
+                font-size: 1.7em; [span_62](start_span)/*[span_62](end_span) */
             }
-
             .unit-card p {
-                font-size: 0.95em; [span_63](start_span)/*[span_63](end_span) */
+                font-size: 1em; [span_63](start_span)/*[span_63](end_span) */
             }
-
             .start-test-btn {
-                padding: 12px 20px; [span_64](start_span)/*[span_64](end_span) */
+                padding: 14px 30px; [span_64](start_span)/*[span_64](end_span) */
                 font-size: 1.05em; [span_65](start_span)/*[span_65](end_span) */
             }
         }
 
-        /*
-        Media Queries for Ultra-small screens
-        When screen width is 480px or less
-        */
         @media (max-width: 480px) {
             header {
-                padding: 20px 0; [span_66](start_span)/*[span_66](end_span) */
+                padding: 30px 0; [span_66](start_span)/*[span_66](end_span) */
             }
-
             header h1 {
-                font-size: 1.8em; [span_67](start_span)/*[span_67](end_span) */
+                font-size: 1.9em; [span_67](start_span)/*[span_67](end_span) */
             }
-
             header p {
-                font-size: 0.9em; [span_68](start_span)/*[span_68](end_span) */
+                font-size: 1em; [span_68](start_span)/*[span_68](end_span) */
             }
-
             .unit-card {
-                padding: 20px; [span_69](start_span)/*[span_69](end_span) */
+                padding: 25px; [span_69](start_span)/*[span_69](end_span) */
+                width: 95%;
             }
-
             .unit-card h2 {
-                font-size: 1.4em; [span_70](start_span)/*[span_70](end_span) */
+                font-size: 1.5em; [span_70](start_span)/*[span_70](end_span) */
             }
-
             .start-test-btn {
                 font-size: 1em; [span_71](start_span)/*[span_71](end_span) */
+                width: 100%; /* बटन पूरी चौड़ाई ले */
+                text-align: center;
             }
         }
     </style>
@@ -239,7 +238,7 @@
             <h2>Unit 1</h2>
             <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
             <div class="past-attempts-container" style="display: none;">
-                <h4>पिछले प्रयास:</h4>
+                [span_72](start_span)<h4>पिछले प्रयास:</h4> /*[span_72](end_span) */
                 <ul id="past-attempts-unit1" class="past-attempts-list"></ul>
             </div>
             <a href="unit1/" class="start-test-btn" data-unitid="unit1">Start Test</a>
@@ -247,20 +246,20 @@
 
         <div class="unit-card">
             <h2>Unit 2</h2>
-            [span_72](start_span)<p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>[span_72](end_span)
+            [span_73](start_span)<p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p> /*[span_73](end_span) */
             <div class="past-attempts-container" style="display: none;">
                 <h4>पिछले प्रयास:</h4>
                 <ul id="past-attempts-unit2" class="past-attempts-list"></ul>
             </div>
             <a href="unit2/" class="start-test-btn" data-unitid="unit2">Start Test</a>
-        </div>
+        [span_74](start_span)</div> /*[span_74](end_span) */
 
         <div class="unit-card">
             <h2>Unit 3</h2>
             <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
             <div class="past-attempts-container" style="display: none;">
                 <h4>पिछले प्रयास:</h4>
-                [span_73](start_span)<ul id="past-attempts-unit3" class="past-attempts-list"></ul>[span_73](end_span)
+                [span_75](start_span)<ul id="past-attempts-unit3" class="past-attempts-list"></ul> /*[span_75](end_span) */
             </div>
             <a href="unit3/" class="start-test-btn" data-unitid="unit3">Start Test</a>
         </div>
@@ -268,7 +267,7 @@
         <div class="unit-card">
             <h2>Unit 4</h2>
             <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
-            [span_74](start_span)<div class="past-attempts-container" style="display: none;">[span_74](end_span)
+            [span_76](start_span)<div class="past-attempts-container" style="display: none;"> /*[span_76](end_span) */
                 <h4>पिछले प्रयास:</h4>
                 <ul id="past-attempts-unit4" class="past-attempts-list"></ul>
             </div>
@@ -277,12 +276,12 @@
     </div>
 
     <footer>
-        <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | [span_75](start_span)All rights reserved.</p>[span_75](end_span)
+        <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | [span_77](start_span)All rights reserved.</p> /*[span_77](end_span) */
     </footer>
 
     <script>
         // UI Elements
-        const quizUnitsContainer = document.getElementById('quiz-units-container'); [span_76](start_span)//[span_76](end_span)
+        const quizUnitsContainer = document.getElementById('quiz-units-container'); [span_78](start_span)/*[span_78](end_span) */
 
         // Initially, the quiz units container is directly visible
         // No need to check for user session to display it.
