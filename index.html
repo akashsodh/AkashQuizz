@@ -71,8 +71,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
             margin-bottom: 30px; /* Space below auth container */
-            width: 100%; /* Ensure it takes width */
-            max-width: 500px; /* Limit width for better appearance */
         }
         #auth-container h2, #auth-container h3 {
             color: #00796b;
@@ -115,30 +113,6 @@
             background-color: #e0f2f1; /* Light green background */
             border: 1px solid #00796b;
             border-radius: 4px;
-        }
-        #social-login-container button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 0.95em;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.3s ease;
-        }
-        #social-login-container button img {
-            width: 18px;
-            height: 18px;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        #google-login-button {
-            background-color: #DB4437;
-            color: white;
-        }
-        #google-login-button:hover {
-            background-color: #C33D2E;
         }
 
 
@@ -291,8 +265,7 @@
         <div class="header-wave"></div>
     </header>
 
-    <div id="auth-container-wrapper">
-        <div id="auth-container">
+    <div id="auth-container-wrapper"> <div id="auth-container">
             <h2>प्रमाणीकरण</h2>
             
             <form id="signup-form" style="display: none;">
@@ -309,27 +282,15 @@
                 <button type="submit">लॉग इन</button>
                 <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup-link">यहां क्लिक करें</a></p>
             </form>
-
-            <div id="social-login-container" style="margin-top: 20px;">
-                <button id="google-login-button" type="button">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-                    Google से लॉग इन करें
-                </button>
-            </div>
         
             <div id="user-status" style="display: none;">
                 <p>आप <span id="user-email-display"></span> के रूप में लॉग इन हैं।</p>
                 <button id="logout-button">लॉग आउट</button>
-                <div id="user-profile-details" style="margin-top:10px; padding:10px; border:1px solid #ccc; display:none;">
-                    <h4>प्रोफ़ाइल विवरण</h4>
-                    <p><strong>नाम:</strong> <span id="user-profile-name">N/A</span></p>
-                    </div>
             </div>
         </div>
     </div>
 
-    <div class="container" id="quiz-units-container" style="display:none;">
-        <div class="unit-card">
+    <div class="container" id="quiz-units-container" style="display:none;"> <div class="unit-card">
             <h2>Unit 1</h2>
             <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
             <a href="unit1/" class="start-test-btn">Start Test</a>
@@ -358,165 +319,158 @@
         <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | All rights reserved.</p>
     </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc';
+        // Supabase Client Initialization
+        // महत्वपूर्ण: इन कुंजियों को अपनी Supabase प्रोजेक्ट कुंजियों से बदलें! [cite: 80]
+        // इन कुंजियों को सीधे क्लाइंट-साइड कोड में रखना विकास के लिए ठीक है,  [cite: 80]
+        // लेकिन उत्पादन में, इन्हें एनवायरनमेंट वेरिएबल या बैकएंड के माध्यम से सुरक्षित रखना बेहतर होता है। [cite: 80]
+        const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; // <<--- यह आपकी सही URL है [cite: 81]
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc'; // <<--- यह आपकी सही Anon Key है [cite: 82]
         
-        let supabaseClientInstance; 
+        let supabaseClientInstance; // ग्लोबल Supabase ऑब्जेक्ट के साथ टकराव से बचने के लिए एक अलग नाम का उपयोग करें
 
         try {
             if (!SUPABASE_URL || SUPABASE_URL === 'आपका_सुपाबेस_प्रोजेक्ट_URL' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'आपका_सुपाबेस_एनॉन_कुंजी') {
                 console.warn("Supabase URL या Anon Key सही ढंग से कॉन्फ़िगर नहीं है।");
-                alert("Supabase कॉन्फ़िगरेशन गुम है।");
+                alert("Supabase कॉन्फ़िगरेशन गुम है। कृपया अपनी Supabase URL और Anon Key को कोड में अपडेट करें।");
             } else if (typeof window.supabase === 'undefined' || typeof window.supabase.createClient !== 'function') {
-                console.error("Supabase JS लाइब्रेरी लोड नहीं हुई है।");
+                console.error("Supabase JS लाइब्रेरी लोड नहीं हुई है या createClient फ़ंक्शन उपलब्ध नहीं है। सुनिश्चित करें कि Supabase CDN स्क्रिप्ट इस स्क्रिप्ट से पहले लोड हो रही है।");
                 alert("Supabase लाइब्रेरी लोड करने में त्रुटि।");
             } else {
+                // सही तरीका: window.supabase (जो CDN द्वारा प्रदान किया गया है) से createClient को कॉल करें
                 supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log("Supabase client initialized successfully.");
             }
         } catch (e) {
-            console.error("Supabase क्लाइंट को इनिशियलाइज़ करने में त्रुटि:", e.message);
+            console.error("Supabase क्लाइंट को इनिशियलाइज़ करने में त्रुटि:", e.message); // [cite: 86]
             alert("Supabase से कनेक्ट करने में त्रुटि हुई: " + e.message);
         }
 
-        // UI Elements
-        const authContainer = document.getElementById('auth-container');
-        const signupForm = document.getElementById('signup-form');
-        const loginForm = document.getElementById('login-form');
-        const userStatusDiv = document.getElementById('user-status');
-        const userEmailDisplay = document.getElementById('user-email-display');
-        const logoutButton = document.getElementById('logout-button');
-        const showSignupLink = document.getElementById('show-signup-link');
-        const quizUnitsContainer = document.getElementById('quiz-units-container');
-        const googleLoginButton = document.getElementById('google-login-button');
-        const userProfileDetailsDiv = document.getElementById('user-profile-details');
-        const userProfileNameSpan = document.getElementById('user-profile-name');
 
-        // Event Listeners (जैसा पहले था, सुनिश्चित करें कि supabaseClientInstance का उपयोग हो)
+        // UI Elements
+        const authContainerWrapper = document.getElementById('auth-container-wrapper'); // [cite: 87]
+        const authContainer = document.getElementById('auth-container'); // [cite: 87]
+        const signupForm = document.getElementById('signup-form'); // [cite: 72, 88]
+        const loginForm = document.getElementById('login-form'); // [cite: 73, 88]
+        const userStatusDiv = document.getElementById('user-status'); // [cite: 75, 88]
+        const userEmailDisplay = document.getElementById('user-email-display'); // [cite: 88]
+        const logoutButton = document.getElementById('logout-button'); // [cite: 88]
+        const showSignupLink = document.getElementById('show-signup-link'); // [cite: 74, 89]
+        const quizUnitsContainer = document.getElementById('quiz-units-container'); // [cite: 78, 89]
+
+        // Event Listeners
         if (signupForm) {
-            signupForm.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                const { data, error } = await supabaseClientInstance.auth.signUp({ email, password });
-                if (error) { alert('साइन अप में त्रुटि: ' + error.message); } 
-                else { 
-                    alert('साइन अप सफल! कृपया अपने ईमेल की पुष्टि करें।');
-                    if (loginForm) loginForm.style.display = 'block';
-                    if (signupForm) signupForm.style.display = 'none';
+            signupForm.addEventListener('submit', async (event) => { // [cite: 89]
+                event.preventDefault(); // [cite: 89]
+                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; } // [cite: 89]
+                const email = document.getElementById('signup-email').value; // [cite: 89]
+                const password = document.getElementById('signup-password').value; // [cite: 90]
+
+                const { data, error } = await supabaseClientInstance.auth.signUp({ // supabaseClientInstance का उपयोग करें
+                    email: email, // [cite: 90]
+                    password: password, // [cite: 90]
+                });
+
+                if (error) { // [cite: 91]
+                    alert('साइन अप में त्रुटि: ' + error.message); // [cite: 91]
+                } else {
+                    alert('साइन अप सफल! कृपया अपने ईमेल की पुष्टि करें (यदि Supabase में ईमेल पुष्टि सक्षम है)।'); // [cite: 91]
+                    // UI को अपडेट करें या उपयोगकर्ता को लॉग इन करने के लिए कहें [cite: 92]
+                    if (loginForm) loginForm.style.display = 'block'; // [cite: 92]
+                    if (signupForm) signupForm.style.display = 'none'; // [cite: 93]
                 }
             });
-        }
+        } // [cite: 94]
 
         if (loginForm) {
-            loginForm.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                const { data, error } = await supabaseClientInstance.auth.signInWithPassword({ email, password });
-                if (error) { alert('लॉग इन में त्रुटि: ' + error.message); }
-                // onAuthStateChange UI को अपडेट करेगा
-            });
-        }
+            loginForm.addEventListener('submit', async (event) => { // [cite: 94]
+                event.preventDefault(); // [cite: 94]
+                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; } // [cite: 94]
+                const email = document.getElementById('login-email').value; // [cite: 94]
+                const password = document.getElementById('login-password').value; // [cite: 95]
 
-        if (googleLoginButton) {
-            googleLoginButton.addEventListener('click', async () => {
-                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
-                const { error } = await supabaseClientInstance.auth.signInWithOAuth({ provider: 'google' });
-                if (error) { 
-                    console.error('Google से लॉग इन करने में त्रुटि:', error);
-                    alert('Google से लॉग इन करने में त्रुटि: ' + error.message); 
+                const { data, error } = await supabaseClientInstance.auth.signInWithPassword({ // supabaseClientInstance का उपयोग करें
+                    email: email, // [cite: 95]
+                    password: password, // [cite: 95]
+                });
+
+                if (error) { // [cite: 96]
+                    alert('लॉग इन में त्रुटि: ' + error.message); // [cite: 96]
+                } else {
+                    // onAuthStateChange UI को अपडेट करेगा
+                    // console.log('लॉग इन सफल:', data.user); [cite: 97]
                 }
             });
-        }
+        } // [cite: 98]
 
         if (logoutButton) {
-            logoutButton.addEventListener('click', async () => {
-                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
-                const { error } = await supabaseClientInstance.auth.signOut();
-                if (error) { alert('लॉग आउट में त्रुटि: ' + error.message); }
+            logoutButton.addEventListener('click', async () => { // [cite: 98]
+                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; } // [cite: 98]
+                const { error } = await supabaseClientInstance.auth.signOut(); // supabaseClientInstance का उपयोग करें
+                if (error) { // [cite: 99]
+                    alert('लॉग आउट में त्रुटि: ' + error.message); // [cite: 99]
+                }
                 // onAuthStateChange UI को अपडेट करेगा
             });
-        }
+        } // [cite: 100]
 
         if (showSignupLink) {
-            showSignupLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (loginForm) loginForm.style.display = 'none';
-                if (signupForm) signupForm.style.display = 'block';
+            showSignupLink.addEventListener('click', (e) => { // [cite: 100]
+                e.preventDefault(); // [cite: 100]
+                if (loginForm) loginForm.style.display = 'none'; // [cite: 100]
+                if (signupForm) signupForm.style.display = 'block'; // [cite: 100]
             });
-        }
-        
-        async function updateUIForLoggedInUser(user) {
-            console.log("Updating UI for logged IN user:", user.email);
-            if (authContainer) authContainer.style.display = 'none';
-            if (userStatusDiv) userStatusDiv.style.display = 'block';
-            if (userEmailDisplay) userEmailDisplay.textContent = user.email;
-            if (quizUnitsContainer) quizUnitsContainer.style.display = 'flex';
+        } // [cite: 101]
 
-            if (userProfileDetailsDiv && userProfileNameSpan) {
-                let displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email;
-                userProfileNameSpan.textContent = displayName;
-                userProfileDetailsDiv.style.display = 'block';
-            }
+        // Auth State Change Listener & UI Update Functions
+        function updateUIForLoggedInUser(user) {
+            if (authContainer) authContainer.style.display = 'none'; // [cite: 102]
+            if (userStatusDiv) userStatusDiv.style.display = 'block'; // [cite: 103]
+            if (userEmailDisplay) userEmailDisplay.textContent = user.email; // [cite: 103]
+            if (quizUnitsContainer) quizUnitsContainer.style.display = 'flex'; // [cite: 104]
         }
 
         function updateUIForLoggedOutUser() {
-            console.log("Updating UI for logged OUT user.");
-            if (authContainer) authContainer.style.display = 'block';
-            if (loginForm) loginForm.style.display = 'block';
-            if (signupForm) signupForm.style.display = 'none';
-            if (userStatusDiv) userStatusDiv.style.display = 'none';
-            if (userEmailDisplay) userEmailDisplay.textContent = '';
-            if (quizUnitsContainer) quizUnitsContainer.style.display = 'none';
-            if (userProfileDetailsDiv) userProfileDetailsDiv.style.display = 'none';
+            if (authContainer) authContainer.style.display = 'block'; // [cite: 105]
+            if (loginForm) loginForm.style.display = 'block'; // [cite: 106]
+            if (signupForm) signupForm.style.display = 'none'; // [cite: 106]
+            if (userStatusDiv) userStatusDiv.style.display = 'none'; // [cite: 107]
+            if (userEmailDisplay) userEmailDisplay.textContent = ''; // [cite: 107]
+            if (quizUnitsContainer) quizUnitsContainer.style.display = 'none'; // [cite: 107]
         }
 
-        // Listen for auth state changes
-        if (supabaseClientInstance) {
-            supabaseClientInstance.auth.onAuthStateChange(async (event, session) => {
-                console.log("Auth State Change Event:", event, "Session:", session);
-                if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED' || event === 'INITIAL_SESSION')) {
-                    await updateUIForLoggedInUser(session.user);
-                } else if (event === 'SIGNED_OUT') {
-                    updateUIForLoggedOutUser();
-                } else if (event === 'PASSWORD_RECOVERY') {
-                    // पासवर्ड रिकवरी इवेंट को हैंडल करें (यदि आवश्यक हो)
-                }
-            });
-        } else {
-            // यदि Supabase इनिशियलाइज़ नहीं हुआ है, तो डिफ़ॉल्ट रूप से लॉगआउट UI दिखाएं
-            updateUIForLoggedOutUser();
+        // Check current session on page load
+        async function checkSession() { // [cite: 107]
+            if (!supabaseClientInstance) { // supabaseClientInstance का उपयोग करें
+                console.warn("Supabase is not configured. Skipping session check."); // [cite: 108]
+                updateUIForLoggedOutUser(); // डिफ़ॉल्ट रूप से लॉगआउट UI दिखाएं [cite: 108]
+                return; // [cite: 109]
+            }
+            const { data: { session } } = await supabaseClientInstance.auth.getSession(); // supabaseClientInstance का उपयोग करें [cite: 110]
+            if (session) { // [cite: 110]
+                updateUIForLoggedInUser(session.user); // [cite: 111]
+            } else {
+                updateUIForLoggedOutUser(); // [cite: 112]
+            }
         }
         
-        // 페이지 로드 시 초기 세션 상태를 확인하여 UI를 즉시 업데이트합니다.
-        // 이 코드는 onAuthStateChange가 INITIAL_SESSION에 대해 호출되기 전에 실행될 수 있으므로,
-        // UI가 올바르게 설정되도록 보장합니다.
-        // Supabase v2에서는 onAuthStateChange가 초기 세션을 자동으로 처리하지만, 
-        // 만일을 위해 checkInitialSession을 유지하거나, onAuthStateChange에 전적으로 의존할 수 있습니다.
-        const checkInitialSession = async () => {
-            if (!supabaseClientInstance) {
-                console.log("Supabase not initialized, showing logged out UI for initial check.");
-                updateUIForLoggedOutUser();
-                return;
-            }
-            const { data: { session } } = await supabaseClientInstance.auth.getSession();
-            console.log("Initial session check:", session);
-            if (session) {
-                await updateUIForLoggedInUser(session.user);
-            } else {
-                updateUIForLoggedOutUser();
-            }
-        };
+        // Listen for auth state changes
+        if (supabaseClientInstance) { // supabaseClientInstance का उपयोग करें
+            supabaseClientInstance.auth.onAuthStateChange((event, session) => { // [cite: 112]
+                if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED')) { // [cite: 113]
+                    updateUIForLoggedInUser(session.user); // [cite: 113]
+                } else if (event === 'SIGNED_OUT') { // [cite: 113]
+                    updateUIForLoggedOutUser(); // [cite: 113]
+                }
+            });
+        } // [cite: 114]
 
-        // Call checkInitialSession on DOMContentLoaded to ensure elements are available
-        document.addEventListener('DOMContentLoaded', () => {
-            checkInitialSession();
-        });
+
+        // Call checkSession on window load
+        window.onload = () => { // [cite: 114]
+            checkSession(); // [cite: 115]
+        };
 
     </script>
 </body>
