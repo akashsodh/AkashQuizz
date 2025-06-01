@@ -281,6 +281,12 @@
                 <input type="password" id="login-password" placeholder="पासवर्ड" required><br>
                 <button type="submit">लॉग इन</button>
                 <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup-link">यहां क्लिक करें</a></p>
+                <div id="social-login-container" style="margin-top: 20px;">
+    <button id="google-login-button" type="button" style="background-color: #DB4437; color: white;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 8px;">
+        Google से लॉग इन करें
+    </button>
+</div>
             </form>
         
             <div id="user-status" style="display: none;">
@@ -471,6 +477,42 @@
         window.onload = () => { // [cite: 114]
             checkSession(); // [cite: 115]
         };
+
+        // ... (आपका मौजूदा Supabase क्लाइंट इनिशियलाइज़ेशन और UI एलिमेंट्स) ...
+
+        const googleLoginButton = document.getElementById('google-login-button');
+
+        if (googleLoginButton) {
+            googleLoginButton.addEventListener('click', async () => {
+                if (!supabaseClientInstance) { // सुनिश्चित करें कि supabaseClientInstance इनिशियलाइज़ हो चुका है
+                    alert("Supabase कॉन्फ़िगर नहीं है।");
+                    return;
+                }
+
+                const { data, error } = await supabaseClientInstance.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        // redirectTo: 'आपकी_एप्लिकेशन_की_वह_URL_जहाँ_लॉगइन_के_बाद_उपयोगकर्ता_को_भेजना_है' 
+                        // यदि यह सेट नहीं है, तो Supabase डैशबोर्ड में सेट किया गया डिफ़ॉल्ट URL उपयोग होगा।
+                        // आमतौर पर, यह वर्तमान पेज ही हो सकता है।
+                    }
+                });
+
+                if (error) {
+                    console.error('Google से लॉग इन करने में त्रुटि:', error);
+                    alert('Google से लॉग इन करने में त्रुटि: ' + error.message);
+                } else {
+                    // उपयोगकर्ता को Google साइन-इन पेज पर रीडायरेक्ट किया जाएगा।
+                    // सफल साइन-इन के बाद, onAuthStateChange इसे हैंडल करेगा।
+                    // console.log('Google साइन-इन प्रक्रिया शुरू हुई, डेटा:', data);
+                }
+            });
+        }
+
+        // ... (आपका मौजूदा signupForm, loginForm, logoutButton इवेंट लिस्नर और अन्य फ़ंक्शंस) ...
+
+        // onAuthStateChange और checkSession फ़ंक्शंस वैसे ही रहेंगे,
+        // क्योंकि वे किसी भी प्रमाणीकरण विधि (ईमेल/पासवर्ड या OAuth) से साइन-इन को हैंडल करेंगे।
 
     </script>
 </body>
