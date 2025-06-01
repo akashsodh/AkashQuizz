@@ -107,17 +107,58 @@
         #auth-container a:hover {
             text-decoration: underline;
         }
+        /* Styles for Google Login Button */
+        #google-login-button {
+            background-color: #4285F4; /* Google Blue */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px; /* Space above the button */
+            margin-bottom: 10px; /* Space below the button */
+            width: 100%; /* Make it full width */
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        #google-login-button img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        #google-login-button:hover {
+            background-color: #357ae8; /* Darker Google Blue */
+        }
+
         #user-status {
             margin-top: 20px;
             padding: 10px;
-            background-color: #e0f2f1; /* Light green background */
-            border: 1px solid #00796b;
             border-radius: 4px;
+            text-align: center; /* सामग्री को केंद्र में लाने के लिए जोड़ा गया */
         }
 
 
         .unit-card {
             background-color: white;
+        }
+
+        #user-status img#user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 2px solid #00796b;
+        }
+        #user-status p {
+            margin-bottom: 8px;
+        }
+        #user-status button#logout-button {
+            background-color: #d32f2f; /* Red for logout */
+            margin-top: 15px;
             border-radius: 12px; /* More rounded corners */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Deeper and wider shadow */
             padding: 35px;
@@ -128,6 +169,10 @@
             flex-direction: column;
             justify-content: space-between;
             border: 1px solid #e0e0e0; /* Light border */
+        }
+        #user-status button#logout-button:hover {
+            background-color: #c62828; /* Darker red on hover */
+
         }
 
         .unit-card:hover {
@@ -282,11 +327,20 @@
                 <button type="submit">लॉग इन</button>
                 <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup-link">यहां क्लिक करें</a></p>
             </form>        
+            
+            <p style="text-align: center; margin: 15px 0 10px;">या</p>
+            <button id="google-login-button">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
+                गूगल से लॉग इन करें
+            </button>
+
         </div> <!-- auth-container div यहां बंद होता है -->
 
         <!-- user-status div को auth-container के बाहर यहां ले जाया गया है -->
         <div id="user-status" style="display: none;">
-            <p>आप <span id="user-email-display"></span> के रूप में लॉग इन हैं।</p>
+            <img id="user-avatar" src="" alt="User Avatar" style="display: none;">
+            <p id="user-name-paragraph" style="display:none; font-weight: bold; font-size: 1.2em;"><span id="user-name-display"></span></p>
+            <p>आप <span id="user-email-display" style="font-style: italic;"></span> के रूप में लॉग इन हैं।</p>
             <button id="logout-button">लॉग आउट</button>
         </div>
     </div>
@@ -358,6 +412,7 @@
         const userEmailDisplay = document.getElementById('user-email-display'); // [cite: 88]
         const logoutButton = document.getElementById('logout-button'); // [cite: 88]
         const showSignupLink = document.getElementById('show-signup-link'); // [cite: 74, 89]
+        const googleLoginButton = document.getElementById('google-login-button');
         const quizUnitsContainer = document.getElementById('quiz-units-container'); // [cite: 78, 89]
 
         // Event Listeners
@@ -424,11 +479,61 @@
             });
         } // [cite: 101]
 
+        if (googleLoginButton) {
+            googleLoginButton.addEventListener('click', async () => {
+                if (!supabaseClientInstance) {
+                    alert("Supabase कॉन्फ़िगर नहीं है।");
+                    return;
+                }
+                const { data, error } = await supabaseClientInstance.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.href // सुनिश्चित करें कि उपयोगकर्ता प्रमाणीकरण के बाद इसी पेज पर वापस आए
+                    }
+                });
+
+                if (error) {
+                    alert('गूगल से लॉग इन करने में त्रुटि: ' + error.message);
+                }
+                // सफल होने पर, Supabase रीडायरेक्ट करेगा और onAuthStateChange UI को अपडेट करेगा
+            });
+        }
+
         // Auth State Change Listener & UI Update Functions
         function updateUIForLoggedInUser(user) {
             if (authContainer) authContainer.style.display = 'none'; // [cite: 102]
             if (userStatusDiv) userStatusDiv.style.display = 'block'; // [cite: 103]
-            if (userEmailDisplay) userEmailDisplay.textContent = user.email; // [cite: 103]
+            
+            const userAvatar = document.getElementById('user-avatar');
+            const userNameDisplay = document.getElementById('user-name-display');
+            const userNameParagraph = document.getElementById('user-name-paragraph');
+
+            if (userEmailDisplay) userEmailDisplay.textContent = user.email || 'उपलब्ध नहीं';
+
+            // उपयोगकर्ता मेटाडेटा से नाम और अवतार प्राप्त करें
+            if (user.user_metadata) {
+                if (user.user_metadata.full_name || user.user_metadata.name) {
+                    if (userNameDisplay) userNameDisplay.textContent = user.user_metadata.full_name || user.user_metadata.name;
+                    if (userNameParagraph) userNameParagraph.style.display = 'block';
+                } else {
+                    if (userNameParagraph) userNameParagraph.style.display = 'none';
+                }
+
+                if (user.user_metadata.avatar_url) {
+                    if (userAvatar) {
+                        userAvatar.src = user.user_metadata.avatar_url;
+                        userAvatar.alt = (user.user_metadata.full_name || user.user_metadata.name || user.email) + " का अवतार";
+                        userAvatar.style.display = 'block'; // या 'inline-block' जैसा चाहें
+                    }
+                } else {
+                    if (userAvatar) userAvatar.style.display = 'none';
+                }
+            } else {
+                // यदि user_metadata नहीं है, तो नाम और अवतार फ़ील्ड छिपाएं
+                if (userNameParagraph) userNameParagraph.style.display = 'none';
+                if (userAvatar) userAvatar.style.display = 'none';
+            }
+
             if (quizUnitsContainer) quizUnitsContainer.style.display = 'flex'; // [cite: 104]
         }
 
@@ -437,7 +542,18 @@
             if (loginForm) loginForm.style.display = 'block'; // [cite: 106]
             if (signupForm) signupForm.style.display = 'none'; // [cite: 106]
             if (userStatusDiv) userStatusDiv.style.display = 'none'; // [cite: 107]
+            
+            const userAvatar = document.getElementById('user-avatar');
+            const userNameDisplay = document.getElementById('user-name-display');
+            const userNameParagraph = document.getElementById('user-name-paragraph');
+
             if (userEmailDisplay) userEmailDisplay.textContent = ''; // [cite: 107]
+            if (userNameDisplay) userNameDisplay.textContent = '';
+            if (userNameParagraph) userNameParagraph.style.display = 'none';
+            if (userAvatar) {
+                userAvatar.src = '';
+                userAvatar.style.display = 'none';
+            }
             if (quizUnitsContainer) quizUnitsContainer.style.display = 'none'; // [cite: 107]
         }
 
