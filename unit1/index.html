@@ -6,6 +6,7 @@
   <title>Unit-1</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -389,22 +390,18 @@
     </div>
     <div id="completion-message" style="margin-top: 20px; text-align: center; font-size: 20px; font-weight: bold;"></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Supabase Client Initialization for Unit Page
-    const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; // <<--- आपकी Supabase URL
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc'; // <<--- आपकी Supabase Anon Key
-    let supabaseClientInstance;
-    try {
-        if (window.supabase && typeof window.supabase.createClient === 'function') {
-            supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        } else { console.error("Supabase library not loaded for unit page."); }
-    } catch (e) { console.error("Error initializing Supabase client for unit page:", e.message); }
 
-  </script>
-  <script>
+
+
+
+
+
+
+
+
     let originalQuestions = [
-  {
+      {
     question: 'इनमें से ज्ञान के संबंध में क्या सही नहीं है ?',
     options: ['ज्ञान एक बौद्धिक उत्पाद है', 'ज्ञान विचारों का व्यवस्थित स्वरूप है', 'ज्ञान को साझा और संचारित नहीं किया जा सकता है', 'ज्ञान सूचना का संगठित स्वरूप है'],
     answer: 2,
@@ -1636,16 +1633,46 @@
   }
     ];
 
+
+
+
+
+
+
+
+
+
+
+
+
     let questions = [];
     let current = 0;
     let score = 0;
     let answers = JSON.parse(localStorage.getItem("quizAnswers")) || {};
-    let currentFontSize = parseFloat(localStorage.getItem("quizFontSize")) || 20;
-    let shuffledQuestionsOrder = JSON.parse(localStorage.getItem("shuffledQuestionsOrder")) || null;
-    let shuffledOptionsOrder = JSON.parse(localStorage.getItem("shuffledOptionsOrder")) || {};
-    let questionTimes = JSON.parse(localStorage.getItem("questionTimes")) || {};
+    // UNIT_ID will be used to namespace localStorage items
+    const UNIT_ID = "unit1"; // <<<--- यह हर यूनिट पेज के लिए अद्वितीय होना चाहिए (जैसे "unit1", "unit2", "unit3")
+
+    answers = JSON.parse(localStorage.getItem(UNIT_ID + "_quizAnswers")) || {};
+    let currentFontSize = parseFloat(localStorage.getItem(UNIT_ID + "_quizFontSize")) || 20;
+    let shuffledQuestionsOrder = JSON.parse(localStorage.getItem(UNIT_ID + "_shuffledQuestionsOrder")) || null;
+    let shuffledOptionsOrder = JSON.parse(localStorage.getItem(UNIT_ID + "_shuffledOptionsOrder")) || {};
+    let questionTimes = JSON.parse(localStorage.getItem(UNIT_ID + "_questionTimes")) || {};
     let currentQuestionStartTime = null;
     let timerInterval = null;
+
+    // Supabase Client Setup (अपनी Supabase URL और Anon Key डालें)
+    const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; // अपनी Supabase प्रोजेक्ट URL से बदलें
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc'; // अपनी Supabase anon key से बदलें
+    let supabaseClient = null; 
+    if (typeof supabase !== 'undefined' && SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY') {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+        if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+            console.warn("Supabase URL और/या Anon Key कॉन्फ़िगर नहीं है। क्विज़ परिणाम Supabase में सहेजे नहीं जाएंगे।");
+        } else if (typeof supabase === 'undefined') {
+            console.warn("Supabase लाइब्रेरी लोड नहीं हुई है। क्विज़ परिणाम Supabase में सहेजे नहीं जाएंगे।");
+        }
+    }
 
     if (shuffledQuestionsOrder) {
       questions = shuffledQuestionsOrder.map(index => originalQuestions[index]);
@@ -1681,7 +1708,7 @@
       }
       const elapsed = Math.floor((Date.now() - currentQuestionStartTime) / 1000);
       questionTimes[current] = (questionTimes[current] || 0) + elapsed;
-      localStorage.setItem("questionTimes", JSON.stringify(questionTimes));
+      localStorage.setItem(UNIT_ID + "_questionTimes", JSON.stringify(questionTimes));
       document.getElementById("time-tracking").innerText = `समय: ${elapsed} सेकंड`;
     }
 
@@ -1691,7 +1718,7 @@ function loadQuestion(index) {
       stopTimer();
     }
     current = index;
-    localStorage.setItem("currentQuestion", current);
+    localStorage.setItem(UNIT_ID + "_currentQuestion", current);
     const currentQuestionInOriginalOrder = originalQuestions.find(q => q.question === questions[current].question);
     const q = questions[current];
     let html = `<div class='question' id='current-question-text'>Q${current + 1}. ${q.question}</div>`;
@@ -1787,7 +1814,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     const originalQuestion = originalQuestions.find(oq => oq.question === q.question); // Find the corresponding original question
     
     answers[qShuffledIdx] = selectedOriginalOptionIdx; // Store answer using shuffled index as key, and original option index as value
-    localStorage.setItem("quizAnswers", JSON.stringify(answers));
+    localStorage.setItem(UNIT_ID + "_quizAnswers", JSON.stringify(answers));
 
     document.querySelectorAll(`#quiz-content label`).forEach(label => label.classList.remove("correct", "incorrect", "locked"));
     document.querySelectorAll(`input[name='q${qShuffledIdx}']`).forEach(radio => radio.disabled = true);
@@ -1849,42 +1876,6 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       }
     }
 
-    async function saveTestAttemptToSupabase(unitId, correctAnswers, incorrectAnswers, totalQuestions) {
-        if (!supabaseClientInstance) {
-            alert("Supabase कॉन्फ़िगर नहीं है। रिकॉर्ड सेव नहीं किया जा सका।");
-            return false;
-        }
-        const { data: { user } } = await supabaseClientInstance.auth.getUser();
-        if (!user) {
-            alert("टेस्ट रिकॉर्ड सेव करने के लिए कृपया पहले मुख्य पेज पर लॉग इन करें।");
-            // आप चाहें तो उपयोगकर्ता को लॉगइन पेज पर रीडायरेक्ट कर सकते हैं
-            // window.location.href = "../index.html"; 
-            return false;
-        }
-
-        const scorePercentage = totalQuestions > 0 ? parseFloat(((correctAnswers / totalQuestions) * 100).toFixed(2)) : 0;
-
-        const { error } = await supabaseClientInstance
-            .from('test_attempts')
-            .insert({ 
-                user_id: user.id, 
-                unit_id: unitId, 
-                correct_answers: correctAnswers, 
-                incorrect_answers: incorrectAnswers, 
-                total_questions: totalQuestions,
-                score_percentage: scorePercentage
-            });
-
-        if (error) {
-            console.error('टेस्ट प्रयास सेव करने में त्रुटि:', error);
-            alert('टेस्ट प्रयास सेव करने में त्रुटि: ' + error.message);
-            return false;
-        } else {
-            console.log('टेस्ट प्रयास सफलतापूर्वक सेव किया गया।');
-            return true;
-        }
-    }
-
     function submitQuiz() {
       score = 0;
       questions.forEach((q, i) => { // 'i' is the index in the shuffled 'questions' array
@@ -1909,13 +1900,11 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         completionMessageElement.innerText = "कृपया पुनः प्रयास करें और बेहतर तैयारी करें।";
         completionMessageElement.style.color = "red";
       }
-
-      // Save attempt to Supabase
-      const unitId = "unit1"; // <<<--- हर यूनिट पेज के लिए इसे बदलें (जैसे "unit2", "unit3")
+    // Supabase में प्रयास सहेजें
       const totalAttemptedQuestions = questions.length; // या जितने प्रश्न वास्तव में दिखाए गए
-      const incorrectAnswers = totalAttemptedQuestions - score;
+      const incorrectAnswersCount = totalAttemptedQuestions - score;
       
-      saveTestAttemptToSupabase(unitId, score, incorrectAnswers, totalAttemptedQuestions)
+      saveTestAttemptToSupabase(UNIT_ID, score, incorrectAnswersCount, totalAttemptedQuestions)
         .then(saved => {
             if (saved) alert("आपका परीक्षा परिणाम सफलतापूर्वक सहेज लिया गया है!");
             // Optionally, redirect back to dashboard or provide a link
@@ -2068,20 +2057,20 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     function clearSavedData() {
       const confirmation = confirm("क्या आप वाकई सहेजे गए डेटा को क्लियर करना चाहते हैं? यह आपके सभी प्रगति को हटा देगा।");
       if (confirmation) {
-        localStorage.removeItem("quizAnswers");
-        localStorage.removeItem("currentQuestion");
-        localStorage.removeItem("shuffledQuestionsOrder");
-        localStorage.removeItem("shuffledOptionsOrder");
-        localStorage.removeItem("questionTimes");
-        localStorage.removeItem("quizFontSize");
+        localStorage.removeItem(UNIT_ID + "_quizAnswers");
+        localStorage.removeItem(UNIT_ID + "_currentQuestion");
+        localStorage.removeItem(UNIT_ID + "_shuffledQuestionsOrder");
+        localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder");
+        localStorage.removeItem(UNIT_ID + "_questionTimes");
+        localStorage.removeItem(UNIT_ID + "_quizFontSize");
         localStorage.removeItem("theme");
         answers = {};
         current = 0;
         shuffledQuestionsOrder = null; // This will cause 'questions' to be a copy of 'originalQuestions'
         shuffledOptionsOrder = {};
         questionTimes = {};
-        currentFontSize = 20;
-        // questions will be reset at the start of the script or on reload
+        currentFontSize = 20; 
+        // questions will be reset at the start of the script or on reload by the logic at the top
         alert("सहेजा गया डेटा क्लियर कर दिया गया है।");
         window.location.reload(); // Reload to apply cleared state cleanly
       }
@@ -2141,7 +2130,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         if (currentFontSize < 14) currentFontSize = 14; // Min font size
         if (currentFontSize > 30) currentFontSize = 30; // Max font size
       }
-      localStorage.setItem("quizFontSize", currentFontSize);
+      localStorage.setItem(UNIT_ID + "_quizFontSize", currentFontSize);
       applyFontSize();
     }
 
@@ -2197,19 +2186,19 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     function shuffleQuestions() {
       // Create an array of original indices
       let originalIndices = Array.from({length: originalQuestions.length}, (_, i) => i);
-      shuffledQuestionsOrder = shuffleArray(originalIndices); // This now stores shuffled *original indices*
-      localStorage.setItem("shuffledQuestionsOrder", JSON.stringify(shuffledQuestionsOrder));
+      shuffledQuestionsOrder = shuffleArray(originalIndices); 
+      localStorage.setItem(UNIT_ID + "_shuffledQuestionsOrder", JSON.stringify(shuffledQuestionsOrder));
       
       // Rebuild the 'questions' array based on the shuffled order of original indices
       questions = shuffledQuestionsOrder.map(index => originalQuestions[index]);
       
       // Reset answers, options order, and times as the question order has changed fundamentally
       answers = {}; 
-      localStorage.removeItem("quizAnswers");
+      localStorage.removeItem(UNIT_ID + "_quizAnswers");
       shuffledOptionsOrder = {}; 
-      localStorage.removeItem("shuffledOptionsOrder");
+      localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder");
       questionTimes = {};
-      localStorage.removeItem("questionTimes");
+      localStorage.removeItem(UNIT_ID + "_questionTimes");
 
       buildSidebarLinks(); // Rebuild sidebar (it should still map to original question numbers)
       loadQuestion(0); // Load the first question from the new shuffled 'questions' array
@@ -2220,15 +2209,15 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     function resetQuestionOrder() {
       questions = [...originalQuestions]; // Reset to original order
       shuffledQuestionsOrder = null;
-      localStorage.removeItem("shuffledQuestionsOrder");
+      localStorage.removeItem(UNIT_ID + "_shuffledQuestionsOrder");
       
       // Reset answers, options order, and times
       answers = {};
-      localStorage.removeItem("quizAnswers");
+      localStorage.removeItem(UNIT_ID + "_quizAnswers");
       shuffledOptionsOrder = {};
-      localStorage.removeItem("shuffledOptionsOrder");
+      localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder");
       questionTimes = {};
-      localStorage.removeItem("questionTimes");
+      localStorage.removeItem(UNIT_ID + "_questionTimes");
       
       buildSidebarLinks();
       loadQuestion(0);
@@ -2242,7 +2231,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         const originalOptionIndices = Array.from({length: q.options.length}, (_, j) => j);
         shuffledOptionsOrder[currentShuffledIdx] = shuffleArray(originalOptionIndices);
       });
-      localStorage.setItem("shuffledOptionsOrder", JSON.stringify(shuffledOptionsOrder));
+      localStorage.setItem(UNIT_ID + "_shuffledOptionsOrder", JSON.stringify(shuffledOptionsOrder));
       loadQuestion(current); // Reload current question to apply shuffled options
     }
 
@@ -2262,6 +2251,41 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       const scoreSummary = document.getElementById("score-summary");
       if (scoreSummary) {
         scoreSummary.innerText = `सही उत्तर: ${correct} | गलत उत्तर: ${wrong}`;
+      }
+    }
+
+    async function saveTestAttemptToSupabase(unitId, correctAnswers, incorrectAnswersCount, totalQuestions) {
+      if (!supabaseClient) {
+        console.warn("Supabase क्लाइंट आरंभ नहीं हुआ है। परीक्षा परिणाम सहेजा नहीं जा सकता।");
+        // Optionally alert the user, but it might be too intrusive if Supabase is intentionally not configured.
+        // alert("परीक्षा परिणाम सहेजने में असमर्थ: डेटाबेस कनेक्शन कॉन्फ़िगर नहीं है।");
+        return false;
+      }
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('quiz_attempts') // सुनिश्चित करें कि यह टेबल आपके Supabase प्रोजेक्ट में मौजूद है
+          .insert([
+            { 
+              unit_id: unitId, 
+              score: correctAnswers, 
+              incorrect_answers: incorrectAnswersCount,
+              total_attempted: totalQuestions,
+              // user_id: यदि आपके पास प्रमाणीकरण है तो जोड़ा जा सकता है
+            }
+          ]);
+
+        if (error) {
+          console.error('Supabase में परीक्षा परिणाम सहेजने में त्रुटि:', error);
+          alert(`परीक्षा परिणाम सहेजने में त्रुटि: ${error.message}`);
+          return false;
+        }
+        console.log('परीक्षा परिणाम Supabase में सहेजा गया:', data);
+        return true;
+      } catch (e) {
+        console.error('परीक्षा परिणाम सहेजते समय अपवाद:', e);
+        alert(`परीक्षा परिणाम सहेजने में एक अप्रत्याशित त्रुटि हुई।`);
+        return false;
       }
     }
 
@@ -2286,7 +2310,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       }
       
       // Load saved current question index (this index refers to the position in the 'questions' array)
-      const savedQuestionIndex = localStorage.getItem("currentQuestion");
+      const savedQuestionIndex = localStorage.getItem(UNIT_ID + "_currentQuestion");
       if (savedQuestionIndex !== null && parseInt(savedQuestionIndex) < questions.length) {
         current = parseInt(savedQuestionIndex);
       } else {
