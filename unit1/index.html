@@ -389,6 +389,19 @@
     </div>
     <div id="completion-message" style="margin-top: 20px; text-align: center; font-size: 20px; font-weight: bold;"></div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Supabase Client Initialization for Unit Page
+    const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; // <<--- आपकी Supabase URL
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc'; // <<--- आपकी Supabase Anon Key
+    let supabaseClientInstance;
+    try {
+        if (window.supabase && typeof window.supabase.createClient === 'function') {
+            supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } else { console.error("Supabase library not loaded for unit page."); }
+    } catch (e) { console.error("Error initializing Supabase client for unit page:", e.message); }
+
+  </script>
   <script>
     let originalQuestions = [
   {
@@ -1836,6 +1849,42 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       }
     }
 
+    async function saveTestAttemptToSupabase(unitId, correctAnswers, incorrectAnswers, totalQuestions) {
+        if (!supabaseClientInstance) {
+            alert("Supabase कॉन्फ़िगर नहीं है। रिकॉर्ड सेव नहीं किया जा सका।");
+            return false;
+        }
+        const { data: { user } } = await supabaseClientInstance.auth.getUser();
+        if (!user) {
+            alert("टेस्ट रिकॉर्ड सेव करने के लिए कृपया पहले मुख्य पेज पर लॉग इन करें।");
+            // आप चाहें तो उपयोगकर्ता को लॉगइन पेज पर रीडायरेक्ट कर सकते हैं
+            // window.location.href = "../index.html"; 
+            return false;
+        }
+
+        const scorePercentage = totalQuestions > 0 ? parseFloat(((correctAnswers / totalQuestions) * 100).toFixed(2)) : 0;
+
+        const { error } = await supabaseClientInstance
+            .from('test_attempts')
+            .insert({ 
+                user_id: user.id, 
+                unit_id: unitId, 
+                correct_answers: correctAnswers, 
+                incorrect_answers: incorrectAnswers, 
+                total_questions: totalQuestions,
+                score_percentage: scorePercentage
+            });
+
+        if (error) {
+            console.error('टेस्ट प्रयास सेव करने में त्रुटि:', error);
+            alert('टेस्ट प्रयास सेव करने में त्रुटि: ' + error.message);
+            return false;
+        } else {
+            console.log('टेस्ट प्रयास सफलतापूर्वक सेव किया गया।');
+            return true;
+        }
+    }
+
     function submitQuiz() {
       score = 0;
       questions.forEach((q, i) => { // 'i' is the index in the shuffled 'questions' array
@@ -1860,6 +1909,17 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         completionMessageElement.innerText = "कृपया पुनः प्रयास करें और बेहतर तैयारी करें।";
         completionMessageElement.style.color = "red";
       }
+
+      // Save attempt to Supabase
+      const unitId = "unit1"; // <<<--- हर यूनिट पेज के लिए इसे बदलें (जैसे "unit2", "unit3")
+      const totalAttemptedQuestions = questions.length; // या जितने प्रश्न वास्तव में दिखाए गए
+      const incorrectAnswers = totalAttemptedQuestions - score;
+      
+      saveTestAttemptToSupabase(unitId, score, incorrectAnswers, totalAttemptedQuestions)
+        .then(saved => {
+            if (saved) alert("आपका परीक्षा परिणाम सफलतापूर्वक सहेज लिया गया है!");
+            // Optionally, redirect back to dashboard or provide a link
+        });
     }
 
     function reviewQuiz() {
