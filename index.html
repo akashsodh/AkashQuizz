@@ -107,6 +107,32 @@
         #auth-container a:hover {
             text-decoration: underline;
         }
+        .past-attempts-container {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f0f8ff; /* Light AliceBlue background */
+            border-radius: 6px;
+            border: 1px solid #d1e0ff;
+        }
+        .past-attempts-container h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #0056b3; /* Darker blue for heading */
+        }
+        .past-attempts-list {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 0.9em;
+            color: #333;
+        }
+        .past-attempts-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .past-attempts-list li:last-child {
+            border-bottom: none;
+        }
 
         .unit-card {
             background-color: white;
@@ -373,7 +399,7 @@
                 <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup-link">यहां क्लिक करें</a></p>
             </form>        
             
-            <p style="text-align: center; margin: 15px 0 10px;">या</p>
+            <p class="form-divider">या</p>
             <button id="google-login-button">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
                 गूगल से लॉग इन करें
@@ -385,25 +411,41 @@
     <div class="container" id="quiz-units-container" style="display:none;"> <div class="unit-card">
             <h2>Unit 1</h2>
             <p>Questions based on knowledge of Library and Information Science, types of libraries, national and international library organizations, etc.</p>
-            <a href="unit1/" class="start-test-btn">Start Test</a>
+            <div class="past-attempts-container" style="display: none;">
+                <h4>पिछले प्रयास:</h4>
+                <ul id="past-attempts-unit1" class="past-attempts-list"></ul>
+            </div>
+            <a href="unit1/" class="start-test-btn" data-unitid="unit1">Start Test</a>
         </div>
 
         <div class="unit-card">
             <h2>Unit 2</h2>
             <p>Questions based on library classification, cataloging, principles and methods of subject headings, and related theories.</p>
-            <a href="unit2/" class="start-test-btn">Start Test</a>
+            <div class="past-attempts-container" style="display: none;">
+                <h4>पिछले प्रयास:</h4>
+                <ul id="past-attempts-unit2" class="past-attempts-list"></ul>
+            </div>
+            <a href="unit2/" class="start-test-btn" data-unitid="unit2">Start Test</a>
         </div>
 
         <div class="unit-card">
             <h2>Unit 3</h2>
             <p>Questions based on library management, library automation and digital libraries, various library software, and related concepts.</p>
-            <a href="unit3/" class="start-test-btn">Start Test</a>
+            <div class="past-attempts-container" style="display: none;">
+                <h4>पिछले प्रयास:</h4>
+                <ul id="past-attempts-unit3" class="past-attempts-list"></ul>
+            </div>
+            <a href="unit3/" class="start-test-btn" data-unitid="unit3">Start Test</a>
         </div>
 
         <div class="unit-card">
             <h2>Unit 4</h2>
             <p>Questions based on types of information sources and services, reference services, information literacy, and various aspects of information retrieval.</p>
-            <a href="unit4/" class="start-test-btn">Start Test</a>
+            <div class="past-attempts-container" style="display: none;">
+                <h4>पिछले प्रयास:</h4>
+                <ul id="past-attempts-unit4" class="past-attempts-list"></ul>
+            </div>
+            <a href="unit4/" class="start-test-btn" data-unitid="unit4">Start Test</a>
         </div>
     </div>
 
@@ -559,6 +601,89 @@
             }
         });
 
+        // Function to save test attempt
+        async function saveTestAttempt(unitId, correctAnswers, incorrectAnswers, totalQuestions) {
+            if (!supabaseClientInstance) {
+                alert("Supabase कॉन्फ़िगर नहीं है।");
+                return false;
+            }
+            const { data: { user } } = await supabaseClientInstance.auth.getUser();
+            if (!user) {
+                alert("टेस्ट रिकॉर्ड सेव करने के लिए कृपया पहले लॉग इन करें।");
+                return false;
+            }
+
+            const scorePercentage = totalQuestions > 0 ? parseFloat(((correctAnswers / totalQuestions) * 100).toFixed(2)) : 0;
+
+            const { error } = await supabaseClientInstance
+                .from('test_attempts')
+                .insert({ 
+                    user_id: user.id, 
+                    unit_id: unitId, 
+                    correct_answers: correctAnswers, 
+                    incorrect_answers: incorrectAnswers, 
+                    total_questions: totalQuestions,
+                    score_percentage: scorePercentage
+                });
+
+            if (error) {
+                console.error('टेस्ट प्रयास सेव करने में त्रुटि:', error);
+                alert('टेस्ट प्रयास सेव करने में त्रुटि: ' + error.message);
+                return false;
+            } else {
+                console.log('टेस्ट प्रयास सफलतापूर्वक सेव किया गया।');
+                return true;
+            }
+        }
+
+        // Function to fetch and display past attempts for a unit
+        async function fetchAndDisplayPastAttempts(unitId) {
+            if (!supabaseClientInstance) return;
+            const { data: { user } } = await supabaseClientInstance.auth.getUser();
+            if (!user) return;
+
+            const pastAttemptsListEl = document.getElementById(`past-attempts-${unitId}`);
+            const pastAttemptsContainerEl = pastAttemptsListEl ? pastAttemptsListEl.closest('.past-attempts-container') : null;
+
+            if (!pastAttemptsListEl || !pastAttemptsContainerEl) return;
+
+            const { data: attempts, error } = await supabaseClientInstance
+                .from('test_attempts')
+                .select('correct_answers, incorrect_answers, total_questions, attempted_at, score_percentage')
+                .eq('user_id', user.id)
+                .eq('unit_id', unitId)
+                .order('attempted_at', { ascending: false })
+                .limit(5); // पिछले 5 प्रयास दिखाएं
+
+            pastAttemptsListEl.innerHTML = ''; // पुरानी सूची साफ़ करें
+            if (error) {
+                console.error(`'${unitId}' के लिए पिछले प्रयास लाने में त्रुटि:`, error);
+                pastAttemptsContainerEl.style.display = 'none';
+                return;
+            }
+
+            if (attempts && attempts.length > 0) {
+                pastAttemptsContainerEl.style.display = 'block';
+                attempts.forEach(attempt => {
+                    const date = new Date(attempt.attempted_at).toLocaleDateString('hi-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${date} - सही: ${attempt.correct_answers}, गलत: ${attempt.incorrect_answers}, कुल: ${attempt.total_questions} (स्कोर: ${attempt.score_percentage || 0}%)`;
+                    pastAttemptsListEl.appendChild(listItem);
+                });
+            } else {
+                pastAttemptsContainerEl.style.display = 'none';
+            }
+        }
+
+        function loadAllPastAttemptsForUser() {
+            document.querySelectorAll('.unit-card .start-test-btn').forEach(button => {
+                const unitId = button.dataset.unitid;
+                if (unitId) {
+                    fetchAndDisplayPastAttempts(unitId);
+                }
+            });
+        }
+
         // Auth State Change Listener & UI Update Functions
         function updateUIForLoggedInUser(user) {
             if (authContainer) authContainer.style.display = 'none'; // [cite: 102]
@@ -596,6 +721,7 @@
             }
             if (userDropdownContent) userDropdownContent.style.display = 'none'; // सुनिश्चित करें कि ड्रॉपडाउन शुरू में बंद है
             if (quizUnitsContainer) quizUnitsContainer.style.display = 'flex'; // [cite: 104]
+            loadAllPastAttemptsForUser(); // लॉग इन होने पर पिछले प्रयास लोड करें
         }
 
         function updateUIForLoggedOutUser() {
@@ -614,6 +740,11 @@
             if (userNameDisplay) userNameDisplay.textContent = '';
             if (userNameParagraph) userNameParagraph.style.display = 'none';
             if (quizUnitsContainer) quizUnitsContainer.style.display = 'none'; // [cite: 107]
+            // लॉगआउट होने पर पिछले प्रयासों के कंटेनर छिपाएं
+            document.querySelectorAll('.past-attempts-container').forEach(container => {
+                container.style.display = 'none';
+                container.querySelector('.past-attempts-list').innerHTML = '';
+            });
         }
 
         // Check current session on page load
@@ -642,6 +773,30 @@
             });
         } // [cite: 114]
 
+        // Event listener for "Start Test" buttons (DEMO: Simulates test completion on index.html)
+        document.querySelectorAll('.start-test-btn').forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const { data: { user } } = supabaseClientInstance ? await supabaseClientInstance.auth.getUser() : { data: { user: null } };
+                if (user) { // यदि उपयोगकर्ता लॉग इन है, तो डेमो के लिए टेस्ट सिमुलेशन करें
+                    event.preventDefault(); // वास्तविक नेविगेशन रोकें
+                    const unitId = button.dataset.unitid;
+                    if (!unitId) return;
+
+                    const totalQuestions = 10; // मान लें कि हर टेस्ट में 10 प्रश्न हैं
+                    const correctStr = prompt(`'${unitId}' के लिए, ${totalQuestions} में से कितने उत्तर सही थे? (0-${totalQuestions})`);
+                    if (correctStr === null) return; 
+                    const correctAnswers = parseInt(correctStr);
+
+                    if (isNaN(correctAnswers) || correctAnswers < 0 || correctAnswers > totalQuestions) {
+                        alert("कृपया 0 और " + totalQuestions + " के बीच एक मान्य संख्या दर्ज करें।");
+                        return;
+                    }
+                    const incorrectAnswers = totalQuestions - correctAnswers;
+                    const saved = await saveTestAttempt(unitId, correctAnswers, incorrectAnswers, totalQuestions);
+                    if (saved) fetchAndDisplayPastAttempts(unitId); 
+                }
+            });
+        });
 
         // Call checkSession on window load
         window.onload = () => { // [cite: 114]
