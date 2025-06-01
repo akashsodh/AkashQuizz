@@ -358,20 +358,19 @@
         <p>&copy; 2024 AKASH SODH | RSMSSB Librarian Mock Test | All rights reserved.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Client Initialization
         const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; 
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc';
         
         let supabaseClientInstance; 
 
         try {
-            if (!SUPABASE_URL || SUPABASE_URL === 'आपका_सुपाबेस_प्रोजेक्ट_URL' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'आपका_सुपाबेस_एनॉन_कुंजी') { // पुरानी प्लेसहोल्डर जांच
-                console.warn("Supabase URL या Anon Key सही ढंग से कॉन्फ़िगर नहीं है। कृपया वास्तविक मान डालें।");
-                alert("Supabase कॉन्फ़िगरेशन गुम है। कृपया अपनी Supabase URL और Anon Key को कोड में अपडेट करें।");
+            if (!SUPABASE_URL || SUPABASE_URL === 'आपका_सुपाबेस_प्रोजेक्ट_URL' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'आपका_सुपाबेस_एनॉन_कुंजी') {
+                console.warn("Supabase URL या Anon Key सही ढंग से कॉन्फ़िगर नहीं है।");
+                alert("Supabase कॉन्फ़िगरेशन गुम है।");
             } else if (typeof window.supabase === 'undefined' || typeof window.supabase.createClient !== 'function') {
-                console.error("Supabase JS लाइब्रेरी लोड नहीं हुई है या createClient फ़ंक्शन उपलब्ध नहीं है।");
+                console.error("Supabase JS लाइब्रेरी लोड नहीं हुई है।");
                 alert("Supabase लाइब्रेरी लोड करने में त्रुटि।");
             } else {
                 supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -383,7 +382,6 @@
         }
 
         // UI Elements
-        const authContainerWrapper = document.getElementById('auth-container-wrapper');
         const authContainer = document.getElementById('auth-container');
         const signupForm = document.getElementById('signup-form');
         const loginForm = document.getElementById('login-form');
@@ -396,24 +394,17 @@
         const userProfileDetailsDiv = document.getElementById('user-profile-details');
         const userProfileNameSpan = document.getElementById('user-profile-name');
 
-
-        // Event Listeners
+        // Event Listeners (जैसा पहले था, सुनिश्चित करें कि supabaseClientInstance का उपयोग हो)
         if (signupForm) {
             signupForm.addEventListener('submit', async (event) => {
                 event.preventDefault();
                 if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
                 const email = document.getElementById('signup-email').value;
                 const password = document.getElementById('signup-password').value;
-
-                const { data, error } = await supabaseClientInstance.auth.signUp({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) {
-                    alert('साइन अप में त्रुटि: ' + error.message);
-                } else {
-                    alert('साइन अप सफल! कृपया अपने ईमेल की पुष्टि करें (यदि Supabase में ईमेल पुष्टि सक्षम है)।');
+                const { data, error } = await supabaseClientInstance.auth.signUp({ email, password });
+                if (error) { alert('साइन अप में त्रुटि: ' + error.message); } 
+                else { 
+                    alert('साइन अप सफल! कृपया अपने ईमेल की पुष्टि करें।');
                     if (loginForm) loginForm.style.display = 'block';
                     if (signupForm) signupForm.style.display = 'none';
                 }
@@ -426,47 +417,29 @@
                 if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
-
-                const { data, error } = await supabaseClientInstance.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) {
-                    alert('लॉग इन में त्रुटि: ' + error.message);
-                }
+                const { data, error } = await supabaseClientInstance.auth.signInWithPassword({ email, password });
+                if (error) { alert('लॉग इन में त्रुटि: ' + error.message); }
                 // onAuthStateChange UI को अपडेट करेगा
             });
         }
 
         if (googleLoginButton) {
             googleLoginButton.addEventListener('click', async () => {
-                if (!supabaseClientInstance) {
-                    alert("Supabase कॉन्फ़िगर नहीं है।");
-                    return;
-                }
-                const { data, error } = await supabaseClientInstance.auth.signInWithOAuth({
-                    provider: 'google',
-                     options: {
-                        // redirectTo: window.location.href // वर्तमान पेज पर रीडायरेक्ट करें
-                     }
-                });
-                if (error) {
+                if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
+                const { error } = await supabaseClientInstance.auth.signInWithOAuth({ provider: 'google' });
+                if (error) { 
                     console.error('Google से लॉग इन करने में त्रुटि:', error);
-                    alert('Google से लॉग इन करने में त्रुटि: ' + error.message);
+                    alert('Google से लॉग इन करने में त्रुटि: ' + error.message); 
                 }
             });
         }
-
 
         if (logoutButton) {
             logoutButton.addEventListener('click', async () => {
                 if (!supabaseClientInstance) { alert("Supabase कॉन्फ़िगर नहीं है।"); return; }
                 const { error } = await supabaseClientInstance.auth.signOut();
-                if (error) {
-                    alert('लॉग आउट में त्रुटि: ' + error.message);
-                }
-                 // onAuthStateChange UI को अपडेट करेगा
+                if (error) { alert('लॉग आउट में त्रुटि: ' + error.message); }
+                // onAuthStateChange UI को अपडेट करेगा
             });
         }
 
@@ -477,51 +450,23 @@
                 if (signupForm) signupForm.style.display = 'block';
             });
         }
-
-        // Function to fetch more user profile data (if you have a 'profiles' table)
-        async function fetchUserProfile(userId) {
-            if (!supabaseClientInstance || !userId) return null;
-            // यह एक उदाहरण है। यदि आपने 'profiles' टेबल बनाई है और उसमें 'full_name' कॉलम है।
-            // यदि नहीं, तो आप user.user_metadata से जानकारी प्राप्त कर सकते हैं यदि OAuth प्रदाता उसे प्रदान करता है।
-            // const { data, error } = await supabaseClientInstance
-            //     .from('profiles') 
-            //     .select('full_name') 
-            //     .eq('id', userId)
-            //     .single();
-
-            // if (error && error.code !== 'PGRST116') { 
-            //     console.error('Error fetching user profile:', error);
-            //     return null;
-            // }
-            // return data;
-            return null; // अभी के लिए, क्योंकि 'profiles' टेबल नहीं है
-        }
-
-
-        // Auth State Change Listener & UI Update Functions
+        
         async function updateUIForLoggedInUser(user) {
+            console.log("Updating UI for logged IN user:", user.email);
             if (authContainer) authContainer.style.display = 'none';
             if (userStatusDiv) userStatusDiv.style.display = 'block';
             if (userEmailDisplay) userEmailDisplay.textContent = user.email;
             if (quizUnitsContainer) quizUnitsContainer.style.display = 'flex';
 
-            // प्रोफ़ाइल विवरण दिखाएं
             if (userProfileDetailsDiv && userProfileNameSpan) {
-                // OAuth से प्राप्त नाम (यदि उपलब्ध हो)
                 let displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email;
-
-                // यदि 'profiles' टेबल से डेटा फ़ेच कर रहे हैं
-                // const profileData = await fetchUserProfile(user.id);
-                // if (profileData && profileData.full_name) {
-                //     displayName = profileData.full_name;
-                // }
-                
                 userProfileNameSpan.textContent = displayName;
                 userProfileDetailsDiv.style.display = 'block';
             }
         }
 
         function updateUIForLoggedOutUser() {
+            console.log("Updating UI for logged OUT user.");
             if (authContainer) authContainer.style.display = 'block';
             if (loginForm) loginForm.style.display = 'block';
             if (signupForm) signupForm.style.display = 'none';
@@ -531,43 +476,47 @@
             if (userProfileDetailsDiv) userProfileDetailsDiv.style.display = 'none';
         }
 
-        // Check current session on page load
-        async function checkSession() {
-            if (!supabaseClientInstance) {
-                console.warn("Supabase is not configured. Skipping session check.");
-                updateUIForLoggedOutUser();
-                return;
-            }
-            const { data: { session }, error } = await supabaseClientInstance.auth.getSession();
-            if (error) {
-                console.error("Error getting session:", error.message);
-                updateUIForLoggedOutUser();
-                return;
-            }
-            if (session) {
-                await updateUIForLoggedInUser(session.user); // इसे async बनाया क्योंकि fetchUserProfile कॉल हो सकता है
-            } else {
-                updateUIForLoggedOutUser();
-            }
-        }
-        
         // Listen for auth state changes
         if (supabaseClientInstance) {
-            supabaseClientInstance.auth.onAuthStateChange(async (event, session) => { // async जोड़ा गया
-                console.log("Auth event:", event, "Session:", session); // डिबगिंग के लिए
+            supabaseClientInstance.auth.onAuthStateChange(async (event, session) => {
+                console.log("Auth State Change Event:", event, "Session:", session);
                 if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED' || event === 'INITIAL_SESSION')) {
-                     // INITIAL_SESSION महत्वपूर्ण है जब OAuth के बाद उपयोगकर्ता वापस आता है
                     await updateUIForLoggedInUser(session.user);
                 } else if (event === 'SIGNED_OUT') {
                     updateUIForLoggedOutUser();
+                } else if (event === 'PASSWORD_RECOVERY') {
+                    // पासवर्ड रिकवरी इवेंट को हैंडल करें (यदि आवश्यक हो)
                 }
             });
+        } else {
+            // यदि Supabase इनिशियलाइज़ नहीं हुआ है, तो डिफ़ॉल्ट रूप से लॉगआउट UI दिखाएं
+            updateUIForLoggedOutUser();
         }
-
-        // Call checkSession on window load
-        window.onload = () => {
-            checkSession();
+        
+        // 페이지 로드 시 초기 세션 상태를 확인하여 UI를 즉시 업데이트합니다.
+        // 이 코드는 onAuthStateChange가 INITIAL_SESSION에 대해 호출되기 전에 실행될 수 있으므로,
+        // UI가 올바르게 설정되도록 보장합니다.
+        // Supabase v2에서는 onAuthStateChange가 초기 세션을 자동으로 처리하지만, 
+        // 만일을 위해 checkInitialSession을 유지하거나, onAuthStateChange에 전적으로 의존할 수 있습니다.
+        const checkInitialSession = async () => {
+            if (!supabaseClientInstance) {
+                console.log("Supabase not initialized, showing logged out UI for initial check.");
+                updateUIForLoggedOutUser();
+                return;
+            }
+            const { data: { session } } = await supabaseClientInstance.auth.getSession();
+            console.log("Initial session check:", session);
+            if (session) {
+                await updateUIForLoggedInUser(session.user);
+            } else {
+                updateUIForLoggedOutUser();
+            }
         };
+
+        // Call checkInitialSession on DOMContentLoaded to ensure elements are available
+        document.addEventListener('DOMContentLoaded', () => {
+            checkInitialSession();
+        });
 
     </script>
 </body>
