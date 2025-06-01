@@ -1,0 +1,26 @@
+<div id="auth-container">
+    <h2>प्रमाणीकरण</h2>
+    
+    <form id="signup-form" style="display: none;">
+        <h3>नया खाता बनाएं</h3>
+        <input type="email" id="signup-email" placeholder="ईमेल" required><br>
+        <input type="password" id="signup-password" placeholder="पासवर्ड" required><br>
+        <button type="submit">साइन अप</button>
+    </form>
+
+    <form id="login-form">
+        <h3>लॉग इन करें</h3>
+        <input type="email" id="login-email" placeholder="ईमेल" required><br>
+        <input type="password" id="login-password" placeholder="पासवर्ड" required><br>
+        <button type="submit">लॉग इन</button>
+        <p>नया खाता बनाना चाहते हैं? <a href="#" id="show-signup">यहां क्लिक करें</a></p>
+    </form>
+
+    <div id="user-status" style="display: none;">
+        <p>आप <span id="user-email-display"></span> के रूप में लॉग इन हैं।</p>
+        <button id="logout-button">लॉग आउट</button>
+    </div>
+</div>
+
+<div class="container" id="quiz-units-container" style="display:none;">
+    </div>
