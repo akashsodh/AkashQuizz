@@ -1,3 +1,22 @@
+    // ... (Supabase init और saveTestAttemptToSupabase फंक्शन unit1 की तरह ही) ...
+
+    function submitQuiz() {
+      // ... (स्कोर गणना पहले की तरह) ...
+      const percentage = ((score / questions.length) * 100).toFixed(2);
+      document.getElementById("result").innerHTML = `आपका स्कोर: ${score}/${questions.length} (${percentage}%)`;
+      // ... (completionMessageElement लॉजिक पहले की तरह) ...
+
+      // Save attempt to Supabase
+      const unitId = "unit2"; // <<<--- यहाँ unitId बदला गया है
+      const totalAttemptedQuestions = questions.length;
+      const incorrectAnswers = totalAttemptedQuestions - score;
+      
+      saveTestAttemptToSupabase(unitId, score, incorrectAnswers, totalAttemptedQuestions)
+        .then(saved => {
+            if (saved) alert("आपका परीक्षा परिणाम सफलतापूर्वक सहेज लिया गया है!");
+        });
+    }
+    // ... (बाकी JavaScript कोड पहले की तरह) ...
 <!DOCTYPE html>
 <html lang="hi">
 <head>
