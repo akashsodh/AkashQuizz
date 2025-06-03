@@ -140,40 +140,48 @@ label.locked {
   opacity: 0.6;
 }
 
-/* --- सामान्य बटन स्टाइल (संशोधित) --- */
+/* --- सामान्य बटन स्टाइल --- */
 button {
-  padding: 12px 22px; /* थोड़ा अधिक पैडिंग */
+  padding: 12px 22px; 
   border: none;
   background: linear-gradient(to right, #43cea2, #185a9d);
   color: #fff;
   font-weight: bold;
-  border-radius: 8px; /* अधिक गोल किनारे */
+  border-radius: 8px; 
   cursor: pointer;
-  transition: all 0.3s ease; /* स्मूथ ट्रांजीशन इफेक्ट */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* नया: हल्का शैडो */
-  text-transform: uppercase; /* नया: टेक्स्ट को अपरकेस करें */
-  letter-spacing: 0.5px; /* नया: अक्षरों के बीच थोड़ा स्पेस */
+  transition: all 0.3s ease; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px; 
 }
 
 button:hover {
   background: linear-gradient(to right, #185a9d, #43cea2);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* नया: होवर पर गहरा शैडो */
-  transform: translateY(-2px); /* नया: होवर पर थोड़ा ऊपर उठना */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+  transform: translateY(-2px); 
 }
 
 button:active {
-  transform: translateY(0); /* क्लिक करने पर वापस अपनी जगह पर */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* क्लिक करने पर हल्का शैडो */
+  transform: translateY(0); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
 }
 
 /* --- Navigation Buttons (Back, Bookmark, Next) --- */
 .navigation {
   display: flex;
-  justify-content: space-between; /* स्पेस को तीनों बटनों के बीच फैलाएगा */
+  justify-content: space-between; 
   margin-top: 20px;
 }
 .navigation button {
-  padding: 10px 18px; /* नेविगेशन बटन के लिए पैडिंग को समायोजित करें */
+  padding: 10px 18px; 
+}
+
+/* --- Quiz Header Controls (नया) --- */
+.quiz-header-controls {
+    display: flex;
+    flex-direction: column; /* बटनों और प्रगति बार को स्टैक करें */
+    gap: 15px; /* तत्वों के बीच की जगह */
+    margin-bottom: 20px; /* मुख्य क्विज़ कंटेंट से मार्जिन */
 }
 
 /* --- Top Navigation Buttons (Submit, Review) --- */
@@ -181,11 +189,42 @@ button:active {
     display: flex;
     justify-content: flex-end; /* बटनों को दाईं ओर संरेखित करें */
     gap: 10px; /* बटनों के बीच थोड़ी जगह */
-    margin-bottom: 20px; /* क्विज़ कंटेंट से ऊपर से मार्जिन */
+    /* margin-bottom: 20px; इसे quiz-header-controls के gap से नियंत्रित करें */
 }
 .top-navigation button {
-  padding: 10px 18px; /* पैडिंग को थोड़ा कम करें */
-  font-size: 0.95em; /* थोड़ा छोटा फ़ॉन्ट */
+  padding: 10px 18px; 
+  font-size: 0.95em; 
+}
+
+/* --- Progress Bar (नया) --- */
+.progress-bar-container {
+    width: 100%;
+    height: 12px; /* प्रगति बार की ऊंचाई */
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden; /* सुनिश्चित करें कि भरा हुआ भाग गोल किनारों के अंदर रहे */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* थोड़ा अंदर की ओर शैडो */
+    position: relative; /* प्रतिशत टेक्स्ट के लिए */
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%; /* JavaScript द्वारा अपडेट किया जाएगा */
+    background: linear-gradient(to right, #4CAF50, #8BC34A); /* सुंदर हरा ग्रेडिएंट */
+    border-radius: 6px;
+    transition: width 0.5s ease-in-out; /* स्मूथ एनिमेशन जब चौड़ाई बदलती है */
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #333; /* टेक्स्ट का रंग */
+    font-size: 0.8em;
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.7); /* टेक्स्ट को थोड़ा हाइलाइट करें */
+    z-index: 1; /* सुनिश्चित करें कि टेक्स्ट भरा हुआ भाग के ऊपर हो */
 }
 
 #result {
@@ -226,6 +265,19 @@ body.dark .explanation {
     border-left-color: #9b70e0;
     color: #e0e0e0;
 }
+body.dark .progress-bar-container { /* Dark theme for progress bar */
+    background-color: #444;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
+body.dark .progress-bar-fill {
+    background: linear-gradient(to right, #66BB6A, #A5D6A7); /* Darker green gradient */
+}
+body.dark .progress-text {
+    color: #eee;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+}
+
+
 .tools-section {
   margin-bottom: 20px;
   padding-bottom: 15px;
@@ -239,27 +291,27 @@ body.dark .explanation {
   text-align: center;
 }
 
-/* --- Tools Section Buttons (संशोधित) --- */
+/* --- Tools Section Buttons --- */
 .tools-section .button { 
   display: block;
   width: 90%;
   margin: 10px auto;
-  padding: 12px; /* थोड़ा अधिक पैडिंग */
+  padding: 12px; 
   border: none;
-  border-radius: 8px; /* अधिक गोल किनारे */
+  border-radius: 8px; 
   cursor: pointer;
   font-weight: bold;
   text-align: center;
-  transition: all 0.3s ease; /* स्मूथ ट्रांजीशन */
+  transition: all 0.3s ease; 
   color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* नया: हल्का शैडो */
-  text-transform: uppercase; /* नया: टेक्स्ट को अपरकेस करें */
-  letter-spacing: 0.5px; /* नया: अक्षरों के बीच थोड़ा स्पेस */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px; 
 }
 
 .tools-section .button:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* नया: होवर पर गहरा शैडो */
-  transform: translateY(-2px); /* नया: होवर पर थोड़ा ऊपर उठना */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+  transform: translateY(-2px); 
 }
 
 /* Theme Button (Specific background) */
@@ -287,7 +339,7 @@ body.dark .explanation {
   background: #c0392b;
 }
 
-/* Font Size Controls (Small buttons) - संशोधित */
+/* Font Size Controls (Small buttons) */
 .font-size-controls {
   margin-top: 0;
   padding-top: 0;
@@ -297,21 +349,21 @@ body.dark .explanation {
   font-weight: bold;
 }
 .font-size-controls button {
-  padding: 6px 12px; /* थोड़ा बड़ा पैडिंग */
+  padding: 6px 12px; 
   margin: 0 5px;
   background: #3498db;
   color: white;
   border: none;
-  border-radius: 6px; /* अधिक गोल किनारे */
+  border-radius: 6px; 
   cursor: pointer;
   font-weight: normal;
   display: inline-block;
   width: auto;
   vertical-align: middle;
-  transition: all 0.2s ease; /* स्मूथ ट्रांजीशन */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* नया: हल्का शैडो */
-  text-transform: none; /* अपरकेस को यहां रोकें */
-  letter-spacing: normal; /* लेटर स्पेसिंग को यहां रोकें */
+  transition: all 0.2s ease; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  text-transform: none; 
+  letter-spacing: normal; 
 }
 .font-size-controls button:hover {
   background: #2980b9;
@@ -342,14 +394,12 @@ body.dark .explanation {
   break-inside: avoid;
 }
 
-/* Bookmark Button Specific Styles (संशोधित) */
+/* Bookmark Button Specific Styles */
 #bookmarkBtn {
-  background: linear-gradient(to right, #20bf55, #01baef); /* ग्रीन-ब्लू ग्रेडिएंट */
+  background: linear-gradient(to right, #20bf55, #01baef); 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  /* margin-top: 10px; -- यह अब navigation flex-box से नियंत्रित होगा */
-  /* width: 100%; -- यह अब navigation flex-box से नियंत्रित होगा */
 }
 #bookmarkBtn:hover {
   background: linear-gradient(to right, #01baef, #20bf55);
@@ -366,35 +416,13 @@ body.dark .explanation {
 
 /* Sidebar Bookmarked Question Highlight */
 .sidebar td a.bookmarked {
-  background: #ADD8E6 !important; /* Light blue for bookmarked */
+  background: #ADD8E6 !important; 
   color: #000080 !important;
   border-left: 3px solid #000080;
 }
 body.dark .sidebar td a.bookmarked {
-    background: #4682B4 !important; /* Darker blue for dark theme */
+    background: #4682B4 !important; 
     color: #fff !important;
-}
-
-/* Dark Theme Adjustments for Buttons */
-body.dark button {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-body.dark button:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
-}
-body.dark .font-size-controls button {
-    background: #555;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-body.dark .font-size-controls button:hover {
-    background: #666;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
-}
-body.dark .tools-section .clear-data-btn {
-    background: #c0392b;
-}
-body.dark .tools-section .clear-data-btn:hover {
-    background: #a03022;
 }
 
 /* --- Responsive Adjustments --- */
@@ -474,20 +502,14 @@ body.dark .tools-section .clear-data-btn:hover {
       gap: 10px;
   }
   .top-navigation {
-      justify-content: center; /* मोबाइल पर बटन केंद्र में करें */
+      justify-content: center; 
       margin-bottom: 15px;
   }
   .top-navigation button {
       padding: 6px 12px;
       font-size: 0.8em;
   }
-}
-@media (min-width: 769px) {
-  body.sidebar-visible {
-    padding-left: 240px;
-  }
-  .sidebar.hidden + .quiz-container {
-    margin-left: auto;
-    margin-right: auto;
+  .quiz-header-controls {
+    gap: 10px; /* मोबाइल पर तत्वों के बीच की जगह कम करें */
   }
 }
