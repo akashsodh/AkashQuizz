@@ -1,0 +1,121 @@
+/* style.css */
+
+body {
+    font-family: 'Poppins', Arial, sans-serif; /* Poppins को प्राथमिक फ़ॉन्ट के रूप में उपयोग करें */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.test-series-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 2rem;
+}
+
+.main-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.main-card:hover {
+    transform: translateY(-5px);
+}
+
+.main-card h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.sub-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.sub-card {
+    background-color: #e8f5e9; /* Light green background for sub-cards */
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    padding: 1rem;
+    text-decoration: none;
+    color: #333;
+    display: block; /* Make the whole card clickable */
+    text-align: left;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.sub-card:hover {
+    background-color: #dcedc8; /* Slightly darker green on hover */
+    transform: translateY(-2px);
+}
+
+.sub-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #2e7d32; /* Darker green for sub-card titles */
+    font-size: 1.2rem;
+}
+
+.sub-card p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .main-card {
+        padding: 1.5rem;
+    }
+
+    .main-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .sub-card {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-series-container {
+        padding: 0.5rem;
+    }
+}
