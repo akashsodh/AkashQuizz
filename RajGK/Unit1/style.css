@@ -341,3 +341,27 @@ body.dark .explanation {
     margin-right: auto;
   }
 }
+
+/* Bookmark Button Styling */
+#bookmarkBtn {
+  background: linear-gradient(to right, #20bf55, #01baef);
+  margin-top: 10px;
+  width: 100%; /* Make it full width like other buttons */
+}
+#bookmarkBtn:hover {
+  background: linear-gradient(to right, #01baef, #20bf55);
+}
+#bookmarkBtn i {
+  margin-left: 5px;
+}
+
+/* Sidebar Bookmarked Question Highlight */
+.sidebar td a.bookmarked {
+  background: #ADD8E6 !important; /* Light blue for bookmarked */
+  color: #000080 !important;
+  border-left: 3px solid #000080;
+}
+body.dark .sidebar td a.bookmarked {
+    background: #4682B4 !important; /* Darker blue for dark theme */
+    color: #fff !important;
+}
