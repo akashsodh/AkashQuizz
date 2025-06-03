@@ -341,39 +341,3 @@ body.dark .explanation {
     margin-right: auto;
   }
 }
-
-/* Quiz Review Specific Styles */
-body.dark h2 { color: #fff; }
-body.dark .question-review { border-color: #555; background: #333; }
-body.dark .correct-answer-review { color: #90ee90; }
-body.dark .user-answer-review { color: #ff6347; }
-body.dark .explanation-review { background-color: #2a2a2a; border-left-color: #9b70e0; color: #e0e0e0; }
-
-.question-review { 
-    margin-bottom: 20px; 
-    padding: 15px; 
-    border: 1px solid #eee; 
-    border-radius: 8px; 
-}
-.question-review strong { 
-    display: block; 
-    margin-bottom: 5px; 
-}
-.correct-answer-review { 
-    color: green; 
-    font-weight: bold; 
-}
-.user-answer-review { 
-    font-weight: bold; 
-}
-.time-spent { 
-    color: #555; 
-    margin-top: 5px; 
-}
-.explanation-review { 
-    margin-top: 10px; 
-    padding: 8px; 
-    background-color: #f0f0f0; 
-    border-left: 3px solid #764ba2; 
-    font-size: 0.9em;
-}
