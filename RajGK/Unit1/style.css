@@ -139,10 +139,71 @@ label.locked {
   pointer-events: none;
   opacity: 0.6;
 }
+/* Existing .navigation style - adjust to remove Submit/Review buttons */
 .navigation {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* स्पेस को तीनों बटनों के बीच फैलाएगा */
   margin-top: 20px;
+}
+
+/* New style for the top navigation buttons */
+.top-navigation {
+    display: flex;
+    justify-content: flex-end; /* बटनों को दाईं ओर संरेखित करें */
+    gap: 10px; /* बटनों के बीच थोड़ी जगह */
+    margin-bottom: 20px; /* क्विज़ कंटेंट से ऊपर से मार्जिन */
+}
+
+/* Optional: Make top buttons look slightly different or smaller if desired */
+.top-navigation button {
+    padding: 8px 15px; /* Slightly smaller padding */
+    font-size: 0.9em;
+}
+
+/* Ensure bookmark button has consistent styling */
+#bookmarkBtn {
+  background: linear-gradient(to right, #20bf55, #01baef);
+  /* margin-top: 10px; -- ये अब navigation flex-box से नियंत्रित होगा */
+  /* width: 100%; -- ये अब navigation flex-box से नियंत्रित होगा */
+}
+#bookmarkBtn:hover {
+  background: linear-gradient(to right, #01baef, #20bf55);
+}
+#bookmarkBtn i {
+  margin-left: 5px;
+}
+
+/* Sidebar Bookmarked Question Highlight */
+.sidebar td a.bookmarked {
+  background: #ADD8E6 !important; /* Light blue for bookmarked */
+  color: #000080 !important;
+  border-left: 3px solid #000080;
+}
+body.dark .sidebar td a.bookmarked {
+    background: #4682B4 !important; /* Darker blue for dark theme */
+    color: #fff !important;
+}
+
+/* Responsive adjustments if needed for new layout */
+@media (max-width: 768px) {
+    .top-navigation {
+        justify-content: center; /* मोबाइल पर बटन केंद्र में करें */
+        margin-bottom: 15px;
+    }
+    .top-navigation button {
+        padding: 6px 12px;
+        font-size: 0.8em;
+    }
+    .navigation {
+        flex-wrap: wrap; /* मोबाइल पर बटनों को अगली लाइन पर रैप करें */
+        justify-content: center;
+        gap: 10px;
+    }
+    #bookmarkBtn {
+        /* Mobile specific adjustments if needed */
+        width: auto; /* Allow content-based width */
+    }
+}
 }
 button {
   padding: 10px 18px;
