@@ -15,6 +15,7 @@
     <div class="tools-section">
       <h2>Tools</h2>
       <div class="font-size-controls">
+        Font Size:
         <button onclick="changeFontSize(-2)">A-</button>
         <button onclick="changeFontSize(0)">A</button>
         <button onclick="changeFontSize(2)">A+</button>
@@ -22,7 +23,7 @@
       <button class="button" onclick="shuffleQuestions()">Shuffle Questions</button>
       <button class="button" onclick="resetQuestionOrder()">Reset Question Order</button>
       <button class="button" onclick="shuffleOptions()">Shuffle Options</button>
-      <button class="button" onclick="showBookmarkedQuestions()">Show Bookmarked</button>
+      <button class="button" onclick="showBookmarkedQuestions()">Show Bookmarked</button> 
       <button class="button theme-btn" onclick="toggleTheme()" id="theme-btn"><i class="fas fa-sun"></i> Toggle Theme</button>
       <button class="button fullscreen-btn" onclick="toggleFullscreen()" id="fullscreen-btn"><i class="fas fa-expand"></i> Toggle Fullscreen</button>
       <button class="button clear-data-btn" onclick="clearSavedData()">Clear Saved Data</button>
@@ -30,17 +31,21 @@
     <h2>Questions</h2>
     <table id="questionTable"></table>
   </div>
-  <div id="progress" style="text-align:center; margin: 10px 0; font-weight:bold;"></div>
   <div class="quiz-container">
-    <div class="top-navigation"> <button onclick="submitQuiz()">Submit</button>
-      <button onclick="reviewQuiz()">Review</button>
+    <div class="quiz-header-controls"> <div class="top-navigation"> 
+            <button onclick="submitQuiz()">Submit</button>
+            <button onclick="reviewQuiz()">Review</button>
+        </div>
+        <div class="progress-bar-container"> <div class="progress-bar-fill" id="progressBarFill"></div>
+            <span class="progress-text" id="progressBarText">0%</span> </div>
     </div>
     
     <div id="quiz-content"></div>
     <div class="time-tracking" id="time-tracking">समय: 0 सेकंड</div>
     <div class="navigation">
       <button onclick="prevQuestion()">Back</button>
-      <button id="bookmarkBtn" onclick="toggleBookmark(current)">Bookmark <i class="far fa-bookmark"></i></button> <button onclick="nextQuestion()">Next</button>
+      <button id="bookmarkBtn" onclick="toggleBookmark(current)">Bookmark <i class="far fa-bookmark"></i></button> 
+      <button onclick="nextQuestion()">Next</button>
     </div>
     <div id="result"></div>
     <div id="score-summary" style="text-align:center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #555;">
@@ -106,7 +111,7 @@
         loadQuestion(current); 
         setInitialIcons();
         updateScoreSummary(); 
-        updateProgress();     
+        updateProgress();     // प्रगति बार को अपडेट करने के लिए कॉल करें
 
       } catch (error) {
         console.error('Error loading questions:', error);
@@ -143,7 +148,7 @@
       const elapsed = Math.floor((Date.now() - currentQuestionStartTime) / 1000);
       questionTimes[current] = (questionTimes[current] || 0) + elapsed;
       localStorage.setItem(UNIT_ID + "_questionTimes", JSON.stringify(questionTimes));
-      document.getElementById("time-tracking").innerText = `समय: ${elapsed} सेकंड`;
+      document.getElementById("time-tracking").innerText = `समय: ${questionTimes[current] || 0} सेकंड`; // Display total time for current question
     }
 
 function loadQuestion(index) {
@@ -229,9 +234,9 @@ function loadQuestion(index) {
     applyFontSize();
     updateSidebarHighlight();
     updateScoreSummary();
-    updateProgress();
+    updateProgress();     // प्रगति बार को अपडेट करने के लिए कॉल करें
     startTimer();
-    document.getElementById("time-tracking").innerText = `समय: ${questionTimes[current] || 0} सेकंड`;
+    document.getElementById("time-tracking").innerText = `समय: ${questionTimes[current] || 0} सेकंड`; 
     updateBookmarkButton(); 
   }
 }
@@ -285,7 +290,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     }
 
     document.querySelectorAll(`#quiz-content label`).forEach(label => label.classList.add("locked"));
-    updateProgress();
+    updateProgress();    // प्रगति बार को अपडेट करने के लिए कॉल करें
     updateSidebarHighlight(); 
     updateScoreSummary();
   }
@@ -404,6 +409,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       newWin.document.close();
     }
 
+    // --- प्रगति बार को अपडेट करने के लिए संशोधित फंक्शन ---
     function updateProgress() {
       const total = questions.length;
       let answeredCount = 0;
@@ -412,8 +418,11 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
           answeredCount++;
         }
       }
-      document.getElementById("progress").innerText = `प्रगति: ${answeredCount}/${total} प्रश्न हल किए गए`;
+      const percentage = (answeredCount / total) * 100;
+      document.getElementById("progressBarFill").style.width = percentage + "%";
+      document.getElementById("progressBarText").innerText = `${answeredCount}/${total} (${percentage.toFixed(0)}%)`;
     }
+
 
     function updateSidebarHighlight() {
       const allLinks = document.querySelectorAll("#questionTable a");
@@ -725,27 +734,23 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
 
         const bookmarkedOriginalQuestions = originalQuestions.filter((q, index) => bookmarkedQuestions.includes(index));
         
-        // Save current state before switching to bookmarked view
-        // These will be used to revert to the previous quiz state
         const savedShuffledQuestionsOrder = shuffledQuestionsOrder;
         const savedCurrentQuestion = current;
-        const savedAnswers = {...answers}; // Deep copy
-        const savedShuffledOptionsOrder = {...shuffledOptionsOrder}; // Deep copy
-        const savedQuestionTimes = {...questionTimes}; // Deep copy
+        const savedAnswers = {...answers}; 
+        const savedShuffledOptionsOrder = {...shuffledOptionsOrder}; 
+        const savedQuestionTimes = {...questionTimes}; 
 
-        // Set 'questions' array to only contain bookmarked questions
         questions = bookmarkedOriginalQuestions.map(q => q); 
         shuffledQuestionsOrder = questions.map(q => originalQuestions.indexOf(q)); 
 
-        // Clear temporary data for this view - this is okay as it's a temporary view
         answers = {}; 
         shuffledOptionsOrder = {}; 
         questionTimes = {}; 
 
         localStorage.setItem(UNIT_ID + "_shuffledQuestionsOrder", JSON.stringify(shuffledQuestionsOrder));
-        localStorage.removeItem(UNIT_ID + "_quizAnswers"); // Remove current answers
-        localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder"); // Remove current option order
-        localStorage.removeItem(UNIT_ID + "_questionTimes"); // Remove current question times
+        localStorage.removeItem(UNIT_ID + "_quizAnswers"); 
+        localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder"); 
+        localStorage.removeItem(UNIT_ID + "_questionTimes"); 
 
 
         alert(`Showing ${questions.length} bookmarked questions. To go back to all questions, click 'Reset Question Order'.`);
@@ -754,10 +759,6 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         buildSidebarLinks(); 
         updateScoreSummary();
         updateProgress();
-
-        // We can add a flag to indicate we are in bookmarked mode, 
-        // and a button to revert to the previous state. For simplicity,
-        // using "Reset Question Order" button to exit this mode.
     }
 
 
