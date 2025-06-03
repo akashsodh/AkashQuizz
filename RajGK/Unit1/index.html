@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css"> </head>
+<body>
+  <div class="toggle-btn" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+  <div class="sidebar" id="sidebar">
+    <div class="tools-section">
+      <h2>Tools</h2>
+      <div class="font-size-controls">
+        Font Size:
+        <button onclick="changeFontSize(-2)">A-</button>
+        <button onclick="changeFontSize(0)">A</button>
+        <button onclick="changeFontSize(2)">A+</button>
+      </div>
+      <button class="button" onclick="shuffleQuestions()">Shuffle Questions</button>
+      <button class="button" onclick="resetQuestionOrder()">Reset Question Order</button>
+      <button class="button" onclick="shuffleOptions()">Shuffle Options</button>
+      <button class="button theme-btn" onclick="toggleTheme()" id="theme-btn"><i class="fas fa-sun"></i> Toggle Theme</button>
+      <button class="button fullscreen-btn" onclick="toggleFullscreen()" id="fullscreen-btn"><i class="fas fa-expand"></i> Toggle Fullscreen</button>
+      <button class="button clear-data-btn" onclick="clearSavedData()">Clear Saved Data</button>
+    </div>
+    <h2>Questions</h2>
+    <table id="questionTable"></table>
+  </div>
+  <div id="progress" style="text-align:center; margin: 10px 0; font-weight:bold;"></div>
+  <div class="quiz-container">
+    <div id="quiz-content"></div>
+    <div class="time-tracking" id="time-tracking">समय: 0 सेकंड</div>
+    <div class="navigation">
+      <button onclick="prevQuestion()">Back</button>
+      <button onclick="nextQuestion()">Next</button>
+      <button onclick="submitQuiz()">Submit</button>
+      <button onclick="reviewQuiz()">Review</button>
+    </div>
+    <div id="result"></div>
+    <div id="score-summary" style="text-align:center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #555;">
+      सही उत्तर: 0 | गलत उत्तर: 0
+    </div>
+    <div id="completion-message" style="margin-top: 20px; text-align: center; font-size: 20px; font-weight: bold;"></div>
+  </div>
+  <script src="script.js"></script> </body>
+</html>
