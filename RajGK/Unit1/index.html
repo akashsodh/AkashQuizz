@@ -23,7 +23,8 @@
       <button class="button" onclick="shuffleQuestions()">Shuffle Questions</button>
       <button class="button" onclick="resetQuestionOrder()">Reset Question Order</button>
       <button class="button" onclick="shuffleOptions()">Shuffle Options</button>
-      <button class="button" onclick="showBookmarkedQuestions()">Show Bookmarked</button> <button class="button theme-btn" onclick="toggleTheme()" id="theme-btn"><i class="fas fa-sun"></i> Toggle Theme</button>
+      <button class="button" onclick="showBookmarkedQuestions()">Show Bookmarked</button>
+      <button class="button theme-btn" onclick="toggleTheme()" id="theme-btn"><i class="fas fa-sun"></i> Toggle Theme</button>
       <button class="button fullscreen-btn" onclick="toggleFullscreen()" id="fullscreen-btn"><i class="fas fa-expand"></i> Toggle Fullscreen</button>
       <button class="button clear-data-btn" onclick="clearSavedData()">Clear Saved Data</button>
     </div>
@@ -32,14 +33,16 @@
   </div>
   <div id="progress" style="text-align:center; margin: 10px 0; font-weight:bold;"></div>
   <div class="quiz-container">
+    <div class="top-navigation"> <button onclick="submitQuiz()">Submit</button>
+      <button onclick="reviewQuiz()">Review</button>
+    </div>
+    
     <div id="quiz-content"></div>
     <div class="time-tracking" id="time-tracking">समय: 0 सेकंड</div>
     <div class="navigation">
       <button onclick="prevQuestion()">Back</button>
-      <button onclick="nextQuestion()">Next</button>
-      <button onclick="submitQuiz()">Submit</button>
-      <button onclick="reviewQuiz()">Review</button>
-      <button id="bookmarkBtn" onclick="toggleBookmark(current)">Bookmark <i class="far fa-bookmark"></i></button> </div>
+      <button id="bookmarkBtn" onclick="toggleBookmark(current)">Bookmark <i class="far fa-bookmark"></i></button> <button onclick="nextQuestion()">Next</button>
+    </div>
     <div id="result"></div>
     <div id="score-summary" style="text-align:center; margin-top: 20px; font-size: 18px; font-weight: bold; color: #555;">
       सही उत्तर: 0 | गलत उत्तर: 0
@@ -48,14 +51,13 @@
   </div>
   <script>
     let originalQuestions = []; 
-    let questions = []; // This array will hold the current order of questions (can be shuffled or original)
-    let bookmarkedQuestions = []; // Array to store bookmarked questions (original indices)
+    let questions = []; 
+    let bookmarkedQuestions = []; 
     let current = 0;
     let score = 0;
     let answers = {};
     const UNIT_ID = "unit1"; 
 
-    // Supabase Client Setup (अपनी Supabase URL और Anon Key डालें)
     const SUPABASE_URL = 'https://tepfgnotzqivkcirofuu.supabase.co'; 
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcGZnbm90enFpdmtjaXJvZnV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NDA3MzgsImV4cCI6MjA2NDMxNjczOH0.RDM3b4K9fg0PDfbs4IkiGNFYUNz40mh5WvKCXo_KPTc'; 
     let supabaseClient = null; 
@@ -76,7 +78,6 @@
     let currentQuestionStartTime = null;
     let timerInterval = null;
 
-    // JSON से प्रश्नों को लोड करने के लिए फंक्शन
     async function loadQuestions() {
       try {
         const response = await fetch('questions.json');
@@ -85,22 +86,20 @@
         }
         originalQuestions = await response.json();
         
-        // Load saved answers, font size, etc. after questions are loaded
         answers = JSON.parse(localStorage.getItem(UNIT_ID + "_quizAnswers")) || {};
-        bookmarkedQuestions = JSON.parse(localStorage.getItem(UNIT_ID + "_bookmarkedQuestions")) || []; // बुकमार्क किए गए प्रश्नों को लोड करें
+        bookmarkedQuestions = JSON.parse(localStorage.getItem(UNIT_ID + "_bookmarkedQuestions")) || []; 
 
         if (shuffledQuestionsOrder) {
           questions = shuffledQuestionsOrder.map(index => originalQuestions[index]);
         } else {
-          questions = [...originalQuestions]; // Default to original order if no shuffle
+          questions = [...originalQuestions]; 
         }
 
-        // Load saved current question index
         const savedQuestionIndex = localStorage.getItem(UNIT_ID + "_currentQuestion");
         if (savedQuestionIndex !== null && parseInt(savedQuestionIndex) < questions.length) {
           current = parseInt(savedQuestionIndex);
         } else {
-          current = 0; // Default to the first question
+          current = 0; 
         }
         
         applyFontSize();
@@ -156,19 +155,17 @@ function loadQuestion(index) {
     current = index;
     localStorage.setItem(UNIT_ID + "_currentQuestion", current);
     
-    // Find the original question object for the current question being loaded
     const currentQuestionInOriginalOrder = originalQuestions.find(q => q.question === questions[current].question);
-    const originalQuestionIndex = originalQuestions.indexOf(currentQuestionInOriginalOrder); // Get its original index
+    const originalQuestionIndex = originalQuestions.indexOf(currentQuestionInOriginalOrder); 
 
     const q = questions[current];
-    let html = `<div class='question' id='current-question-text'>Q${originalQuestionIndex + 1}. ${q.question}</div>`; // Display original question number
+    let html = `<div class='question' id='current-question-text'>Q${originalQuestionIndex + 1}. ${q.question}</div>`; 
     
     const questionLists = {
       // Example: Add list for specific questions if needed in future
-      // प्रश्न संख्या 285 (मूल इंडेक्स) के लिए लिस्ट का उदाहरण
       // 284: `<ul class="two-column-list"><li>(i)लेखक विवरण,</li><li>(ii)आख्या एवं उत्तरदायित्व विवरण,</li><li>(iii)प्रकाशन वर्ष,</li><li>(iv)पृष्ट संख्या</li></ul>`
     };
-    if (questionLists[originalQuestionIndex]) { // Use originalQuestionIndex here for lists
+    if (questionLists[originalQuestionIndex]) { 
       html += questionLists[originalQuestionIndex];
     }
 
@@ -236,7 +233,7 @@ function loadQuestion(index) {
     updateProgress();
     startTimer();
     document.getElementById("time-tracking").innerText = `समय: ${questionTimes[current] || 0} सेकंड`;
-    updateBookmarkButton(); // बुकमार्क बटन की स्थिति अपडेट करें
+    updateBookmarkButton(); 
   }
 }
 
@@ -419,13 +416,11 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       document.getElementById("progress").innerText = `प्रगति: ${answeredCount}/${total} प्रश्न हल किए गए`;
     }
 
-
     function updateSidebarHighlight() {
       const allLinks = document.querySelectorAll("#questionTable a");
       allLinks.forEach((link, linkIndexOriginalOrder) => { 
-        link.classList.remove("correct", "incorrect", "active", "unanswered", "bookmarked"); // bookmarked क्लास भी हटाएँ
+        link.classList.remove("correct", "incorrect", "active", "unanswered", "bookmarked"); 
 
-        // Find the current shuffled index of this original question
         const originalQ = originalQuestions[linkIndexOriginalOrder];
         const currentShuffledIndexOfThisLink = questions.findIndex(q => q.question === originalQ.question);
 
@@ -439,13 +434,11 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
           }
         }
         
-        // बुकमार्क स्थिति के लिए हाइलाइट करें
-        if (bookmarkedQuestions.includes(linkIndexOriginalOrder)) { // bookmarkedQuestions मूल इंडेक्स का उपयोग करता है
+        if (bookmarkedQuestions.includes(linkIndexOriginalOrder)) { 
           link.classList.add("bookmarked");
         }
       });
     }
-
 
     function buildSidebarLinks() {
       const table = document.getElementById("questionTable");
@@ -484,7 +477,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder");
         localStorage.removeItem(UNIT_ID + "_questionTimes");
         localStorage.removeItem(UNIT_ID + "_quizFontSize");
-        localStorage.removeItem(UNIT_ID + "_bookmarkedQuestions"); // बुकमार्क डेटा भी क्लियर करें
+        localStorage.removeItem(UNIT_ID + "_bookmarkedQuestions"); 
         localStorage.removeItem("theme");
         
         answers = {};
@@ -492,7 +485,7 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
         shuffledQuestionsOrder = null; 
         shuffledOptionsOrder = {};
         questionTimes = {};
-        bookmarkedQuestions = []; // बुकमार्क भी रीसेट करें
+        bookmarkedQuestions = []; 
         currentFontSize = 20; 
         alert("सहेजा गया डेटा क्लियर कर दिया गया है।");
         window.location.reload(); 
@@ -604,20 +597,12 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     }
 
     function shuffleQuestions() {
-      // Create an array of original indices
       let originalIndices = Array.from({length: originalQuestions.length}, (_, i) => i);
       shuffledQuestionsOrder = shuffleArray(originalIndices); 
       localStorage.setItem(UNIT_ID + "_shuffledQuestionsOrder", JSON.stringify(shuffledQuestionsOrder));
       
-      // Rebuild the 'questions' array based on the shuffled order of original indices
       questions = shuffledQuestionsOrder.map(index => originalQuestions[index]);
       
-      // Keep existing answers, options order, and times as they are keyed by the shuffled index.
-      // We only reset shuffledOptionsOrder if we want options to also reshuffle on question shuffle,
-      // but for now, we'll keep previous options order or re-generate if new question is loaded.
-      // shuffledOptionsOrder = {}; // Optional: uncomment if you want options to reset on question shuffle
-      // localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder"); // Optional: uncomment if you want options to reset
-
       buildSidebarLinks(); 
       loadQuestion(0); 
       updateScoreSummary();
@@ -626,17 +611,9 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
     }
 
     function resetQuestionOrder() {
-      questions = [...originalQuestions]; // Reset to original order
+      questions = [...originalQuestions]; 
       shuffledQuestionsOrder = null;
       localStorage.removeItem(UNIT_ID + "_shuffledQuestionsOrder");
-      
-      // Keep existing answers, options order, and times.
-      // answers = {}; // DO NOT REMOVE: keep user answers
-      // localStorage.removeItem(UNIT_ID + "_quizAnswers"); // DO NOT REMOVE
-      // shuffledOptionsOrder = {}; // Optional: uncomment if you want options to reset on order reset
-      // localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder"); // Optional: uncomment if you want options to reset
-      // questionTimes = {}; // DO NOT REMOVE: keep question times
-      // localStorage.removeItem(UNIT_ID + "_questionTimes"); // DO NOT REMOVE
       
       buildSidebarLinks();
       loadQuestion(0);
@@ -705,7 +682,6 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       }
     }
 
-    // --- बुकमार्क फंक्शन्स ---
     function toggleBookmark(shuffledQuestionIndex) {
       const currentOriginalQuestion = originalQuestions.find(q => q.question === questions[shuffledQuestionIndex].question);
       const originalQuestionIndex = originalQuestions.indexOf(currentOriginalQuestion);
@@ -714,18 +690,16 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       const icon = bookmarkBtn.querySelector('i');
 
       if (bookmarkedQuestions.includes(originalQuestionIndex)) {
-        // Remove bookmark
         bookmarkedQuestions = bookmarkedQuestions.filter(idx => idx !== originalQuestionIndex);
         icon.classList.remove('fas');
-        icon.classList.add('far'); // Empty bookmark icon
+        icon.classList.add('far'); 
       } else {
-        // Add bookmark
         bookmarkedQuestions.push(originalQuestionIndex);
         icon.classList.remove('far');
-        icon.classList.add('fas'); // Filled bookmark icon
+        icon.classList.add('fas'); 
       }
       localStorage.setItem(UNIT_ID + "_bookmarkedQuestions", JSON.stringify(bookmarkedQuestions));
-      updateSidebarHighlight(); // साइडबार में बुकमार्क आइकन अपडेट करें
+      updateSidebarHighlight(); 
     }
 
     function updateBookmarkButton() {
@@ -750,43 +724,45 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
             return;
         }
 
-        // Filter original questions to get only bookmarked ones
         const bookmarkedOriginalQuestions = originalQuestions.filter((q, index) => bookmarkedQuestions.includes(index));
         
-        // Temporarily change 'questions' array to only contain bookmarked questions
-        // We'll preserve the original shuffled order if it exists, so we can revert.
-        const previousQuestionsOrder = [...questions]; // Save current order
-        const previousCurrentQuestion = current; // Save current question index
+        // Save current state before switching to bookmarked view
+        // These will be used to revert to the previous quiz state
+        const savedShuffledQuestionsOrder = shuffledQuestionsOrder;
+        const savedCurrentQuestion = current;
+        const savedAnswers = {...answers}; // Deep copy
+        const savedShuffledOptionsOrder = {...shuffledOptionsOrder}; // Deep copy
+        const savedQuestionTimes = {...questionTimes}; // Deep copy
 
-        // Rebuild questions array with only bookmarked questions, maintaining their original order among themselves
-        questions = bookmarkedOriginalQuestions.map(q => q); // Simple copy, no re-shuffling
-        shuffledQuestionsOrder = questions.map(q => originalQuestions.indexOf(q)); // Update shuffled order to reflect current "bookmarked only" view
+        // Set 'questions' array to only contain bookmarked questions
+        questions = bookmarkedOriginalQuestions.map(q => q); 
+        shuffledQuestionsOrder = questions.map(q => originalQuestions.indexOf(q)); 
 
-        answers = {}; // Reset answers for this temporary view
-        shuffledOptionsOrder = {}; // Reset shuffled options for this view
-        questionTimes = {}; // Reset times for this view
+        // Clear temporary data for this view - this is okay as it's a temporary view
+        answers = {}; 
+        shuffledOptionsOrder = {}; 
+        questionTimes = {}; 
 
         localStorage.setItem(UNIT_ID + "_shuffledQuestionsOrder", JSON.stringify(shuffledQuestionsOrder));
-        localStorage.removeItem(UNIT_ID + "_quizAnswers");
-        localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder");
-        localStorage.removeItem(UNIT_ID + "_questionTimes");
+        localStorage.removeItem(UNIT_ID + "_quizAnswers"); // Remove current answers
+        localStorage.removeItem(UNIT_ID + "_shuffledOptionsOrder"); // Remove current option order
+        localStorage.removeItem(UNIT_ID + "_questionTimes"); // Remove current question times
 
-        alert(`Showing ${questions.length} bookmarked questions. Other data is temporarily hidden.`);
+
+        alert(`Showing ${questions.length} bookmarked questions. To go back to all questions, click 'Reset Question Order'.`);
         
-        loadQuestion(0); // Load the first bookmarked question
-        buildSidebarLinks(); // Rebuild sidebar for bookmarked questions
+        loadQuestion(0); 
+        buildSidebarLinks(); 
         updateScoreSummary();
         updateProgress();
 
-        // Optional: Add a way to go back to all questions mode
-        // Maybe a button that sets questions = previousQuestionsOrder and loads previousCurrentQuestion
-        // For simplicity, for now, "Reset Question Order" will revert to full original set.
+        // We can add a flag to indicate we are in bookmarked mode, 
+        // and a button to revert to the previous state. For simplicity,
+        // using "Reset Question Order" button to exit this mode.
     }
 
 
-    // --- कीबोर्ड नेविगेशन फंक्शन्स ---
     document.addEventListener('keydown', (event) => {
-      // Prevent default browser actions for arrow keys (e.g., scrolling)
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
         event.preventDefault(); 
       }
@@ -796,14 +772,6 @@ function selectAnswer(qShuffledIdx, selectedOriginalOptionIdx) {
       } else if (event.key === "ArrowLeft") {
         prevQuestion();
       }
-      // Future: Add functionality for selecting options with numbers (1, 2, 3, 4)
-      // if (event.key >= '1' && event.key <= '4') {
-      //     const optionIndex = parseInt(event.key) - 1;
-      //     const radioBtn = document.querySelector(`input[name='q${current}'][value='${optionIndex}']`);
-      //     if (radioBtn && !radioBtn.disabled) {
-      //         radioBtn.click();
-      //     }
-      // }
     });
 
 
