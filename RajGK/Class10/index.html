@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Class 10 GK MCQs</title>
+  <title>Raj. History, Arts & Culture</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css"> 
@@ -752,6 +752,21 @@ function selectAnswer(qOriginalIdx, selectedOriginalOptionIdx) {
       }
     });
 
+    // नया कोड यहाँ से शुरू होता है
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      // जांचें कि क्लिक साइडबार के अंदर या टॉगल बटन पर हुआ है या नहीं
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnToggleBtn = toggleBtn.contains(event.target);
+
+      // यदि साइडबार खुला है और क्लिक साइडबार या टॉगल बटन के बाहर हुआ है
+      if (!sidebar.classList.contains('hidden') && !isClickInsideSidebar && !isClickOnToggleBtn) {
+        toggleSidebar(); // साइडबार छिपाएँ
+      }
+    });
+    // नया कोड यहाँ समाप्त होता है
 
     window.onload = () => {
       const body = document.body;
