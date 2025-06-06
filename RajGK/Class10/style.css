@@ -142,38 +142,38 @@ label.locked {
 
 /* --- सामान्य बटन स्टाइल --- */
 button {
-  padding: 12px 22px; 
+  padding: 12px 22px;
   border: none;
   background: linear-gradient(to right, #43cea2, #185a9d);
   color: #fff;
   font-weight: bold;
-  border-radius: 8px; 
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  text-transform: uppercase; 
-  letter-spacing: 0.5px; 
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 button:hover {
   background: linear-gradient(to right, #185a9d, #43cea2);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-  transform: translateY(-2px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 button:active {
-  transform: translateY(0); 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* --- Navigation Buttons (Back, Bookmark, Next) --- */
 .navigation {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   margin-top: 20px;
 }
 .navigation button {
-  padding: 10px 18px; 
+  padding: 10px 18px;
 }
 
 /* --- Quiz Header Controls (नया) --- */
@@ -192,8 +192,8 @@ button:active {
     /* margin-bottom: 20px; इसे quiz-header-controls के gap से नियंत्रित करें */
 }
 .top-navigation button {
-  padding: 10px 18px; 
-  font-size: 0.95em; 
+  padding: 10px 18px;
+  font-size: 0.95em;
 }
 
 /* --- Progress Bar (नया) --- */
@@ -292,26 +292,26 @@ body.dark .progress-text {
 }
 
 /* --- Tools Section Buttons --- */
-.tools-section .button { 
+.tools-section .button {
   display: block;
   width: 90%;
   margin: 10px auto;
-  padding: 12px; 
+  padding: 12px;
   border: none;
-  border-radius: 8px; 
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
   text-align: center;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
   color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  text-transform: uppercase; 
-  letter-spacing: 0.5px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .tools-section .button:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-  transform: translateY(-2px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Theme Button (Specific background) */
@@ -349,21 +349,21 @@ body.dark .progress-text {
   font-weight: bold;
 }
 .font-size-controls button {
-  padding: 6px 12px; 
+  padding: 6px 12px;
   margin: 0 5px;
   background: #3498db;
   color: white;
   border: none;
-  border-radius: 6px; 
+  border-radius: 6px;
   cursor: pointer;
   font-weight: normal;
   display: inline-block;
   width: auto;
   vertical-align: middle;
-  transition: all 0.2s ease; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  text-transform: none; 
-  letter-spacing: normal; 
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-transform: none;
+  letter-spacing: normal;
 }
 .font-size-controls button:hover {
   background: #2980b9;
@@ -374,6 +374,46 @@ body.dark .progress-text {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+
+/* Category Filter Styles */
+.category-filter {
+  margin-bottom: 15px;
+  text-align: center;
+  color: #ff0066;
+  font-weight: bold;
+}
+
+.category-filter label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.category-filter select {
+  width: 90%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #ffff00;
+  font-size: 1em;
+  margin-bottom: 10px;
+  color: #333;
+}
+body.dark .category-filter select {
+    background-color: #555;
+    color: #eee;
+    border-color: #777;
+}
+
+.category-filter button {
+  background: linear-gradient(to right, #007bff, #0056b3);
+  width: 90%;
+  margin: 5px auto;
+  padding: 10px;
+}
+.category-filter button:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+}
+
 
 .time-tracking {
   margin-top: 10px;
@@ -396,8 +436,8 @@ body.dark .progress-text {
 
 /* Bookmark Button Specific Styles */
 #bookmarkBtn {
-  background: linear-gradient(to right, #20bf55, #01baef); 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  background: linear-gradient(to right, #20bf55, #01baef);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -416,13 +456,46 @@ body.dark .progress-text {
 
 /* Sidebar Bookmarked Question Highlight */
 .sidebar td a.bookmarked {
-  background: #ADD8E6 !important; 
+  background: #ADD8E6 !important;
   color: #000080 !important;
   border-left: 3px solid #000080;
 }
 body.dark .sidebar td a.bookmarked {
-    background: #4682B4 !important; 
+    background: #4682B4 !important;
     color: #fff !important;
+}
+
+/* Sidebar Question Link Tooltip */
+.sidebar td a[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  left: 100%; /* लिंक के दाईं ओर */
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  white-space: normal; /* टेक्स्ट को रैप करने की अनुमति दें */
+  width: 200px; /* टूलटिप की एक निश्चित चौड़ाई सेट करें */
+  text-align: left;
+  z-index: 10;
+  font-size: 0.8em;
+  line-height: 1.4;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.sidebar td a[data-tooltip]:hover::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 5px); /* टूलटिप को लिंक से जोड़ने वाला एक छोटा तीर */
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9;
+  box-shadow: -1px 1px 2px rgba(0,0,0,0.1);
 }
 
 /* --- Responsive Adjustments --- */
@@ -481,7 +554,7 @@ body.dark .sidebar td a.bookmarked {
   button,
   .tools-section .button,
   #bookmarkBtn {
-      padding: 10px 18px; 
+      padding: 10px 18px;
       font-size: 0.9em;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
@@ -497,12 +570,12 @@ body.dark .sidebar td a.bookmarked {
       font-size: 0.8em;
   }
   .navigation {
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
   }
   .top-navigation {
-      justify-content: center; 
+      justify-content: center;
       margin-bottom: 15px;
   }
   .top-navigation button {
@@ -511,5 +584,9 @@ body.dark .sidebar td a.bookmarked {
   }
   .quiz-header-controls {
     gap: 10px; /* मोबाइल पर तत्वों के बीच की जगह कम करें */
+  }
+  .category-filter select,
+  .category-filter button {
+    width: 95%; /* मोबाइल पर थोड़ा बड़ा */
   }
 }
