@@ -32,6 +32,7 @@
   <div class="quiz-container">
     <div class="quiz-header-controls"> <div class="top-navigation"> 
             <button onclick="submitQuiz()">Submit Test</button>
+            <button id="bookmarkBtn" onclick="toggleBookmark(current)">Bookmark <i class="far fa-bookmark"></i></button> 
             <button onclick="reviewQuiz()">Review</button>
         </div>
         <div class="progress-bar-container"> <div class="progress-bar-fill" id="progressBarFill"></div>
@@ -42,7 +43,6 @@
     <div class="time-tracking" id="time-tracking">Time: 0 Second</div>
     <div class="navigation">
       <button onclick="prevQuestion()">Previous</button>
-      <button id="bookmarkBtn" onclick="toggleBookmark(current)">Bookmark <i class="far fa-bookmark"></i></button> 
       <button onclick="nextQuestion()">Next</button>
     </div>
     <div id="result"></div>
@@ -752,6 +752,21 @@ function selectAnswer(qOriginalIdx, selectedOriginalOptionIdx) {
       }
     });
 
+    // नया कोड यहाँ से शुरू होता है
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      // जांचें कि क्लिक साइडबार के अंदर या टॉगल बटन पर हुआ है या नहीं
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnToggleBtn = toggleBtn.contains(event.target);
+
+      // यदि साइडबार खुला है और क्लिक साइडबार या टॉगल बटन के बाहर हुआ है
+      if (!sidebar.classList.contains('hidden') && !isClickInsideSidebar && !isClickOnToggleBtn) {
+        toggleSidebar(); // साइडबार छिपाएँ
+      }
+    });
+    // नया कोड यहाँ समाप्त होता है
 
     window.onload = () => {
       const body = document.body;
